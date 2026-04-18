@@ -129,13 +129,13 @@ const Home: React.FC = () => {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.2, delay: 0.2 }}
-              className="relative hidden lg:flex justify-center items-center"
+              className="relative hidden lg:flex justify-center items-center h-full max-h-[75vh]"
             >
-              <div className="w-full max-w-sm aspect-w-4 aspect-h-5 rounded-[2rem] bg-slate-100 dark:bg-slate-900 overflow-hidden shadow-2xl group border border-slate-100 dark:border-slate-800">
+              <div className="relative w-full h-full flex justify-center items-center group">
                 <img 
                   src={gradPhoto} 
                   alt={name}
-                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-out"
+                  className="max-w-full max-h-[70vh] w-auto h-auto object-contain rounded-[2rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000 ease-out border border-slate-100 dark:border-slate-800 bg-slate-100 dark:bg-slate-900"
                 />
               </div>
             </motion.div>
