@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
-import { Sun, Moon, ArrowUp, X, Send, User, Mail, MessageSquare } from 'lucide-react';
+import { Sun, Moon, ArrowUp, X, Send, User, Mail, MessageSquare, Menu } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useUI } from '../context/UIContext';
 import { portfolioData } from '../data/portfolioData';
@@ -19,6 +19,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const { name, contact } = portfolioData;
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Scroll Progress Bar logic
   const { scrollYProgress } = useScroll();
@@ -50,6 +51,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
   return (
     <div className="bg-white dark:bg-[#050505] min-h-screen transition-colors duration-500 font-sans selection:bg-blue-500/30 relative text-slate-900 dark:text-slate-200 lg:cursor-none">
       <CustomCursor />
@@ -60,7 +64,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       />
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center bg-white/80 dark:bg-[#050505]/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-900 transition-colors">
+      <nav className="fixed top-0 w-full z-[70] px-6 py-6 flex justify-between items-center bg-white/80 dark:bg-[#050505]/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-900 transition-colors">
         {/* Left: Logo */}
         <div className="flex-1 text-slate-950 dark:text-white">
           <a href="/" onClick={handleLogoClick} className="font-black text-xl tracking-tighter hover:scale-110 transition-transform cursor-pointer inline-block">
@@ -101,8 +105,71 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           >
             Hire Me
           </button>
+
+          <button 
+            onClick={toggleMobileMenu}
+            className="lg:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 relative z-[80]"
+          >
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
       </nav>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeMobileMenu}
+              className="fixed inset-0 z-[55] bg-slate-950/20 backdrop-blur-sm lg:hidden"
+            />
+            {/* Drawer */}
+            <motion.div 
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 bottom-0 z-[60] w-[280px] bg-white dark:bg-[#080808] shadow-2xl flex flex-col p-8 pt-32 lg:hidden border-l border-slate-100 dark:border-slate-800"
+            >
+              <div className="flex flex-col gap-6 text-2xl font-black uppercase tracking-tighter">
+                {location.pathname === '/' ? (
+                  <>
+                    <a href="#projects" onClick={closeMobileMenu} className="text-slate-950 dark:text-white hover:text-blue-600 transition-colors">Projects</a>
+                    <a href="#about" onClick={closeMobileMenu} className="text-slate-950 dark:text-white hover:text-blue-600 transition-colors">About</a>
+                  </>
+                ) : (
+                  <Link to="/" onClick={closeMobileMenu} className="text-slate-950 dark:text-white hover:text-blue-600 transition-colors">Home</Link>
+                )}
+                <Link to="/resume" onClick={closeMobileMenu} className={`hover:text-blue-600 transition-colors ${location.pathname === '/resume' ? 'text-blue-600' : 'text-slate-950 dark:text-white'}`}>
+                   Resume
+                </Link>
+                <Link to="/blog" onClick={closeMobileMenu} className={`hover:text-blue-600 transition-colors ${location.pathname.startsWith('/blog') ? 'text-blue-600' : 'text-slate-950 dark:text-white'}`}>
+                   Blog
+                </Link>
+                
+                <button 
+                  onClick={() => { closeMobileMenu(); openHireModal(); }}
+                  className="mt-8 w-full bg-blue-600 text-white py-4 rounded-2xl font-bold text-sm uppercase tracking-widest shadow-lg shadow-blue-600/20"
+                >
+                  Hire Me
+                </button>
+              </div>
+
+              <div className="mt-auto pt-10 border-t border-slate-100 dark:border-slate-800">
+                <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4 text-center">Get in touch</div>
+                <div className="flex justify-center gap-6">
+                  <a href={contact.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-600 transition-colors"><Mail size={20} /></a>
+                  <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-600 transition-colors"><User size={20} /></a>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
       
       {/* Main Content */}
       <motion.main
