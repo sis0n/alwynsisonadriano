@@ -84,7 +84,7 @@ const Home: React.FC = () => {
     <div className="bg-white dark:bg-[#050505] text-slate-900 dark:text-slate-200 transition-colors duration-500 font-sans selection:bg-blue-500/30 scroll-smooth">
       
       {/* 1. HERO SECTION */}
-      <section className="min-h-screen relative overflow-hidden flex flex-col justify-center px-6 md:px-20">
+      <section className="min-h-screen relative overflow-hidden flex flex-col justify-center px-6 md:px-20 pt-32 md:pt-40">
         <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center relative z-10">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
