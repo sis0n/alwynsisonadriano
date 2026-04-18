@@ -129,9 +129,9 @@ const Home: React.FC = () => {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.2, delay: 0.2 }}
-              className="relative hidden lg:block"
+              className="relative hidden lg:flex justify-center items-center"
             >
-              <div className="aspect-square rounded-[4rem] bg-slate-100 dark:bg-slate-900 overflow-hidden shadow-2xl group border border-slate-100 dark:border-slate-800">
+              <div className="w-full max-w-sm aspect-w-4 aspect-h-5 rounded-[2rem] bg-slate-100 dark:bg-slate-900 overflow-hidden shadow-2xl group border border-slate-100 dark:border-slate-800">
                 <img 
                   src={gradPhoto} 
                   alt={name}
