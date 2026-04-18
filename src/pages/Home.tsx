@@ -182,7 +182,7 @@ const Home: React.FC = () => {
                 <div className="pt-8 border-t border-slate-50 dark:border-slate-800/50">
                   <div className="flex flex-wrap gap-2 mb-10 h-14 items-start overflow-hidden">
                     {project.technologies.slice(0, 3).map((tech, tIdx) => (
-                      <span key={tIdx} className="text-[9px] font-black px-3 py-1.5 bg-slate-50 dark:bg-slate-800 rounded-lg text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                      <span key={tIdx} className="text-[9px] font-black px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-400 uppercase tracking-wider border border-slate-200/50 dark:border-transparent">
                         {tech}
                       </span>
                     ))}
