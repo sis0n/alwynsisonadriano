@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
+import { AnimatePresence, motion } from 'framer-motion'
 import { ThemeProvider } from './context/ThemeContext'
 import { UIProvider } from './context/UIContext'
 import Home from './pages/Home'
@@ -6,7 +7,48 @@ import Resume from './pages/Resume'
 import Blog from './pages/Blog'
 import BlogDetail from './pages/BlogDetail'
 import Layout from './components/Layout'
-import './index.css'
+
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={
+          <PageWrapper>
+            <Home />
+          </PageWrapper>
+        } />
+        <Route path="/resume" element={
+          <PageWrapper>
+            <Resume />
+          </PageWrapper>
+        } />
+        <Route path="/blog" element={
+          <PageWrapper>
+            <Blog />
+          </PageWrapper>
+        } />
+        <Route path="/blog/:id" element={
+          <PageWrapper>
+            <BlogDetail />
+          </PageWrapper>
+        } />
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
+const PageWrapper = ({ children }: { children: React.ReactNode }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -10 }}
+    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+  >
+    {children}
+  </motion.div>
+);
 
 function App() {
   return (
@@ -14,12 +56,7 @@ function App() {
       <UIProvider>
         <Router>
           <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/resume" element={<Resume />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:id" element={<BlogDetail />} />
-            </Routes>
+            <AnimatedRoutes />
           </Layout>
         </Router>
       </UIProvider>
@@ -27,4 +64,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

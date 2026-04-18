@@ -284,7 +284,66 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 5. CALL TO ACTION SECTION */}
+      {/* 5. GITHUB ACTIVITY SECTION */}
+      <section className={`relative ${sectionPadding}`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-12 mb-16">
+            <div className="flex-1 text-center md:text-left">
+              <RevealText className="mb-6">
+                <h2 className="text-blue-600 font-black text-xs tracking-[0.4em] uppercase">Open Source</h2>
+              </RevealText>
+              <RevealText delay={0.1}>
+                <h3 className="text-4xl md:text-6xl font-black tracking-tighter text-slate-950 dark:text-white uppercase leading-none">
+                  Code Activity <span className="text-slate-300 dark:text-slate-800">.</span>
+                </h3>
+              </RevealText>
+            </div>
+            <div className="flex-1 max-w-lg">
+              <p className="text-slate-500 dark:text-slate-400 font-medium italic text-lg leading-relaxed border-l-2 border-blue-600 pl-6">
+                "Code is like humor. When you have to explain it, it's bad." — Always pushing updates to my GitHub ecosystem.
+              </p>
+            </div>
+          </div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="w-full bg-white dark:bg-slate-900/20 border border-slate-100 dark:border-slate-800/50 rounded-[3rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-10 hover:border-blue-600/20 transition-all duration-700"
+          >
+            <div className="flex items-center gap-8">
+              <div className="w-20 h-20 rounded-3xl bg-blue-600/10 flex items-center justify-center text-blue-600">
+                <Github size={40} />
+              </div>
+              <div>
+                <h4 className="text-2xl font-black text-slate-950 dark:text-white mb-1 uppercase tracking-tight">GitHub Portfolio</h4>
+                <p className="text-slate-500 dark:text-slate-400 font-medium uppercase tracking-[0.1em] text-[10px]">@{contact.github.split('/').pop()}</p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-6 md:gap-12 text-center md:text-left">
+              <div>
+                <div className="text-3xl font-black text-slate-950 dark:text-white">50+</div>
+                <div className="text-[10px] font-black uppercase text-slate-400 tracking-widest mt-1">Repositories</div>
+              </div>
+              <div>
+                <div className="text-3xl font-black text-slate-950 dark:text-white">Active</div>
+                <div className="text-[10px] font-black uppercase text-slate-400 tracking-widest mt-1">Coding Status</div>
+              </div>
+              <a 
+                href={contact.github} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-slate-950 dark:bg-white text-white dark:text-black px-10 py-5 rounded-full font-black uppercase tracking-[0.1em] text-[10px] hover:scale-105 transition-all shadow-xl active:scale-95 flex items-center gap-3"
+              >
+                Follow on Github <ExternalLink size={14} />
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* 6. CALL TO ACTION SECTION */}
       <section id="contact" className={`text-slate-950 dark:text-white relative transition-colors ${sectionPadding} pt-48 pb-48`}>
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-24">
