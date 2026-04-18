@@ -78,7 +78,7 @@ const Home: React.FC = () => {
   const { theme } = useTheme();
   const { openHireModal } = useUI();
   
-  const sectionPadding = "py-32 md:py-48 px-6 md:px-20";
+  const sectionPadding = "py-20 md:py-32 px-6 md:px-20";
 
   return (
     <div className="bg-white dark:bg-[#050505] text-slate-900 dark:text-slate-200 transition-colors duration-500 font-sans selection:bg-blue-500/30 scroll-smooth">
@@ -144,9 +144,9 @@ const Home: React.FC = () => {
       </section>
 
       {/* 2. PROJECTS SECTION */}
-      <section id="projects" className={`bg-slate-50 dark:bg-[#080808] border-y border-slate-100 dark:border-slate-900 transition-colors relative ${sectionPadding}`}>
+      <section id="projects" className={`transition-colors relative ${sectionPadding}`}>
         <div className="max-w-7xl mx-auto">
-          <div className="mb-24 text-center md:text-left">
+          <div className="mb-16 text-center md:text-left">
             <RevealText>
               <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase mb-4 text-slate-950 dark:text-white leading-none">Selected Work.</h2>
             </RevealText>
@@ -230,9 +230,9 @@ const Home: React.FC = () => {
       </section>
 
       {/* 4. TOOLS SECTION */}
-      <section className={`overflow-hidden bg-slate-50/50 dark:bg-[#080808] transition-colors border-y border-slate-100 dark:border-slate-900 relative ${sectionPadding}`}>
+      <section className={`relative ${sectionPadding}`}>
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-24 gap-8">
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-8">
             <div className="max-w-2xl text-center md:text-left mx-auto md:mx-0">
               <RevealText className="mb-6">
                 <h2 className="text-blue-600 font-black text-xs tracking-[0.4em] uppercase">Tech Ecosystem</h2>
@@ -285,7 +285,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* 5. CALL TO ACTION SECTION */}
-      <section id="contact" className={`overflow-hidden bg-slate-50 dark:bg-[#080808] text-slate-950 dark:text-white relative border-t border-slate-100 dark:border-slate-900 transition-colors ${sectionPadding} pt-48 pb-48`}>
+      <section id="contact" className={`text-slate-950 dark:text-white relative transition-colors ${sectionPadding} pt-48 pb-48`}>
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-24">
             <div className="text-center md:text-left flex-1">
