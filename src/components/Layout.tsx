@@ -6,6 +6,8 @@ import { useTheme } from '../context/ThemeContext';
 import { useUI } from '../context/UIContext';
 import { portfolioData } from '../data/portfolioData';
 
+import CustomCursor from './CustomCursor';
+
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -49,7 +51,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-[#050505] min-h-screen transition-colors duration-500 font-sans selection:bg-blue-500/30 relative text-slate-900 dark:text-slate-200">
+    <div className="bg-white dark:bg-[#050505] min-h-screen transition-colors duration-500 font-sans selection:bg-blue-500/30 relative text-slate-900 dark:text-slate-200 lg:cursor-none">
+      <CustomCursor />
       {/* Scroll Progress Bar */}
       <motion.div 
         className="fixed top-0 left-0 right-0 h-1 bg-blue-600 z-[70] origin-left"
