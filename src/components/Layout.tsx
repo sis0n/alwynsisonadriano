@@ -41,6 +41,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     e.preventDefault();
     if (location.pathname === '/') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      navigate('/', { replace: true });
     } else {
       navigate('/');
       window.scrollTo({ top: 0 });
