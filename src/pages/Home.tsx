@@ -84,8 +84,8 @@ const Home: React.FC = () => {
     <div className="bg-white dark:bg-[#050505] text-slate-900 dark:text-slate-200 transition-colors duration-500 font-sans selection:bg-blue-500/30 scroll-smooth">
       
       {/* 1. HERO SECTION */}
-      <section className="min-h-screen relative overflow-hidden flex flex-col px-6 md:px-20">
-        <div className="flex-1 flex items-center pt-32">
+      <section className="min-h-screen relative overflow-hidden flex flex-col px-6 md:px-20 pb-12 lg:pb-0">
+        <div className="flex-1 flex items-center pt-20 lg:pt-32">
           <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
@@ -129,13 +129,13 @@ const Home: React.FC = () => {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.2, delay: 0.2 }}
-              className="relative flex justify-center items-center h-full max-h-[50vh] lg:max-h-[75vh] mt-12 lg:mt-0"
+              className="relative flex justify-center items-center h-full max-h-[40vh] lg:max-h-[75vh] mt-6 lg:mt-0"
             >
               <div className="relative w-full h-full flex justify-center items-center group">
                 <img 
                   src={gradPhoto} 
                   alt={name}
-                  className="max-w-[280px] md:max-w-full max-h-[40vh] lg:max-h-[70vh] w-auto h-auto object-contain rounded-[2rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000 ease-out border border-slate-100 dark:border-slate-800 bg-slate-100 dark:bg-slate-900"
+                  className="max-w-[240px] md:max-w-full max-h-[30vh] lg:max-h-[70vh] w-auto h-auto object-contain rounded-[2rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000 ease-out border border-slate-100 dark:border-slate-800 bg-slate-100 dark:bg-slate-900"
                 />
               </div>
             </motion.div>
