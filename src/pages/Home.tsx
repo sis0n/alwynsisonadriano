@@ -129,13 +129,13 @@ const Home: React.FC = () => {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.2, delay: 0.2 }}
-              className="relative hidden lg:flex justify-center items-center h-full max-h-[75vh]"
+              className="relative flex justify-center items-center h-full max-h-[50vh] lg:max-h-[75vh] mt-12 lg:mt-0"
             >
               <div className="relative w-full h-full flex justify-center items-center group">
                 <img 
                   src={gradPhoto} 
                   alt={name}
-                  className="max-w-full max-h-[70vh] w-auto h-auto object-contain rounded-[2rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000 ease-out border border-slate-100 dark:border-slate-800 bg-slate-100 dark:bg-slate-900"
+                  className="max-w-[280px] md:max-w-full max-h-[40vh] lg:max-h-[70vh] w-auto h-auto object-contain rounded-[2rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000 ease-out border border-slate-100 dark:border-slate-800 bg-slate-100 dark:bg-slate-900"
                 />
               </div>
             </motion.div>
@@ -232,8 +232,8 @@ const Home: React.FC = () => {
       {/* 4. TOOLS SECTION */}
       <section className={`overflow-hidden bg-slate-50/50 dark:bg-[#080808] transition-colors border-y border-slate-100 dark:border-slate-900 relative ${sectionPadding}`}>
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
-            <div className="max-w-2xl text-center md:text-left">
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-24 gap-8">
+            <div className="max-w-2xl text-center md:text-left mx-auto md:mx-0">
               <RevealText className="mb-6">
                 <h2 className="text-blue-600 font-black text-xs tracking-[0.4em] uppercase">Tech Ecosystem</h2>
               </RevealText>
