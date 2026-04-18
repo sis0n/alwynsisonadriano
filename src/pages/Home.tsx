@@ -84,66 +84,62 @@ const Home: React.FC = () => {
     <div className="bg-white dark:bg-[#050505] text-slate-900 dark:text-slate-200 transition-colors duration-500 font-sans selection:bg-blue-500/30 scroll-smooth">
       
       {/* 1. HERO SECTION */}
-      <section className="min-h-screen relative overflow-hidden flex flex-col justify-center px-6 md:px-20 pt-32 md:pt-40">
-        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1 }}
-          >
-            <RevealText>
-              <h2 className="text-blue-600 dark:text-blue-400 font-bold tracking-[0.4em] uppercase text-xs mb-6">
-                3rd Year CS Student
-              </h2>
-            </RevealText>
-            
-            <RevealText delay={0.1}>
-              <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.95] text-slate-950 dark:text-white mb-8 uppercase">
-                {name} <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">BACKEND DEV.</span>
-              </h1>
-            </RevealText>
-
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 1 }}
-              className="text-lg md:text-xl text-slate-500 dark:text-slate-400 mb-10 max-w-lg leading-relaxed font-medium"
-            >
-              Building robust systems and efficient architectures. Specialized in PHP/Laravel and modern web logic.
-            </motion.p>
-            
+      <section className="min-h-screen relative overflow-hidden flex flex-col px-6 md:px-20">
+        <div className="flex-1 flex items-center pt-10">
+          <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
             <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-              className="flex items-center gap-8"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1 }}
             >
-              <button onClick={openHireModal} className="group relative bg-slate-950 dark:bg-white text-white dark:text-black px-10 py-4.5 rounded-full font-bold overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-xl shadow-slate-950/10 dark:shadow-white/5">
-                 <span className="relative z-10 uppercase tracking-widest text-[10px]">Work with me</span>
-                 <div className="absolute inset-0 bg-blue-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-              </button>
-              <div className="flex gap-6">
-                <a href={contact.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white transition-all"><Github size={22} /></a>
-                <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white transition-all"><Linkedin size={22} /></a>
+              <RevealText delay={0.1}>
+                <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] text-slate-950 dark:text-white mb-8 uppercase">
+                  {name} <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">BACKEND DEV.</span>
+                </h1>
+              </RevealText>
+
+              <motion.p 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6, duration: 1 }}
+                className="text-lg md:text-xl text-slate-500 dark:text-slate-400 mb-12 max-w-lg leading-relaxed font-medium"
+              >
+                Building robust systems and efficient architectures. Specialized in PHP/Laravel and modern web logic.
+              </motion.p>
+              
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+                className="flex items-center gap-6 md:gap-10"
+              >
+                <button onClick={openHireModal} className="group relative bg-slate-950 dark:bg-white text-white dark:text-black px-10 py-5 rounded-full font-bold overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-2xl">
+                   <span className="relative z-10 uppercase tracking-[0.2em] text-[11px]">Work with me</span>
+                   <div className="absolute inset-0 bg-blue-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                </button>
+                <div className="flex gap-6 md:gap-8">
+                  <a href={contact.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white hover:scale-110 transition-all"><Github size={24} /></a>
+                  <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white hover:scale-110 transition-all"><Linkedin size={24} /></a>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.2, delay: 0.2 }}
+              className="relative hidden lg:block"
+            >
+              <div className="aspect-square rounded-[4rem] bg-slate-100 dark:bg-slate-900 overflow-hidden shadow-2xl group border border-slate-100 dark:border-slate-800">
+                <img 
+                  src={gradPhoto} 
+                  alt={name}
+                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-out"
+                />
               </div>
             </motion.div>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, delay: 0.2 }}
-            className="relative"
-          >
-            <div className="aspect-[4/5] md:aspect-square rounded-[3rem] bg-slate-100 dark:bg-slate-900 overflow-hidden shadow-2xl group border border-slate-100 dark:border-slate-800">
-              <img 
-                src={gradPhoto} 
-                alt={name}
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-out"
-              />
-            </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
