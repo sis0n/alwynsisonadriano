@@ -159,43 +159,43 @@ const Home: React.FC = () => {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {projects.map((project, idx) => (
               <GlowCard 
                 key={idx}
-                className="bg-white dark:bg-slate-900/50 p-10 rounded-[2.5rem] border border-slate-200/60 dark:border-slate-800/60 hover:border-blue-500/30 transition-all shadow-sm hover:shadow-xl dark:shadow-none min-h-[480px]"
+                className="bg-white dark:bg-slate-900/50 p-8 rounded-[2rem] border border-slate-200/60 dark:border-slate-800/60 hover:border-blue-500/30 transition-all shadow-sm hover:shadow-xl dark:shadow-none min-h-[420px] flex flex-col"
               >
                 <div className="flex-1">
-                  <div className="mb-8 text-blue-600 bg-blue-600/5 w-14 h-14 rounded-2xl flex items-center justify-center">
-                    {project.title.toLowerCase().includes('lib') ? <Database size={28} /> : 
-                     project.title.toLowerCase().includes('bagyo') ? <Cpu size={28} /> : 
-                     <Terminal size={28} />}
+                  <div className="mb-6 text-blue-600 bg-blue-600/5 w-12 h-12 rounded-xl flex items-center justify-center">
+                    {project.title.toLowerCase().includes('lib') ? <Database size={24} /> : 
+                     project.title.toLowerCase().includes('bagyo') ? <Cpu size={24} /> : 
+                     <Terminal size={24} />}
                   </div>
-                  <h3 className="text-xl font-black mb-4 uppercase tracking-tight text-slate-950 dark:text-white leading-tight">
+                  <h3 className="text-lg font-black mb-3 uppercase tracking-tight text-slate-950 dark:text-white leading-tight">
                     {project.title}
                   </h3>
-                  <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-8 italic">
+                  <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed mb-6 italic line-clamp-4">
                     {project.description}
                   </p>
                 </div>
                 
-                <div className="pt-8 border-t border-slate-50 dark:border-slate-800/50">
-                  <div className="flex flex-wrap gap-2 mb-10 h-14 items-start overflow-hidden">
+                <div className="pt-6 border-t border-slate-50 dark:border-slate-800/50 mt-auto">
+                  <div className="flex flex-wrap gap-1.5 mb-6 h-12 items-start overflow-hidden">
                     {project.technologies.slice(0, 3).map((tech, tIdx) => (
-                      <span key={tIdx} className="text-[9px] font-black px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-400 uppercase tracking-wider border border-slate-200/50 dark:border-transparent">
+                      <span key={tIdx} className="text-[8px] font-black px-2.5 py-1 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-400 uppercase tracking-wider border border-slate-200/50 dark:border-transparent">
                         {tech}
                       </span>
                     ))}
                   </div>
-                  <div className="mt-auto">
+                  <div>
                     {project.link && (
                       <a 
                         href={project.link} 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="group/link inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 hover:text-blue-700 transition-colors"
+                        className="group/link inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-blue-600 hover:text-blue-700 transition-colors"
                       >
-                        View Source <ArrowUpRight size={14} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                        Source <ArrowUpRight size={12} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
                       </a>
                     )}
                   </div>

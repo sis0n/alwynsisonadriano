@@ -59,12 +59,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <CustomCursor />
       {/* Scroll Progress Bar */}
       <motion.div 
-        className="fixed top-0 left-0 right-0 h-1 bg-blue-600 z-[70] origin-left"
+        className="fixed top-0 left-0 right-0 h-1 bg-blue-600 z-[70] origin-left print:hidden"
         style={{ scaleX }}
       />
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-[70] px-6 py-6 flex justify-between items-center bg-white/80 dark:bg-[#050505]/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-900 transition-colors">
+      <nav className="fixed top-0 w-full z-[70] px-6 py-6 flex justify-between items-center bg-white/80 dark:bg-[#050505]/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-900 transition-colors print:hidden">
         {/* Left: Logo */}
         <div className="flex-1 text-slate-950 dark:text-white">
           <a href="/" onClick={handleLogoClick} className="font-black text-xl tracking-tighter hover:scale-110 transition-transform cursor-pointer inline-block">
@@ -182,7 +182,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </motion.main>
 
       {/* Persistent Footer */}
-      <footer className="py-12 px-6 md:px-20 border-t border-slate-100 dark:border-slate-900 bg-white dark:bg-[#050505] transition-colors">
+      <footer className="py-12 px-6 md:px-20 border-t border-slate-100 dark:border-slate-900 bg-white dark:bg-[#050505] transition-colors print:hidden">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
           <div className="text-xs font-black uppercase tracking-[0.4em] text-slate-300 dark:text-slate-700">
             © {new Date().getFullYear()} {name}
@@ -201,28 +201,28 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       {/* Hire Me Modal */}
       <AnimatePresence>
         {isHireModalOpen && (
-          <div className="fixed inset-0 z-[80] flex items-center justify-center p-6">
+          <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 md:p-6 print:hidden">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={closeHireModal}
-              className="absolute inset-0 bg-slate-950/40 backdrop-blur-sm"
+              className="absolute inset-0 bg-slate-950/60 backdrop-blur-md"
             />
             <motion.div 
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-lg bg-white dark:bg-[#0a0a0a] rounded-[2.5rem] shadow-2xl z-[90] overflow-hidden border border-slate-100 dark:border-slate-800"
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-lg bg-white dark:bg-[#0a0a0a] rounded-[2rem] md:rounded-[3rem] shadow-2xl z-[90] overflow-hidden border border-slate-100 dark:border-slate-800"
             >
-              <div className="p-8 md:p-12">
-                <div className="flex justify-between items-center mb-10">
-                  <h2 className="text-3xl font-black tracking-tighter uppercase text-slate-950 dark:text-white">Hire Me<span className="text-blue-600">.</span></h2>
+              <div className="p-8 md:p-14 max-h-[90vh] overflow-y-auto">
+                <div className="flex justify-between items-center mb-8 md:mb-12">
+                  <h2 className="text-3xl md:text-4xl font-black tracking-tighter uppercase text-slate-950 dark:text-white leading-none">Hire Me<span className="text-blue-600">.</span></h2>
                   <button 
                     onClick={closeHireModal}
-                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
+                    className="p-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors group"
                   >
-                    <X size={20} className="text-slate-400" />
+                    <X size={24} className="text-slate-400 group-hover:text-slate-950 dark:group-hover:text-white transition-colors" />
                   </button>
                 </div>
 
@@ -299,7 +299,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 p-4 bg-blue-600 text-white rounded-2xl shadow-xl shadow-blue-600/20 z-50 hover:bg-blue-700 hover:scale-110 transition-all"
+          className="fixed bottom-8 right-8 p-4 bg-blue-600 text-white rounded-2xl shadow-xl shadow-blue-600/20 z-50 hover:bg-blue-700 hover:scale-110 transition-all print:hidden"
         >
           <ArrowUp size={24} />
         </motion.button>
