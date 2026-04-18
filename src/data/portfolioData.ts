@@ -43,7 +43,7 @@ export const portfolioData: PortfolioData = {
       link: "https://github.com/99lash/BagyoAlerto"
     },
     {
-      title: "BorrowHub",
+      title: "BorrowHub (Application Development Project)",
       technologies: ["Laravel", "MySQL", "Tailwind CSS"],
       description: "Advanced asset and inventory management system built with modern Laravel practices. Features automated borrowing tracking and a responsive administrative dashboard.",
       link: "https://github.com/sis0n/BorrowHub"
