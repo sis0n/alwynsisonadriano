@@ -37,7 +37,7 @@ const CustomCursor: React.FC = () => {
     <>
       {/* Massive Ambient Glow */}
       <motion.div
-        className="fixed top-0 left-0 w-[500px] h-[500px] bg-blue-500/10 dark:bg-blue-600/5 rounded-full pointer-events-none z-[100] blur-[120px] hidden lg:block"
+        className="fixed top-0 left-0 w-[500px] h-[500px] bg-blue-500/15 dark:bg-blue-600/10 rounded-full pointer-events-none z-[100] blur-[100px] hidden lg:block"
         style={{
           x: cursorX,
           y: cursorY,

@@ -21,13 +21,21 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Scroll Progress Bar logic
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001
   });
+
+  const [isNavigating, setIsNavigating] = useState(false);
+
+  useEffect(() => {
+    setIsNavigating(true);
+    const timer = setTimeout(() => setIsNavigating(false), 800);
+    window.scrollTo(0, 0);
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,8 +68,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <CustomCursor />
       {/* Scroll Progress Bar */}
       <motion.div 
-        className="fixed top-0 left-0 right-0 h-1 bg-blue-600 z-[70] origin-left print:hidden"
-        style={{ scaleX }}
+        className="fixed top-0 left-0 right-0 h-1 bg-blue-600 z-[100] origin-left print:hidden"
+        style={{ scaleX, position: 'fixed' }}
       />
 
       {/* Navigation */}
@@ -75,14 +83,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         
         {/* Center: Main Links */}
         <div className="hidden lg:flex items-center gap-10 text-[10px] font-black uppercase tracking-widest text-slate-400">
-          {location.pathname === '/' ? (
-            <>
-              <a href="#projects" className="hover:text-blue-600 transition-colors">Projects</a>
-              <a href="#about" className="hover:text-blue-600 transition-colors">About</a>
-            </>
-          ) : (
-            <Link to="/" className="hover:text-blue-600 transition-colors">Home</Link>
-          )}
+          <Link to="/#projects" className="hover:text-blue-600 transition-colors">Projects</Link>
+          <Link to="/#about" className="hover:text-blue-600 transition-colors">About</Link>
           <Link to="/resume" className={`hover:text-blue-600 transition-colors ${location.pathname === '/resume' ? 'text-blue-600' : ''}`}>
              Resume
           </Link>
@@ -102,9 +104,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           
           <button 
             onClick={openHireModal}
-            className="hidden sm:block bg-blue-600 text-white px-6 py-2.5 rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-blue-700 hover:scale-105 transition-all shadow-lg shadow-blue-600/20"
+            className="group relative hidden sm:block bg-slate-950 dark:bg-white text-white dark:text-slate-950 px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-lg shadow-blue-600/10"
           >
-            Hire Me
+            <span className="relative z-10">Hire Me</span>
+            <div className="absolute inset-0 bg-blue-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
           </button>
 
           <button 
@@ -137,14 +140,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               className="fixed top-0 right-0 bottom-0 z-[60] w-[280px] bg-white dark:bg-[#080808] shadow-2xl flex flex-col p-8 pt-32 lg:hidden border-l border-slate-100 dark:border-slate-800"
             >
               <div className="flex flex-col gap-6 text-2xl font-black uppercase tracking-tighter">
-                {location.pathname === '/' ? (
-                  <>
-                    <a href="#projects" onClick={closeMobileMenu} className="text-slate-950 dark:text-white hover:text-blue-600 transition-colors">Projects</a>
-                    <a href="#about" onClick={closeMobileMenu} className="text-slate-950 dark:text-white hover:text-blue-600 transition-colors">About</a>
-                  </>
-                ) : (
-                  <Link to="/" onClick={closeMobileMenu} className="text-slate-950 dark:text-white hover:text-blue-600 transition-colors">Home</Link>
-                )}
+                <Link to="/#projects" onClick={closeMobileMenu} className="text-slate-950 dark:text-white hover:text-blue-600 transition-colors">Projects</Link>
+                <Link to="/#about" onClick={closeMobileMenu} className="text-slate-950 dark:text-white hover:text-blue-600 transition-colors">About</Link>
                 <Link to="/resume" onClick={closeMobileMenu} className={`hover:text-blue-600 transition-colors ${location.pathname === '/resume' ? 'text-blue-600' : 'text-slate-950 dark:text-white'}`}>
                    Resume
                 </Link>

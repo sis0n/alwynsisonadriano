@@ -39,7 +39,7 @@ const RevealText: React.FC<{ children: React.ReactNode, className?: string, dela
 };
 
 // Interactive Glow Card Component
-const GlowCard: React.FC<{ children: React.ReactNode, className?: string }> = ({ children, className }) => {
+const GlowCard: React.FC<{ children: React.ReactNode, className?: string, onClick?: () => void }> = ({ children, className, onClick }) => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -56,7 +56,9 @@ const GlowCard: React.FC<{ children: React.ReactNode, className?: string }> = ({
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
+      onClick={onClick}
       whileHover={{ y: -5 }}
+      style={{ cursor: onClick ? 'pointer' : 'default' }}
       className={`group relative overflow-hidden transition-all duration-300 ${className}`}
     >
       <div 
@@ -73,10 +75,51 @@ const GlowCard: React.FC<{ children: React.ReactNode, className?: string }> = ({
   );
 };
 
+const ProjectImage: React.FC<{ project: any }> = ({ project }) => {
+  const [hasError, setHasError] = useState(false);
+
+  if (project.image && !hasError) {
+    return (
+      <div className="w-full h-full bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center p-4">
+        <img 
+          src={project.image} 
+          alt={project.title} 
+          className="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-700"
+          onError={() => setHasError(true)}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-700 bg-slate-100 dark:bg-slate-800">
+      {project.title.toLowerCase().includes('lib') ? <Database size={48} /> : 
+       project.title.toLowerCase().includes('bagyo') ? <Cpu size={48} /> : 
+       <Terminal size={48} />}
+    </div>
+  );
+};
+
 const Home: React.FC = () => {
   const { name, summary, skillCategories, projects, contact } = portfolioData;
   const { theme } = useTheme();
   const { openHireModal } = useUI();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location]);
   
   const sectionPadding = "py-20 md:py-32 px-6 md:px-20";
 
@@ -163,23 +206,26 @@ const Home: React.FC = () => {
             {projects.map((project, idx) => (
               <GlowCard 
                 key={idx}
-                className="bg-white dark:bg-slate-900/50 p-8 rounded-[2rem] border border-slate-200/60 dark:border-slate-800/60 hover:border-blue-500/30 transition-all shadow-sm hover:shadow-xl dark:shadow-none min-h-[420px] flex flex-col"
+                onClick={() => navigate(`/project/${project.id}`)}
+                className="bg-white dark:bg-slate-900/50 rounded-[2rem] border border-slate-200/60 dark:border-slate-800/60 hover:border-blue-500/30 transition-all shadow-sm hover:shadow-xl dark:shadow-none min-h-[480px] flex flex-col overflow-hidden"
               >
-                <div className="flex-1">
-                  <div className="mb-6 text-blue-600 bg-blue-600/5 w-12 h-12 rounded-xl flex items-center justify-center">
-                    {project.title.toLowerCase().includes('lib') ? <Database size={24} /> : 
-                     project.title.toLowerCase().includes('bagyo') ? <Cpu size={24} /> : 
-                     <Terminal size={24} />}
-                  </div>
-                  <h3 className="text-lg font-black mb-3 uppercase tracking-tight text-slate-950 dark:text-white leading-tight">
-                    {project.title}
-                  </h3>
-                  <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed mb-6 italic line-clamp-4">
-                    {project.description}
-                  </p>
+                {/* Project Image Header */}
+                <div className="h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-800 relative group-hover:scale-105 transition-transform duration-700">
+                  <ProjectImage project={project} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-slate-900 to-transparent opacity-60" />
                 </div>
-                
-                <div className="pt-6 border-t border-slate-50 dark:border-slate-800/50 mt-auto">
+
+                <div className="p-8 flex-1 flex flex-col">
+                  <div className="flex-1">
+                    <h3 className="text-lg font-black mb-3 uppercase tracking-tight text-slate-950 dark:text-white leading-tight">
+                      {project.title}
+                    </h3>
+                    <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed mb-6 italic line-clamp-3">
+                      {project.description}
+                    </p>
+                  </div>
+                  
+                  <div className="pt-6 border-t border-slate-50 dark:border-slate-800/50 mt-auto">
                   <div className="flex flex-wrap gap-1.5 mb-6 h-12 items-start overflow-hidden">
                     {project.technologies.slice(0, 3).map((tech, tIdx) => (
                       <span key={tIdx} className="text-[8px] font-black px-2.5 py-1 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-400 uppercase tracking-wider border border-slate-200/50 dark:border-transparent">
@@ -187,21 +233,90 @@ const Home: React.FC = () => {
                       </span>
                     ))}
                   </div>
-                  <div>
+                  <div className="flex justify-between items-center">
+                    <div className="group/link inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-blue-600 group-hover:text-blue-700 transition-colors">
+                      View Case Study <ArrowUpRight size={12} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                    </div>
                     {project.link && (
                       <a 
                         href={project.link} 
                         target="_blank" 
                         rel="noopener noreferrer" 
-                        className="group/link inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-blue-600 hover:text-blue-700 transition-colors"
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-slate-400 hover:text-slate-950 dark:hover:text-white transition-colors relative z-20"
+                        title="View Source"
                       >
-                        Source <ArrowUpRight size={12} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                        <Github size={14} />
                       </a>
                     )}
                   </div>
                 </div>
-              </GlowCard>
-            ))}
+              </div>
+            </GlowCard>
+          ))}
+        </div>
+      </div>
+    </section>
+
+      {/* 2.5 SERVICES SECTION */}
+      <section className={`relative ${sectionPadding} bg-slate-50/50 dark:bg-slate-900/10`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-20">
+             <RevealText className="mb-6">
+                <h2 className="text-blue-600 font-black text-xs tracking-[0.4em] uppercase">Core Expertise</h2>
+             </RevealText>
+             <RevealText delay={0.1}>
+                <h3 className="text-4xl md:text-6xl font-black tracking-tighter text-slate-950 dark:text-white uppercase">What I Do<span className="text-blue-600">.</span></h3>
+             </RevealText>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+             <motion.div 
+               initial={{ opacity: 0, y: 20 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: true }}
+               className="space-y-6"
+             >
+                <div className="w-16 h-16 rounded-3xl bg-blue-600 flex items-center justify-center text-white shadow-xl shadow-blue-600/20">
+                   <Terminal size={32} />
+                </div>
+                <h4 className="text-2xl font-black uppercase tracking-tight text-slate-950 dark:text-white">API Development</h4>
+                <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed italic">
+                  Building secure, scalable, and well-documented RESTful APIs using Laravel and Node.js to power modern client applications.
+                </p>
+             </motion.div>
+
+             <motion.div 
+               initial={{ opacity: 0, y: 20 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: true }}
+               transition={{ delay: 0.1 }}
+               className="space-y-6"
+             >
+                <div className="w-16 h-16 rounded-3xl bg-slate-950 dark:bg-white flex items-center justify-center text-white dark:text-slate-950 shadow-xl shadow-slate-950/10">
+                   <Database size={32} />
+                </div>
+                <h4 className="text-2xl font-black uppercase tracking-tight text-slate-950 dark:text-white">Database Design</h4>
+                <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed italic">
+                  Designing optimized SQL/NoSQL database schemas and implementing efficient queries to ensure high performance and data integrity.
+                </p>
+             </motion.div>
+
+             <motion.div 
+               initial={{ opacity: 0, y: 20 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: true }}
+               transition={{ delay: 0.2 }}
+               className="space-y-6"
+             >
+                <div className="w-16 h-16 rounded-3xl bg-blue-600/10 flex items-center justify-center text-blue-600">
+                   <Cpu size={32} />
+                </div>
+                <h4 className="text-2xl font-black uppercase tracking-tight text-slate-950 dark:text-white">Server Deployment</h4>
+                <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed italic">
+                  Managing and deploying applications to cloud environments, ensuring smooth performance and continuous availability.
+                </p>
+             </motion.div>
           </div>
         </div>
       </section>

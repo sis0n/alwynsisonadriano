@@ -12,12 +12,26 @@ export interface SkillCategory {
 }
 
 export interface Project {
+  id: string;
   title: string;
   technologies: string[];
   description: string;
   highlights?: string[];
   link?: string;
+  liveLink?: string;
   image?: string;
+  architecture?: string;
+  databaseSchema?: string;
+  apiDocs?: string;
+  apiEndpoints?: {
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+    path: string;
+    description: string;
+  }[];
+  challenges?: {
+    problem: string;
+    solution: string;
+  }[];
 }
 
 export interface Experience {

@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import Resume from './pages/Resume'
 import Blog from './pages/Blog'
 import BlogDetail from './pages/BlogDetail'
+import ProjectDetail from './pages/ProjectDetail'
 import Layout from './components/Layout'
 
 const AnimatedRoutes = () => {
@@ -32,6 +33,11 @@ const AnimatedRoutes = () => {
         <Route path="/blog/:id" element={
           <PageWrapper>
             <BlogDetail />
+          </PageWrapper>
+        } />
+        <Route path="/project/:id" element={
+          <PageWrapper>
+            <ProjectDetail />
           </PageWrapper>
         } />
       </Routes>

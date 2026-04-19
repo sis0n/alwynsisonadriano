@@ -1,5 +1,11 @@
 import { PortfolioData } from '../types/portfolio';
 
+// Import images from src/assets
+import libsysImg from '../assets/libsys.png';
+import bagyoalertoImg from '../assets/bagyoalerto.png';
+import borrowhubImg from '../assets/borrowhub.png';
+// import atmImg from '../assets/atm.png'; // Uncomment when you have this file
+
 export const portfolioData: PortfolioData = {
   name: "Alwyn Sison Adriano",
   title: "Software Developer | Computer Science Student",
@@ -31,28 +37,69 @@ export const portfolioData: PortfolioData = {
   ],
   projects: [
     {
+      id: "libsys",
       title: "LibSys (Software Engineering Project)",
+      image: libsysImg,
       technologies: ["PHP Native", "MySQL"],
       description: "Developed \"LibSys,\" a full-stack library management system from the ground up using a custom PHP MVC architecture. The system features robust role-based access control (RBAC) for administrators, staff, and students, a comprehensive book catalog, and a complete borrowing/returning workflow. To enhance user experience and efficiency, I implemented QR code integration for streamlined check-ins and a dynamic frontend with vanilla JavaScript. The application leverages a MySQL database and follows the Repository pattern for clean, maintainable data management.",
-      link: "https://github.com/sis0n/LibSys-v3"
+      link: "https://github.com/sis0n/LibSys-v3",
+      liveLink: "https://library-ucc.bscs3a.com/",
+      challenges: [
+        {
+          problem: "Difficulty in managing diverse user roles and permissions effectively.",
+          solution: "Implemented a robust Role-Based Access Control (RBAC) system with custom middleware to validate session data against predefined role permissions."
+        },
+        {
+          problem: "Handling and processing large-scale data within the Library Management System.",
+          solution: "Optimized data structures and implemented efficient retrieval logic to ensure smooth performance even with significant amounts of data."
+        }
+      ]
     },
     {
+      id: "bagyoalerto",
       title: "BagyoAlerto (CodeSprout 2025 Hackathon Project)",
+      image: bagyoalertoImg,
       technologies: ["HTML5", "CSS3", "JavaScript", "Weather API", "PWA"],
       description: "BagyoAlerto is a Progressive Web App (PWA) developed using vanilla JavaScript, HTML, and CSS, designed to provide users with crucial, localized typhoon alerts and comprehensive safety information. Leveraging the Geolocation API and integrating with external weather APIs, the application offers real-time updates, an interactive dashboard, an emergency preparedness checklist, and essential contact information. Its PWA architecture offline accessibility and an installable experience, enhancing user readiness during adverse weather events.",
-      link: "https://github.com/99lash/BagyoAlerto"
+      link: "https://github.com/99lash/BagyoAlerto",
+      liveLink: "https://bagyoalerto.vercel.app/",
+      challenges: [
+        {
+          problem: "Coordinating development and communication across a 4-person team during a fast-paced hackathon.",
+          solution: "Utilized GitHub Projects to systematically assign tasks, track progress, and ensure everyone was aligned on the project goals."
+        }
+      ]
     },
     {
+      id: "borrowhub",
       title: "BorrowHub (Application Development Project)",
-      technologies: ["Laravel", "MySQL", "Tailwind CSS"],
+      image: borrowhubImg,
+      technologies: ["Laravel", "MySQL", "Tailwind CSS", "Java (Android)", "Sanctum", "RBAC"],
       description: "Advanced asset and inventory management system built with modern Laravel practices. Features automated borrowing tracking and a responsive administrative dashboard.",
-      link: "https://github.com/sis0n/BorrowHub"
+      link: "https://github.com/sis0n/BorrowHub",
+      challenges: [
+        {
+          problem: "Managing granular permissions for Admin and Staff users.",
+          solution: "Implemented custom Role-Based Access Control (RBAC) middleware to restrict sensitive operations like student imports and user management to authorized administrators."
+        },
+        {
+          problem: "Ensuring accountability for all system changes and asset movements.",
+          solution: "Developed an Audit Logging system that automatically records critical events, providing a transparent transaction history for administrators."
+        }
+      ]
     },
     {
+      id: "atm-simulator",
       title: "ATM Simulator (Computer Programming Project)",
       technologies: ["C Language"],
       description: "Developed a fully functional ATM simulator in C language using a text file as a database to handle user accounts and transaction records. Implemented secure login authentication and essential banking operations, kabilang ang withdrawals, deposits, fund transfers, at password management.",
-      link: "https://github.com/sis0n/First-Year"
+      link: "https://github.com/sis0n/First-Year",
+      challenges: [
+        {
+          problem: "Determining an appropriate method for persistent data storage in a low-level C environment.",
+          solution: "Implemented a custom file-handling system using text files to store and retrieve user account data and transaction histories."
+        }
+      ]
     }
   ],
   experiences: [
