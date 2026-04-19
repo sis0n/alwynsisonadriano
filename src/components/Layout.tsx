@@ -7,6 +7,7 @@ import { useUI } from '../context/UIContext';
 import { portfolioData } from '../data/portfolioData';
 
 import CustomCursor from './CustomCursor';
+import ChatBot from './ChatBot';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -73,7 +74,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       />
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-[70] px-6 py-6 flex justify-between items-center bg-white/80 dark:bg-[#050505]/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-900 transition-colors print:hidden">
+      <nav className="fixed top-0 w-full z-[100] px-6 py-6 flex justify-between items-center bg-white/80 dark:bg-[#050505]/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-900 transition-colors print:hidden">
         {/* Left: Logo */}
         <div className="flex-1 text-slate-950 dark:text-white">
           <a href="/" onClick={handleLogoClick} className="font-black text-xl tracking-tighter hover:scale-110 transition-transform cursor-pointer inline-block">
@@ -129,7 +130,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={closeMobileMenu}
-              className="fixed inset-0 z-[55] bg-slate-950/20 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-[110] bg-slate-950/20 backdrop-blur-sm lg:hidden"
             />
             {/* Drawer */}
             <motion.div 
@@ -137,7 +138,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 bottom-0 z-[60] w-[280px] bg-white dark:bg-[#080808] shadow-2xl flex flex-col p-8 pt-32 lg:hidden border-l border-slate-100 dark:border-slate-800"
+              className="fixed top-0 right-0 bottom-0 z-[120] w-[280px] bg-white dark:bg-[#080808] shadow-2xl flex flex-col p-8 pt-32 lg:hidden border-l border-slate-100 dark:border-slate-800"
             >
               <div className="flex flex-col gap-6 text-2xl font-black uppercase tracking-tighter">
                 <Link to="/#projects" onClick={closeMobileMenu} className="text-slate-950 dark:text-white hover:text-blue-600 transition-colors">Projects</Link>
@@ -297,11 +298,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 p-4 bg-blue-600 text-white rounded-2xl shadow-xl shadow-blue-600/20 z-50 hover:bg-blue-700 hover:scale-110 transition-all print:hidden"
+          className="fixed bottom-28 right-8 p-4 bg-blue-600 text-white rounded-2xl shadow-xl shadow-blue-600/20 z-[90] hover:bg-blue-700 hover:scale-110 transition-all print:hidden"
         >
           <ArrowUp size={24} />
         </motion.button>
       )}
+      {/* ChatBot AI */}
+      <ChatBot />
     </div>
   );
 };
