@@ -4,6 +4,8 @@ export interface ContactInfo {
   linkedin: string;
   github: string;
   phone: string;
+  facebook?: string;
+  instagram?: string;
 }
 
 export interface SkillCategory {

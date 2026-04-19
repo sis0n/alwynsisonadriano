@@ -104,9 +104,13 @@ const ChatBot: React.FC = () => {
       return `I'm proficient in: ${tech}. Pero ang favorite ko talaga is PHP/Laravel for backend development. 🔥`;
     }
 
-    if (hasWord(['hire', 'contact', 'email', 'recruit', 'number', 'kontak'])) {
+    if (hasWord(['hire', 'contact', 'email', 'recruit', 'number', 'kontak', 'message'])) {
       setLastTopic('contact');
-      return `I'm ready to collaborate! Email me at ${contact.email} or call ${contact.phone}. Pwede mo ring i-click 'yung Hire Me button sa taas! 📩`;
+      return `Ready to collaborate! Email me at ${contact.email} or call ${contact.phone}. Pwede mo ring i-click 'yung Hire Me button sa taas! 📩`;
+    }
+
+    if (hasWord(['socials', 'social', 'github', 'linkedin', 'links', 'link', 'facebook', 'instagram', 'fb', 'ig'])) {
+      return `Connect with me! 🔗 \n\nGitHub: ${contact.github} \nLinkedIn: ${contact.linkedin} \nFacebook: ${contact.facebook} \nInstagram: ${contact.instagram} \n\nFollow me for more updates!`;
     }
 
     if (hasWord(['sino', 'who', 'alan', 'alwyn'])) {
@@ -161,6 +165,28 @@ const ChatBot: React.FC = () => {
     }, 800);
   };
 
+  const renderMessageText = (text: string) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const parts = text.split(urlRegex);
+    
+    return parts.map((part, i) => {
+      if (part.match(urlRegex)) {
+        return (
+          <a 
+            key={i} 
+            href={part} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="underline hover:text-blue-200 transition-colors break-all"
+          >
+            {part}
+          </a>
+        );
+      }
+      return part;
+    });
+  };
+
   return (
     <div className="fixed bottom-6 right-6 z-[90] print:hidden">
       <AnimatePresence>
@@ -209,13 +235,13 @@ const ChatBot: React.FC = () => {
                   className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`max-w-[85%] p-4 rounded-[1.5rem] text-sm leading-relaxed ${
+                    className={`max-w-[85%] p-4 rounded-[1.5rem] text-sm leading-relaxed whitespace-pre-wrap break-words ${
                       msg.sender === "user"
                         ? "bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-600/10"
                         : "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-200 border border-slate-100 dark:border-slate-800 rounded-tl-none shadow-sm"
                     }`}
                   >
-                    {msg.text}
+                    {renderMessageText(msg.text)}
                   </div>
                 </motion.div>
               ))}

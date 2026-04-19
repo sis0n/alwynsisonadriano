@@ -15,7 +15,9 @@ export const portfolioData: PortfolioData = {
     email: "adrianoalwyn@gmail.com",
     linkedin: "https://linkedin.com/in/alwyn-adriano-9659bb283",
     github: "https://github.com/sis0n",
-    phone: "+63 976-368-3414"
+    phone: "+63 976-368-3414",
+    facebook: "https://www.facebook.com/adrianoalwyn05",
+    instagram: "https://www.instagram.com/adrianoalwyn/"
   },
   skillCategories: [
     {

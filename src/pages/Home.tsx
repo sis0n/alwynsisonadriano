@@ -1,14 +1,12 @@
 import React, { useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { 
   Github, 
   Linkedin, 
-  MapPin,
   ArrowUpRight,
   Database,
   Cpu,
   Terminal,
-  ExternalLink,
   Layout as LayoutIcon
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';

@@ -65,7 +65,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
-    <div className="bg-white dark:bg-[#050505] min-h-screen transition-colors duration-500 font-sans selection:bg-blue-500/30 relative text-slate-900 dark:text-slate-200 lg:cursor-none">
+    <div className="bg-white dark:bg-[#050505] min-h-screen transition-colors duration-500 font-sans selection:bg-blue-500/30 relative text-slate-900 dark:text-slate-200">
       <CustomCursor />
       {/* Scroll Progress Bar */}
       <motion.div 

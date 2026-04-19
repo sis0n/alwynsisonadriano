@@ -4,12 +4,8 @@ import { motion } from 'framer-motion';
 import { 
   ArrowLeft, 
   Database, 
-  Cpu, 
-  Terminal, 
-  Globe, 
   Github, 
   ExternalLink,
-  Code,
   Layers,
   ShieldCheck,
   Zap

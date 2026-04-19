@@ -47,26 +47,6 @@ const CustomCursor: React.FC = () => {
         }}
         transition={{ scale: { duration: 0.5, ease: "easeOut" } }}
       />
-      
-      {/* Precision Dot Cursor */}
-      <motion.div
-        className="fixed top-0 left-0 w-2 h-2 bg-blue-600 rounded-full pointer-events-none z-[101] hidden lg:block"
-        style={{
-          x: mouseX,
-          y: mouseY,
-          translateX: '-50%',
-          translateY: '-50%',
-          scale: isHovered ? 4 : 1,
-        }}
-      >
-        {isHovered && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="absolute inset-0 bg-white/20 rounded-full blur-[2px]"
-          />
-        )}
-      </motion.div>
     </>
   );
 };
