@@ -132,6 +132,7 @@ const Home: React.FC = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1 }}
+              className="text-center lg:text-left"
             >
               <RevealText delay={0.1}>
                 <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] text-slate-950 dark:text-white mb-8 uppercase">
@@ -144,7 +145,7 @@ const Home: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 1 }}
-                className="text-lg md:text-xl text-slate-500 dark:text-slate-400 mb-12 max-w-lg leading-relaxed font-medium"
+                className="text-lg md:text-xl text-slate-500 dark:text-slate-400 mb-12 max-w-lg leading-relaxed font-medium mx-auto lg:mx-0"
               >
                 Building robust systems and efficient architectures. Specialized in PHP/Laravel and modern web logic.
               </motion.p>
@@ -153,15 +154,15 @@ const Home: React.FC = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 }}
-                className="flex items-center gap-6 md:gap-10"
+                className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-8 md:gap-12"
               >
-                <button onClick={openHireModal} className="group relative bg-slate-950 dark:bg-white text-white dark:text-black px-10 py-5 rounded-full font-bold overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-2xl">
-                   <span className="relative z-10 uppercase tracking-[0.2em] text-[11px]">Work with me</span>
+                <button onClick={openHireModal} className="group relative bg-slate-950 dark:bg-white text-white dark:text-black px-12 py-6 rounded-full font-bold overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-2xl">
+                   <span className="relative z-10 uppercase tracking-[0.2em] text-[13px]">Work with me</span>
                    <div className="absolute inset-0 bg-blue-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                 </button>
-                <div className="flex gap-6 md:gap-8">
-                  <a href={contact.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white hover:scale-110 transition-all"><Github size={24} /></a>
-                  <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white hover:scale-110 transition-all"><Linkedin size={24} /></a>
+                <div className="flex gap-8 md:gap-10">
+                  <a href={contact.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white hover:scale-110 transition-all"><Github size={32} /></a>
+                  <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white hover:scale-110 transition-all"><Linkedin size={32} /></a>
                 </div>
               </motion.div>
             </motion.div>
@@ -187,7 +188,7 @@ const Home: React.FC = () => {
       {/* 2. PROJECTS SECTION */}
       <section id="projects" className={`transition-colors relative ${sectionPadding}`}>
         <div className="max-w-7xl mx-auto">
-          <div className="mb-16 text-center md:text-left">
+          <div className="mb-16 text-center">
             <RevealText>
               <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase mb-4 text-slate-950 dark:text-white leading-none">Selected Work.</h2>
             </RevealText>
@@ -196,7 +197,7 @@ const Home: React.FC = () => {
               whileInView={{ width: 60 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="h-2 bg-blue-600 rounded-full mx-auto md:mx-0"
+              className="h-2 bg-blue-600 rounded-full mx-auto"
             />
           </div>
 
@@ -213,18 +214,18 @@ const Home: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-slate-900 to-transparent opacity-60" />
                 </div>
 
-                <div className="p-8 flex-1 flex flex-col">
+                <div className="p-8 flex-1 flex flex-col text-center">
                   <div className="flex-1">
                     <h3 className="text-lg font-black mb-3 uppercase tracking-tight text-slate-950 dark:text-white leading-tight">
                       {project.title}
                     </h3>
-                    <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed mb-6 italic line-clamp-3">
+                    <p className="text-slate-500 dark:text-slate-400 text-[15px] leading-relaxed mb-6 italic line-clamp-3">
                       {project.description}
                     </p>
                   </div>
                   
                   <div className="pt-6 border-t border-slate-50 dark:border-slate-800/50 mt-auto">
-                  <div className="flex flex-wrap gap-1.5 mb-6 h-12 items-start overflow-hidden">
+                  <div className="flex flex-wrap gap-1.5 mb-6 h-12 items-start justify-center overflow-hidden">
                     {project.technologies.slice(0, 3).map((tech, tIdx) => (
                       <span key={tIdx} className="text-[8px] font-black px-2.5 py-1 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-400 uppercase tracking-wider border border-slate-200/50 dark:border-transparent">
                         {tech}
@@ -258,7 +259,7 @@ const Home: React.FC = () => {
 
       {/* 2.5 SERVICES SECTION */}
       <section className={`relative ${sectionPadding} bg-slate-50/50 dark:bg-slate-900/10`}>
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto text-center">
           <div className="mb-20">
              <RevealText className="mb-6">
                 <h2 className="text-blue-600 font-black text-xs tracking-[0.4em] uppercase">Core Expertise</h2>
@@ -275,11 +276,11 @@ const Home: React.FC = () => {
                viewport={{ once: true }}
                className="space-y-6"
              >
-                <div className="w-16 h-16 rounded-3xl bg-blue-600 flex items-center justify-center text-white shadow-xl shadow-blue-600/20">
+                <div className="w-16 h-16 rounded-3xl bg-blue-600 flex items-center justify-center text-white shadow-xl shadow-blue-600/20 mx-auto">
                    <Terminal size={32} />
                 </div>
                 <h4 className="text-2xl font-black uppercase tracking-tight text-slate-950 dark:text-white">API Development</h4>
-                <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed italic">
+                <p className="text-slate-500 dark:text-slate-400 text-lg font-medium leading-relaxed italic">
                   Building secure, scalable, and well-documented RESTful APIs using Laravel and Node.js to power modern client applications.
                 </p>
              </motion.div>
@@ -291,11 +292,11 @@ const Home: React.FC = () => {
                transition={{ delay: 0.1 }}
                className="space-y-6"
              >
-                <div className="w-16 h-16 rounded-3xl bg-slate-950 dark:bg-white flex items-center justify-center text-white dark:text-slate-950 shadow-xl shadow-slate-950/10">
+                <div className="w-16 h-16 rounded-3xl bg-slate-950 dark:bg-white flex items-center justify-center text-white dark:text-slate-950 shadow-xl shadow-slate-950/10 mx-auto">
                    <Database size={32} />
                 </div>
                 <h4 className="text-2xl font-black uppercase tracking-tight text-slate-950 dark:text-white">Database Design</h4>
-                <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed italic">
+                <p className="text-slate-500 dark:text-slate-400 text-lg font-medium leading-relaxed italic">
                   Designing optimized SQL/NoSQL database schemas and implementing efficient queries to ensure high performance and data integrity.
                 </p>
              </motion.div>
@@ -307,11 +308,11 @@ const Home: React.FC = () => {
                transition={{ delay: 0.2 }}
                className="space-y-6"
              >
-                <div className="w-16 h-16 rounded-3xl bg-blue-600/10 flex items-center justify-center text-blue-600">
+                <div className="w-16 h-16 rounded-3xl bg-blue-600/10 flex items-center justify-center text-blue-600 mx-auto">
                    <Cpu size={32} />
                 </div>
                 <h4 className="text-2xl font-black uppercase tracking-tight text-slate-950 dark:text-white">Server Deployment</h4>
-                <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed italic">
+                <p className="text-slate-500 dark:text-slate-400 text-lg font-medium leading-relaxed italic">
                   Managing and deploying applications to cloud environments, ensuring smooth performance and continuous availability.
                 </p>
              </motion.div>
@@ -321,7 +322,7 @@ const Home: React.FC = () => {
 
       {/* 3. ABOUT SECTION */}
       <section id="about" className={`relative ${sectionPadding}`}>
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto text-center">
           <RevealText className="mb-10">
             <h2 className="text-blue-600 font-black text-xs tracking-[0.4em] uppercase">Who I Am</h2>
           </RevealText>
@@ -335,7 +336,7 @@ const Home: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.3 }}
-            className="text-xl text-slate-500 dark:text-slate-400 leading-relaxed font-medium"
+            className="text-2xl text-slate-500 dark:text-slate-400 leading-relaxed font-medium"
           >
             {summary}
           </motion.p>
@@ -345,8 +346,8 @@ const Home: React.FC = () => {
       {/* 4. TOOLS SECTION */}
       <section className={`relative ${sectionPadding}`}>
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-8">
-            <div className="max-w-2xl text-center md:text-left mx-auto md:mx-0">
+          <div className="flex flex-col items-center mb-16 gap-8">
+            <div className="max-w-2xl text-center mx-auto">
               <RevealText className="mb-6">
                 <h2 className="text-blue-600 font-black text-xs tracking-[0.4em] uppercase">Tech Ecosystem</h2>
               </RevealText>
@@ -356,15 +357,6 @@ const Home: React.FC = () => {
                 </h3>
               </RevealText>
             </div>
-            <motion.p 
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="text-slate-500 dark:text-slate-400 font-medium italic max-w-xs text-sm border-l-2 border-blue-600 pl-6 transition-colors"
-            >
-              My core technical foundation for building scalable backend systems.
-            </motion.p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -373,20 +365,22 @@ const Home: React.FC = () => {
                 key={idx}
                 className="relative p-10 rounded-[3rem] bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/50 hover:border-blue-500/30 transition-all shadow-sm hover:shadow-2xl dark:shadow-none h-full"
               >
-                <div className="mb-10 w-14 h-14 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
+                <div className="mb-10 w-14 h-14 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 mx-auto">
                   {cat.title.toLowerCase().includes('backend') ? <Database size={28} /> : 
                    cat.title.toLowerCase().includes('frontend') ? <LayoutIcon size={28} /> : 
                    cat.title.toLowerCase().includes('database') ? <Cpu size={28} /> :
                    <Terminal size={28} />}
                 </div>
 
-                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Category 0{idx + 1}</h4>
-                <h3 className="text-xl font-black text-slate-950 dark:text-white mb-8 uppercase tracking-tight">{cat.title}</h3>
+                <div className="text-center">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Category 0{idx + 1}</h4>
+                  <h3 className="text-xl font-black text-slate-950 dark:text-white mb-8 uppercase tracking-tight">{cat.title}</h3>
+                </div>
 
-                <ul className="space-y-4">
+                <ul className="space-y-4 max-w-[200px] mx-auto">
                   {cat.skills.map((skill, sIdx) => (
-                    <li key={sIdx} className="flex items-center gap-3 text-slate-600 dark:text-slate-400 font-bold text-sm group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
-                      <div className="w-2 h-2 rounded-full bg-blue-600/20 group-hover:bg-blue-600 transition-colors" />
+                    <li key={sIdx} className="flex items-center gap-3 text-slate-600 dark:text-slate-400 font-bold text-[18px] group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
+                      <div className="w-2.5 h-2.5 rounded-full bg-blue-600/20 group-hover:bg-blue-600 transition-colors shrink-0" />
                       {skill}
                     </li>
                   ))}
@@ -419,18 +413,18 @@ const Home: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1, delay: 0.5 }}
-                className="flex flex-wrap justify-center md:justify-start gap-8 mt-12"
+                className="flex flex-wrap justify-center md:justify-start gap-10 mt-12"
               >
                  <button 
                    onClick={openHireModal}
-                   className="group relative bg-slate-950 dark:bg-white text-white dark:text-slate-950 px-12 py-5 rounded-full font-black uppercase tracking-[0.2em] text-[10px] overflow-hidden transition-all hover:scale-105 shadow-2xl active:scale-95"
+                   className="group relative bg-slate-950 dark:bg-white text-white dark:text-slate-950 px-14 py-7 rounded-full font-black uppercase tracking-[0.2em] text-[13px] overflow-hidden transition-all hover:scale-105 shadow-2xl active:scale-95"
                  >
                    <span className="relative z-10">Hire Me</span>
                    <div className="absolute inset-0 bg-blue-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                  </button>
-                 <div className="flex items-center gap-10 px-4">
-                   <a href={contact.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white hover:scale-110 transition-all uppercase text-[10px] font-black tracking-widest">Github</a>
-                   <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white hover:scale-110 transition-all uppercase text-[10px] font-black tracking-widest">Linkedin</a>
+                 <div className="flex items-center gap-12 px-4">
+                   <a href={contact.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white hover:scale-110 transition-all uppercase text-[12px] font-black tracking-widest">Github</a>
+                   <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white hover:scale-110 transition-all uppercase text-[12px] font-black tracking-widest">Linkedin</a>
                  </div>
               </motion.div>
             </div>
@@ -443,7 +437,7 @@ const Home: React.FC = () => {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1, delay: 0.6 }}
-                className="text-xl text-slate-500 dark:text-slate-400 leading-relaxed mb-8 italic"
+                className="text-2xl text-slate-500 dark:text-slate-400 leading-relaxed mb-8 italic"
               >
                 "I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision."
               </motion.p>
