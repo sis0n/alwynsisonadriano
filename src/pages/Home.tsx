@@ -7,7 +7,10 @@ import {
   Database,
   Cpu,
   Terminal,
-  Layout as LayoutIcon
+  Layout as LayoutIcon,
+  Star,
+  GitFork,
+  Activity
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 import { useTheme } from '../context/ThemeContext';
@@ -15,6 +18,26 @@ import { useUI } from '../context/UIContext';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import gradPhoto from '../assets/grad.png';
+
+// GitHub Activity Types
+interface GithubData {
+  name: string;
+  login: string;
+  avatarUrl: string;
+  bio: string;
+  publicRepositories: number;
+  followers: number;
+  lifetimeCommits: number;
+  repositories: Array<{
+    name: string;
+    stargazerCount: number;
+    forkCount: number;
+    primaryLanguage?: {
+      name: string;
+      color: string;
+    };
+  }>;
+}
 
 // Cleaner, More Elegant Reveal (No Skew)
 const RevealText: React.FC<{ children: React.ReactNode, className?: string, delay?: number }> = ({ children, className, delay = 0 }) => {
@@ -105,6 +128,26 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [githubData, setGithubData] = React.useState<GithubData | null>(null);
+  const [githubLoading, setGithubLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchGithub = async () => {
+      try {
+        const res = await fetch('/api/github');
+        const data = await res.json();
+        if (!data.error && !data.errors) {
+          setGithubData(data);
+        }
+      } catch (err) {
+        console.error("Github fetch error:", err);
+      } finally {
+        setGithubLoading(false);
+      }
+    };
+    fetchGithub();
+  }, []);
+
   React.useEffect(() => {
     if (location.hash) {
       const id = location.hash.replace('#', '');
@@ -185,7 +228,134 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 2. PROJECTS SECTION */}
+      {/* 2. ABOUT SECTION */}
+      <section id="about" className={`relative ${sectionPadding}`}>
+        <div className="max-w-4xl mx-auto text-center">
+          <RevealText className="mb-10">
+            <h2 className="text-blue-600 font-black text-sm md:text-base tracking-[0.4em] uppercase">About Me</h2>
+          </RevealText>
+          <RevealText className="mb-12" delay={0.1}>
+            <p className="text-3xl md:text-6xl font-bold tracking-tight leading-tight text-slate-950 dark:text-white">
+              Focusing on the <span className="text-blue-600 italic">Core logic</span> that powers modern applications.
+            </p>
+          </RevealText>
+          <motion.p 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.3 }}
+            className="text-2xl md:text-3xl text-slate-500 dark:text-slate-400 leading-relaxed font-medium"
+          >
+            {summary}
+          </motion.p>
+        </div>
+      </section>
+
+      {/* 2.5 GITHUB ACTIVITY SECTION */}
+      {!githubLoading && githubData && (
+        <section className={`relative ${sectionPadding} bg-slate-50/50 dark:bg-slate-900/10`}>
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+              <div className="lg:col-span-1 space-y-8">
+                <div>
+                  <RevealText className="mb-6">
+                    <h2 className="text-blue-600 font-black text-xs tracking-[0.4em] uppercase">Live Pulse</h2>
+                  </RevealText>
+                  <RevealText delay={0.1}>
+                    <h3 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-950 dark:text-white uppercase">
+                      Github <br />
+                      Activity<span className="text-blue-600">.</span>
+                    </h3>
+                  </RevealText>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-6 bg-white dark:bg-slate-900/50 rounded-3xl border border-slate-100 dark:border-slate-800">
+                    <div className="text-blue-600 mb-2"><Activity size={20} /></div>
+                    <div className="text-2xl font-black text-slate-950 dark:text-white">{githubData.lifetimeCommits}</div>
+                    <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">Contributions</div>
+                  </div>
+                  <div className="p-6 bg-white dark:bg-slate-900/50 rounded-3xl border border-slate-100 dark:border-slate-800">
+                    <div className="text-blue-600 mb-2"><Database size={20} /></div>
+                    <div className="text-2xl font-black text-slate-950 dark:text-white">{githubData.publicRepositories}</div>
+                    <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">Repositories</div>
+                  </div>
+                </div>
+
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  className="p-8 rounded-[2.5rem] bg-slate-950 text-white space-y-4"
+                >
+                  <div className="flex items-center gap-4">
+                    <img src={githubData.avatarUrl} alt={githubData.login} className="w-12 h-12 rounded-full border-2 border-blue-600" />
+                    <div>
+                      <div className="font-bold text-lg leading-none">@{githubData.login}</div>
+                      <div className="text-slate-400 text-xs mt-1">Full-stack Developer</div>
+                    </div>
+                  </div>
+                  <p className="text-sm text-slate-400 leading-relaxed italic">
+                    "{githubData.bio || 'Coding the future, one commit at a time.'}"
+                  </p>
+                  <div className="flex gap-6 pt-2">
+                    <div className="text-center">
+                      <div className="text-xl font-bold">{githubData.followers}</div>
+                      <div className="text-[8px] uppercase tracking-tighter text-slate-500 font-black">Followers</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-xl font-bold">100%</div>
+                      <div className="text-[8px] uppercase tracking-tighter text-slate-500 font-black">Commitment</div>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+
+              <div className="lg:col-span-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {githubData.repositories.slice(0, 4).map((repo, idx) => (
+                    <motion.a
+                      key={idx}
+                      href={`https://github.com/${githubData.login}/${repo.name}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.1 }}
+                      className="group p-8 rounded-[2rem] bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/50 hover:border-blue-500/30 transition-all"
+                    >
+                      <div className="flex justify-between items-start mb-6">
+                        <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-blue-600">
+                          <Terminal size={20} />
+                        </div>
+                        <div className="flex gap-3">
+                          <div className="flex items-center gap-1 text-[10px] font-black text-slate-400">
+                            <Star size={12} className="text-yellow-500" /> {repo.stargazerCount}
+                          </div>
+                          <div className="flex items-center gap-1 text-[10px] font-black text-slate-400">
+                            <GitFork size={12} /> {repo.forkCount}
+                          </div>
+                        </div>
+                      </div>
+                      <h4 className="text-lg font-black text-slate-950 dark:text-white mb-2 uppercase tracking-tight group-hover:text-blue-600 transition-colors">
+                        {repo.name}
+                      </h4>
+                      {repo.primaryLanguage && (
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: repo.primaryLanguage.color }} />
+                          <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{repo.primaryLanguage.name}</span>
+                        </div>
+                      )}
+                    </motion.a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+
+      {/* 3. PROJECTS SECTION */}
       <section id="projects" className={`transition-colors relative ${sectionPadding}`}>
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 text-center">
@@ -257,7 +427,7 @@ const Home: React.FC = () => {
       </div>
     </section>
 
-      {/* 2.5 SERVICES SECTION */}
+      {/* 4. SERVICES SECTION */}
       <section className={`relative ${sectionPadding} bg-slate-50/50 dark:bg-slate-900/10`}>
         <div className="max-w-7xl mx-auto text-center">
           <div className="mb-20">
@@ -317,29 +487,6 @@ const Home: React.FC = () => {
                 </p>
              </motion.div>
           </div>
-        </div>
-      </section>
-
-      {/* 3. ABOUT SECTION */}
-      <section id="about" className={`relative ${sectionPadding}`}>
-        <div className="max-w-4xl mx-auto text-center">
-          <RevealText className="mb-10">
-            <h2 className="text-blue-600 font-black text-xs tracking-[0.4em] uppercase">Who I Am</h2>
-          </RevealText>
-          <RevealText className="mb-12" delay={0.1}>
-            <p className="text-3xl md:text-5xl font-bold tracking-tight leading-tight text-slate-950 dark:text-white">
-              Focusing on the <span className="text-blue-600 italic">Core logic</span> that powers modern applications.
-            </p>
-          </RevealText>
-          <motion.p 
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="text-2xl text-slate-500 dark:text-slate-400 leading-relaxed font-medium"
-          >
-            {summary}
-          </motion.p>
         </div>
       </section>
 

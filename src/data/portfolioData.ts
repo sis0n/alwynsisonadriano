@@ -9,7 +9,7 @@ import borrowhubImg from '../assets/borrowhub.png';
 export const portfolioData: PortfolioData = {
   name: "Alwyn Sison Adriano",
   title: "Software Developer | Computer Science Student",
-  summary: "Passionate Computer Science student with a strong foundation in core PHP and JavaScript. Proficient in building functional web applications using HTML/CSS and currently deepening my technical expertise by mastering the Laravel framework. I am committed to writing clean, efficient code and eager to apply my backend logic in a professional environment. Aiming to secure a Software Developer or Full Stack Intern position where I can support development lifecycles while completing my 400-hour OJT requirement.",
+  summary: "Passionate Computer Science student with a strong foundation in core PHP and JavaScript. Proficient in building functional web applications using HTML/CSS and currently deepening my technical expertise by mastering the Laravel framework. I am committed to writing clean, efficient code and eager to apply my backend logic in a professional environment. When I'm not coding, you'll likely find me at the gym, focusing on fitness and discipline.",
   contact: {
     location: "Manila, Metro Manila",
     email: "adrianoalwyn@gmail.com",
@@ -77,7 +77,7 @@ export const portfolioData: PortfolioData = {
       title: "BorrowHub (Application Development Project)",
       image: borrowhubImg,
       technologies: ["Laravel", "MySQL", "Tailwind CSS", "Java (Android)", "Sanctum", "RBAC"],
-      description: "Advanced asset and inventory management system built with modern Laravel practices. Features automated borrowing tracking and a responsive administrative dashboard.",
+      description: "A robust asset and inventory management system that includes an Android mobile application built with Java and a web-based administrative dashboard using Laravel. It features automated borrowing tracking, real-time data management, and secure role-based access control.",
       link: "https://github.com/sis0n/BorrowHub",
       challenges: [
         {
