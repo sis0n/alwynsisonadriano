@@ -28,6 +28,7 @@ interface GithubData {
   publicRepositories: number;
   followers: number;
   lifetimeCommits: number;
+  createdAt: string;
   repositories: Array<{
     name: string;
     stargazerCount: number;
@@ -37,6 +38,18 @@ interface GithubData {
       color: string;
     };
   }>;
+  contributionsCollection?: {
+    contributionCalendar: {
+      totalContributions: number;
+      weeks: Array<{
+        contributionDays: Array<{
+          contributionCount: number;
+          date: string;
+          color: string;
+        }>;
+      }>;
+    };
+  };
 }
 
 // Cleaner, More Elegant Reveal (No Skew)
@@ -275,102 +288,131 @@ const Home: React.FC = () => {
 
       {/* 2.5 GITHUB ACTIVITY SECTION */}
       {!githubLoading && githubData && (
-        <section className={`relative ${sectionPadding} bg-slate-50/50 dark:bg-slate-900/10`}>
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-              <div className="lg:col-span-1 space-y-8">
-                <div>
-                  <RevealText className="mb-6">
-                    <h2 className="text-blue-600 font-black text-xs tracking-[0.4em] uppercase">Live Pulse</h2>
-                  </RevealText>
-                  <RevealText delay={0.1}>
-                    <h3 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-950 dark:text-white uppercase">
-                      Github <br />
-                      Activity<span className="text-blue-600">.</span>
+        <section className={`relative ${sectionPadding} bg-slate-50/30 dark:bg-transparent pt-0`}>
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-[#f8fafc] dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-[2rem] p-8 md:p-12 shadow-sm">
+              
+              {/* Header Row */}
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
+                <div className="flex items-center gap-5">
+                  <div className="relative">
+                    <img 
+                      src={githubData.avatarUrl} 
+                      alt={githubData.login} 
+                      className="w-16 h-16 rounded-2xl object-cover border-2 border-white dark:border-slate-800 shadow-md" 
+                    />
+                    <div className="absolute -bottom-1 -right-1 bg-[#0d1117] rounded-full p-1 border-2 border-[#f8fafc] dark:border-slate-900 text-white">
+                      <Github size={10} />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-black text-slate-950 dark:text-white uppercase tracking-tight mb-0.5">
+                      {githubData.name || githubData.login}
                     </h3>
-                  </RevealText>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-6 bg-white dark:bg-slate-900/50 rounded-3xl border border-slate-100 dark:border-slate-800">
-                    <div className="text-blue-600 mb-2"><Activity size={20} /></div>
-                    <div className="text-2xl font-black text-slate-950 dark:text-white">{githubData.lifetimeCommits}</div>
-                    <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">Contributions</div>
-                  </div>
-                  <div className="p-6 bg-white dark:bg-slate-900/50 rounded-3xl border border-slate-100 dark:border-slate-800">
-                    <div className="text-blue-600 mb-2"><Database size={20} /></div>
-                    <div className="text-2xl font-black text-slate-950 dark:text-white">{githubData.publicRepositories}</div>
-                    <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">Repositories</div>
+                    <div className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+                      GitHub Activity <span className="mx-2 text-slate-300">•</span> Just Now
+                    </div>
                   </div>
                 </div>
-
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  className="p-8 rounded-[2.5rem] bg-slate-950 text-white space-y-4"
+                <a 
+                  href={`https://github.com/${githubData.login}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-blue-600 transition-colors"
                 >
-                  <div className="flex items-center gap-4">
-                    <img src={githubData.avatarUrl} alt={githubData.login} className="w-12 h-12 rounded-full border-2 border-blue-600" />
-                    <div>
-                      <div className="font-bold text-lg leading-none">@{githubData.login}</div>
-                      <div className="text-slate-400 text-xs mt-1">Full-stack Developer</div>
-                    </div>
-                  </div>
-                  <p className="text-sm text-slate-400 leading-relaxed italic">
-                    "{githubData.bio || 'Coding the future, one commit at a time.'}"
-                  </p>
-                  <div className="flex gap-6 pt-2">
-                    <div className="text-center">
-                      <div className="text-xl font-bold">{githubData.followers}</div>
-                      <div className="text-[8px] uppercase tracking-tighter text-slate-500 font-black">Followers</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-xl font-bold">100%</div>
-                      <div className="text-[8px] uppercase tracking-tighter text-slate-500 font-black">Commitment</div>
-                    </div>
-                  </div>
-                </motion.div>
+                  View Profile
+                </a>
               </div>
 
-              <div className="lg:col-span-2">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {githubData.repositories.slice(0, 4).map((repo, idx) => (
-                    <motion.a
-                      key={idx}
-                      href={`https://github.com/${githubData.login}/${repo.name}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.1 }}
-                      className="group p-8 rounded-[2rem] bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/50 hover:border-blue-500/30 transition-all"
-                    >
-                      <div className="flex justify-between items-start mb-6">
-                        <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-blue-600">
-                          <Terminal size={20} />
-                        </div>
-                        <div className="flex gap-3">
-                          <div className="flex items-center gap-1 text-[10px] font-black text-slate-400">
-                            <Star size={12} className="text-yellow-500" /> {repo.stargazerCount}
-                          </div>
-                          <div className="flex items-center gap-1 text-[10px] font-black text-slate-400">
-                            <GitFork size={12} /> {repo.forkCount}
-                          </div>
-                        </div>
+              <div className="h-px bg-slate-200 dark:bg-slate-800 w-full mb-10 opacity-60" />
+
+              {/* Stats Row */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-0">
+                <div className="md:pr-10">
+                  <h5 className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-5">Commits (2026)</h5>
+                  <div className="text-4xl font-black text-slate-950 dark:text-white">
+                    {githubData.lifetimeCommits}
+                  </div>
+                </div>
+
+                <div className="md:px-10 md:border-l border-slate-200 dark:border-slate-800">
+                  <h5 className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-5">Consistency</h5>
+                  <div className="text-4xl font-black text-slate-950 dark:text-white">
+                    {(() => {
+                      if (!githubData.contributionsCollection) return "0 days";
+                      let streak = 0;
+                      const weeks = [...githubData.contributionsCollection.contributionCalendar.weeks].reverse();
+                      let found = false;
+                      for (const week of weeks) {
+                        const days = [...week.contributionDays].reverse();
+                        for (const day of days) {
+                          if (new Date(day.date) > new Date()) continue;
+                          if (day.contributionCount > 0) {
+                            streak++;
+                          } else {
+                            found = true;
+                            break;
+                          }
+                        }
+                        if (found) break;
+                      }
+                      return `${streak} days`;
+                    })()}
+                  </div>
+                </div>
+
+                <div className="md:pl-10 md:border-l border-slate-200 dark:border-slate-800">
+                  <h5 className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-5">Most Used Languages</h5>
+                  <div className="space-y-3">
+                    {(() => {
+                      const langs: Record<string, { count: number, color: string }> = {};
+                      githubData.repositories.forEach(repo => {
+                        if (repo.primaryLanguage) {
+                          if (!langs[repo.primaryLanguage.name]) {
+                            langs[repo.primaryLanguage.name] = { count: 0, color: repo.primaryLanguage.color };
+                          }
+                          langs[repo.primaryLanguage.name].count++;
+                        }
+                      });
+                      const total = Object.values(langs).reduce((sum, l) => sum + l.count, 0);
+                      return Object.entries(langs)
+                        .sort((a, b) => b[1].count - a[1].count)
+                        .slice(0, 3)
+                        .map(([name, info], idx) => {
+                          const percent = Math.round((info.count / total) * 100);
+                          return (
+                            <div key={idx} className="flex items-center justify-between">
+                              <div className="flex items-center gap-2.5">
+                                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: info.color }} />
+                                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-700 dark:text-slate-300">
+                                  {name}
+                                </span>
+                              </div>
+                              <span className="text-[10px] font-bold text-slate-400 opacity-60">
+                                {percent}%
+                              </span>
+                            </div>
+                          );
+                        });
+                    })()}
+                    <div className="flex items-center justify-between opacity-40">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-2 h-2 rounded-full bg-slate-400" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Others</span>
                       </div>
-                      <h4 className="text-lg font-black text-slate-950 dark:text-white mb-2 uppercase tracking-tight group-hover:text-blue-600 transition-colors">
-                        {repo.name}
-                      </h4>
-                      {repo.primaryLanguage && (
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: repo.primaryLanguage.color }} />
-                          <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{repo.primaryLanguage.name}</span>
-                        </div>
-                      )}
-                    </motion.a>
-                  ))}
+                      <span className="text-[10px] font-bold">--</span>
+                    </div>
+                  </div>
                 </div>
               </div>
+
+              {/* Footer Row */}
+              <div className="mt-14 pt-8 border-t border-slate-200 dark:border-slate-800 border-dashed">
+                <p className="text-slate-400 text-[11px] font-medium tracking-wide">
+                  Total commits <span className="text-slate-900 dark:text-white font-black">{githubData.lifetimeCommits}</span> since {new Date(githubData.createdAt).getFullYear()}.
+                </p>
+              </div>
+
             </div>
           </div>
         </section>
