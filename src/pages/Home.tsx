@@ -309,10 +309,10 @@ const Home: React.FC = () => {
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black text-slate-950 dark:text-white uppercase tracking-tight mb-0.5">
+                    <h3 className="text-3xl font-black text-slate-950 dark:text-white uppercase tracking-tight mb-1">
                       {githubData.name || githubData.login}
                     </h3>
-                    <div className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+                    <div className="text-[11px] font-black uppercase tracking-widest text-slate-400">
                       GitHub Activity <span className="mx-2 text-slate-300">•</span> Just Now
                     </div>
                   </div>
@@ -321,33 +321,33 @@ const Home: React.FC = () => {
                   href={`https://github.com/${githubData.login}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-blue-600 transition-colors"
+                  className="text-[12px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-blue-600 transition-colors"
                 >
                   View Profile
                 </a>
               </div>
 
-              <div className="h-px bg-slate-200 dark:bg-slate-800 w-full mb-10 opacity-60" />
+              <div className="h-px bg-slate-200 dark:bg-slate-800 w-full mb-12 opacity-60" />
 
               {/* Stats Row */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-0">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-0">
                 <div className="md:pr-10">
-                  <h5 className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-5">Commits (2026)</h5>
-                  <div className="text-4xl font-black text-slate-950 dark:text-white">
+                  <h5 className="text-[12px] font-black uppercase tracking-[0.15em] text-slate-400 mb-6">Commits (2026)</h5>
+                  <div className="text-5xl font-black text-slate-950 dark:text-white">
                     {githubData.currentYearCommits}
                   </div>
                 </div>
 
                 <div className="md:px-10 md:border-l border-slate-200 dark:border-slate-800">
-                  <h5 className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-5">Repositories</h5>
-                  <div className="text-4xl font-black text-slate-950 dark:text-white">
+                  <h5 className="text-[12px] font-black uppercase tracking-[0.15em] text-slate-400 mb-6">Repositories</h5>
+                  <div className="text-4xl md:text-5xl font-black text-slate-950 dark:text-white">
                     {githubData.publicRepositories}
                   </div>
                 </div>
 
                 <div className="md:pl-10 md:border-l border-slate-200 dark:border-slate-800">
-                  <h5 className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-5">Most Used Languages</h5>
-                  <div className="space-y-3">
+                  <h5 className="text-[12px] font-black uppercase tracking-[0.15em] text-slate-400 mb-6">Most Used Languages</h5>
+                  <div className="space-y-4">
                     {(() => {
                       const langs: Record<string, { count: number, color: string }> = {};
                       githubData.repositories.forEach(repo => {
@@ -366,13 +366,13 @@ const Home: React.FC = () => {
                           const percent = Math.round((info.count / total) * 100);
                           return (
                             <div key={idx} className="flex items-center justify-between">
-                              <div className="flex items-center gap-2.5">
-                                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: info.color }} />
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-700 dark:text-slate-300">
+                              <div className="flex items-center gap-3">
+                                <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: info.color }} />
+                                <span className="text-[12px] font-bold uppercase tracking-widest text-slate-700 dark:text-slate-300">
                                   {name}
                                 </span>
                               </div>
-                              <span className="text-[10px] font-bold text-slate-400 opacity-60">
+                              <span className="text-[12px] font-bold text-slate-400 opacity-60">
                                 {percent}%
                               </span>
                             </div>
@@ -380,19 +380,19 @@ const Home: React.FC = () => {
                         });
                     })()}
                     <div className="flex items-center justify-between opacity-40">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-2 h-2 rounded-full bg-slate-400" />
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Others</span>
+                      <div className="flex items-center gap-3">
+                        <div className="w-2.5 h-2.5 rounded-full bg-slate-400" />
+                        <span className="text-[12px] font-bold uppercase tracking-widest text-slate-400">Others</span>
                       </div>
-                      <span className="text-[10px] font-bold">--</span>
+                      <span className="text-[12px] font-bold">--</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Footer Row */}
-              <div className="mt-14 pt-8 border-t border-slate-200 dark:border-slate-800 border-dashed">
-                <p className="text-slate-400 text-[11px] font-medium tracking-wide">
+              <div className="mt-16 pt-10 border-t border-slate-200 dark:border-slate-800 border-dashed">
+                <p className="text-slate-400 text-[14px] font-medium tracking-wide">
                   Total commits <span className="text-slate-900 dark:text-white font-black">{githubData.lifetimeCommits}</span> since {new Date(githubData.createdAt).getFullYear()}.
                 </p>
               </div>
