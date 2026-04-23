@@ -155,6 +155,7 @@ const Home: React.FC = () => {
         publicRepositories: 12,
         followers: 5,
         lifetimeCommits: 450,
+        createdAt: "2020-01-01T00:00:00Z",
         repositories: [
           { name: "LibSys-v3", stargazerCount: 2, forkCount: 1, primaryLanguage: { name: "PHP", color: "#4F5D95" } },
           { name: "BorrowHub", stargazerCount: 3, forkCount: 2, primaryLanguage: { name: "Java", color: "#b07219" } },
@@ -336,28 +337,9 @@ const Home: React.FC = () => {
                 </div>
 
                 <div className="md:px-10 md:border-l border-slate-200 dark:border-slate-800">
-                  <h5 className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-5">Consistency</h5>
+                  <h5 className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-5">Repositories</h5>
                   <div className="text-4xl font-black text-slate-950 dark:text-white">
-                    {(() => {
-                      if (!githubData.contributionsCollection) return "0 days";
-                      let streak = 0;
-                      const weeks = [...githubData.contributionsCollection.contributionCalendar.weeks].reverse();
-                      let found = false;
-                      for (const week of weeks) {
-                        const days = [...week.contributionDays].reverse();
-                        for (const day of days) {
-                          if (new Date(day.date) > new Date()) continue;
-                          if (day.contributionCount > 0) {
-                            streak++;
-                          } else {
-                            found = true;
-                            break;
-                          }
-                        }
-                        if (found) break;
-                      }
-                      return `${streak} days`;
-                    })()}
+                    {githubData.publicRepositories}
                   </div>
                 </div>
 
