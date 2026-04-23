@@ -27,6 +27,7 @@ interface GithubData {
   bio: string;
   publicRepositories: number;
   followers: number;
+  currentYearCommits: number;
   lifetimeCommits: number;
   createdAt: string;
   repositories: Array<{
@@ -155,6 +156,7 @@ const Home: React.FC = () => {
         publicRepositories: 12,
         followers: 5,
         lifetimeCommits: 450,
+        currentYearCommits: 120,
         createdAt: "2020-01-01T00:00:00Z",
         repositories: [
           { name: "LibSys-v3", stargazerCount: 2, forkCount: 1, primaryLanguage: { name: "PHP", color: "#4F5D95" } },
@@ -332,7 +334,7 @@ const Home: React.FC = () => {
                 <div className="md:pr-10">
                   <h5 className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-5">Commits (2026)</h5>
                   <div className="text-4xl font-black text-slate-950 dark:text-white">
-                    {githubData.lifetimeCommits}
+                    {githubData.currentYearCommits}
                   </div>
                 </div>
 
