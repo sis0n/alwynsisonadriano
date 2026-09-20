@@ -17,6 +17,10 @@ export interface Project {
   id: string;
   title: string;
   technologies: string[];
+  techBreakdown?: {
+    name: string;
+    role: string;
+  }[];
   description: string;
   highlights?: string[];
   link?: string;

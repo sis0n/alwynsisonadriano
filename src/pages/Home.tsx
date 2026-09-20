@@ -1,21 +1,18 @@
 import React, { useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
   Github, 
   Linkedin, 
   ArrowUpRight,
+  ExternalLink,
   Database,
   Cpu,
   Terminal,
-  Layout as LayoutIcon,
-  Star,
-  GitFork,
-  Activity
+  Server
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
-import { useTheme } from '../context/ThemeContext';
 import { useUI } from '../context/UIContext';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import gradPhoto from '../assets/grad.png';
 
@@ -39,21 +36,9 @@ interface GithubData {
       color: string;
     };
   }>;
-  contributionsCollection?: {
-    contributionCalendar: {
-      totalContributions: number;
-      weeks: Array<{
-        contributionDays: Array<{
-          contributionCount: number;
-          date: string;
-          color: string;
-        }>;
-      }>;
-    };
-  };
 }
 
-// Cleaner, More Elegant Reveal (No Skew)
+// Clean Reveal Animation
 const RevealText: React.FC<{ children: React.ReactNode, className?: string, delay?: number }> = ({ children, className, delay = 0 }) => {
   return (
     <div className={`relative overflow-hidden ${className}`}>
@@ -62,9 +47,9 @@ const RevealText: React.FC<{ children: React.ReactNode, className?: string, dela
         whileInView={{ y: 0, opacity: 1 }}
         viewport={{ once: true }}
         transition={{ 
-          duration: 0.8, 
+          duration: 0.7, 
           delay, 
-          ease: [0.25, 1, 0.5, 1] 
+          ease: [0.22, 1, 0.36, 1] 
         }}
       >
         {children}
@@ -73,7 +58,7 @@ const RevealText: React.FC<{ children: React.ReactNode, className?: string, dela
   );
 };
 
-// Interactive Glow Card Component
+// Interactive Minimalist Glow Card Component
 const GlowCard: React.FC<{ children: React.ReactNode, className?: string, onClick?: () => void }> = ({ children, className, onClick }) => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -92,15 +77,16 @@ const GlowCard: React.FC<{ children: React.ReactNode, className?: string, onClic
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       onClick={onClick}
-      whileHover={{ y: -5 }}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.2 }}
       style={{ cursor: onClick ? 'pointer' : 'default' }}
       className={`group relative overflow-hidden transition-all duration-300 ${className}`}
     >
       <div 
-        className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-700"
+        className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-500"
         style={{
           opacity: isHovering ? 1 : 0,
-          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(37, 99, 235, 0.04), transparent 40%)`
+          background: `radial-gradient(450px circle at ${mousePos.x}px ${mousePos.y}px, rgba(161, 161, 170, 0.08), transparent 50%)`
         }}
       />
       <div className="relative z-10 h-full flex flex-col">
@@ -115,11 +101,11 @@ const ProjectImage: React.FC<{ project: any }> = ({ project }) => {
 
   if (project.image && !hasError) {
     return (
-      <div className="w-full h-full bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center p-4">
+      <div className="w-full h-full bg-zinc-100 dark:bg-zinc-900/60 flex items-center justify-center p-4">
         <img 
           src={project.image} 
           alt={project.title} 
-          className="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-700"
+          className="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105"
           onError={() => setHasError(true)}
         />
       </div>
@@ -127,42 +113,39 @@ const ProjectImage: React.FC<{ project: any }> = ({ project }) => {
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-700 bg-slate-100 dark:bg-slate-800">
-      {project.title.toLowerCase().includes('lib') ? <Database size={48} /> : 
-       project.title.toLowerCase().includes('bagyo') ? <Cpu size={48} /> : 
-       <Terminal size={48} />}
+    <div className="w-full h-full flex items-center justify-center text-zinc-400 dark:text-zinc-600 bg-zinc-100 dark:bg-zinc-900">
+      {project.title.toLowerCase().includes('lib') ? <Database size={40} /> : 
+       project.title.toLowerCase().includes('bagyo') ? <Cpu size={40} /> : 
+       <Terminal size={40} />}
     </div>
   );
 };
 
 const Home: React.FC = () => {
-  const { name, summary, skillCategories, projects, contact } = portfolioData;
-  const { theme } = useTheme();
+  const { name, skillCategories, projects, contact } = portfolioData;
   const { openHireModal } = useUI();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [githubData, setGithubData] = React.useState<GithubData | null>(null);
   const [githubLoading, setGithubLoading] = React.useState(true);
 
   React.useEffect(() => {
     const fetchGithub = async () => {
-      // Mock data to use as fallback
       const mockData: GithubData = {
         name: "Alwyn Sison Adriano",
         login: "sis0n",
         avatarUrl: "https://github.com/sis0n.png",
-        bio: "Computer Science Student | Backend Developer | Fitness Enthusiast",
+        bio: "Computer Science Student | Backend Developer",
         publicRepositories: 12,
         followers: 5,
         lifetimeCommits: 450,
         currentYearCommits: 120,
         createdAt: "2020-01-01T00:00:00Z",
         repositories: [
-          { name: "LibSys-v3", stargazerCount: 2, forkCount: 1, primaryLanguage: { name: "PHP", color: "#4F5D95" } },
-          { name: "BorrowHub", stargazerCount: 3, forkCount: 2, primaryLanguage: { name: "Java", color: "#b07219" } },
-          { name: "BagyoAlerto", stargazerCount: 1, forkCount: 0, primaryLanguage: { name: "JavaScript", color: "#f1e05a" } },
-          { name: "Portfolio-v2", stargazerCount: 1, forkCount: 0, primaryLanguage: { name: "TypeScript", color: "#3178c6" } }
+          { name: "LibSys-v3", stargazerCount: 2, forkCount: 1, primaryLanguage: { name: "PHP", color: "#777bb4" } },
+          { name: "BorrowHub", stargazerCount: 3, forkCount: 2, primaryLanguage: { name: "Java", color: "#888888" } },
+          { name: "BagyoAlerto", stargazerCount: 1, forkCount: 0, primaryLanguage: { name: "JavaScript", color: "#a1a1aa" } },
+          { name: "Portfolio-v2", stargazerCount: 1, forkCount: 0, primaryLanguage: { name: "TypeScript", color: "#71717a" } }
         ]
       };
 
@@ -177,7 +160,6 @@ const Home: React.FC = () => {
           setGithubData(mockData);
         }
       } catch (err) {
-        console.warn("Using mock data (Local/API error):", err);
         setGithubData(mockData);
       } finally {
         setGithubLoading(false);
@@ -186,134 +168,118 @@ const Home: React.FC = () => {
     fetchGithub();
   }, []);
 
-  React.useEffect(() => {
-    if (location.hash) {
-      const id = location.hash.replace('#', '');
-      const element = document.getElementById(id);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      }
-    } else {
-      window.scrollTo(0, 0);
-    }
-  }, [location]);
-  
-  const sectionPadding = "py-20 md:py-32 px-6 md:px-20";
+  const sectionPadding = "py-20 md:py-28 px-6 md:px-16";
 
   return (
-    <div className="bg-white dark:bg-[#050505] text-slate-900 dark:text-slate-200 transition-colors duration-500 font-sans selection:bg-blue-500/30 scroll-smooth">
+    <div className="bg-[#fafafa] dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 transition-colors duration-500 font-sans scroll-smooth">
       
       {/* 1. HERO SECTION */}
-      <section className="min-h-screen relative overflow-hidden flex flex-col px-6 md:px-20 pb-12 lg:pb-0">
-        <div className="flex-1 flex items-center pt-24 lg:pt-20">
-          <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1 }}
-              className="text-center lg:text-left"
-            >
-              <RevealText delay={0.1}>
-                <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] text-slate-950 dark:text-white mb-8 uppercase">
-                  {name} <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">BACKEND DEV.</span>
-                </h1>
-              </RevealText>
+      <section className="min-h-[90vh] relative overflow-hidden flex flex-col justify-center px-6 md:px-16 pt-24 pb-16">
+        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="lg:col-span-7 text-center lg:text-left"
+          >
+            <RevealText delay={0.1}>
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.92] text-zinc-950 dark:text-white mb-6 uppercase">
+                {name} <br />
+                <span className="text-zinc-400 dark:text-zinc-600">BACKEND DEV.</span>
+              </h1>
+            </RevealText>
 
-              <motion.p 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6, duration: 1 }}
-                className="text-lg md:text-xl text-slate-500 dark:text-slate-400 mb-12 max-w-lg leading-relaxed font-medium mx-auto lg:mx-0"
-              >
-                Building robust systems and efficient architectures. Specialized in PHP/Laravel and modern web logic.
-              </motion.p>
-              
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
-                className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-8 md:gap-12"
-              >
-                <button onClick={openHireModal} className="group relative bg-slate-950 dark:bg-white text-white dark:text-black px-12 py-6 rounded-full font-bold overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-2xl">
-                   <span className="relative z-10 uppercase tracking-[0.2em] text-[13px]">Work with me</span>
-                   <div className="absolute inset-0 bg-blue-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-                </button>
-                <div className="flex gap-8 md:gap-10">
-                  <a href={contact.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white hover:scale-110 transition-all"><Github size={32} /></a>
-                  <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white hover:scale-110 transition-all"><Linkedin size={32} /></a>
-                </div>
-              </motion.div>
+            {/* Micro-Bio */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 mb-8 max-w-xl leading-relaxed font-normal mx-auto lg:mx-0 space-y-2.5"
+            >
+              <p>
+                Computer Science student at <span className="font-semibold text-zinc-950 dark:text-white">University of Caloocan City</span> specializing in backend development, structured databases, and scalable system logic.
+              </p>
+              <p className="text-sm sm:text-base text-zinc-500 dark:text-zinc-500">
+                Passionate about clean architecture using PHP, Laravel, and SQL — driven by engineering discipline both in code and fitness.
+              </p>
             </motion.div>
-
+            
             <motion.div 
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.2, delay: 0.2 }}
-              className="relative flex justify-center items-center h-full max-h-[40vh] lg:max-h-[75vh] mt-6 lg:mt-0"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 sm:gap-6"
             >
-              <div className="relative w-full h-full flex justify-center items-center group">
+              <button 
+                onClick={openHireModal} 
+                className="w-full sm:w-auto bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 px-8 py-3.5 rounded-full font-mono text-xs uppercase tracking-widest font-bold transition-all hover:bg-zinc-800 dark:hover:bg-zinc-200 active:scale-95 shadow-md"
+              >
+                Get In Touch
+              </button>
+              
+              <div className="flex items-center gap-4">
+                <a 
+                  href={contact.github} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="p-3 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100/50 dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-all"
+                  aria-label="GitHub Profile"
+                >
+                  <Github size={18} />
+                </a>
+                <a 
+                  href={contact.linkedin} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="p-3 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100/50 dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-all"
+                  aria-label="LinkedIn Profile"
+                >
+                  <Linkedin size={18} />
+                </a>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="lg:col-span-5 flex justify-center items-center"
+          >
+            <div className="relative group max-w-xs sm:max-w-sm">
+              <div className="p-3 bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl shadow-xl">
                 <img 
                   src={gradPhoto} 
                   alt={name}
-                  className="max-w-[240px] md:max-w-full max-h-[30vh] lg:max-h-[70vh] w-auto h-auto object-contain rounded-[2rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000 ease-out border border-slate-100 dark:border-slate-800 bg-slate-100 dark:bg-slate-900"
+                  className="w-full h-auto object-cover rounded-2xl transition-transform duration-500 group-hover:scale-[1.02]"
                 />
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* 2. ABOUT SECTION */}
-      <section id="about" className={`relative ${sectionPadding}`}>
-        <div className="max-w-4xl mx-auto text-center">
-          <RevealText className="mb-10">
-            <h2 className="text-blue-600 font-black text-sm md:text-base tracking-[0.4em] uppercase">About Me</h2>
-          </RevealText>
-          <RevealText className="mb-12" delay={0.1}>
-            <p className="text-3xl md:text-6xl font-bold tracking-tight leading-tight text-slate-950 dark:text-white">
-              Focusing on the <span className="text-blue-600 italic">Core logic</span> that powers modern applications.
-            </p>
-          </RevealText>
-          <motion.p 
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="text-2xl md:text-3xl text-slate-500 dark:text-slate-400 leading-relaxed font-medium"
-          >
-            {summary}
-          </motion.p>
-        </div>
-      </section>
-
-      {/* 2.5 GITHUB ACTIVITY SECTION */}
+      {/* 2. GITHUB ACTIVITY SECTION */}
       {!githubLoading && githubData && (
-        <section className={`relative ${sectionPadding} bg-slate-50/30 dark:bg-transparent pt-0`}>
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-[#f8fafc] dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-[2rem] p-8 md:p-12 shadow-sm">
+        <section className={`relative ${sectionPadding} pt-0`}>
+          <div className="max-w-5xl mx-auto">
+            <div className="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 md:p-12 shadow-sm">
               
               {/* Header Row */}
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
-                <div className="flex items-center gap-5">
-                  <div className="relative">
-                    <img 
-                      src={githubData.avatarUrl} 
-                      alt={githubData.login} 
-                      className="w-16 h-16 rounded-2xl object-cover border-2 border-white dark:border-slate-800 shadow-md" 
-                    />
-                    <div className="absolute -bottom-1 -right-1 bg-[#0d1117] rounded-full p-1 border-2 border-[#f8fafc] dark:border-slate-900 text-white">
-                      <Github size={10} />
-                    </div>
-                  </div>
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-10">
+                <div className="flex items-center gap-4">
+                  <img 
+                    src={githubData.avatarUrl} 
+                    alt={githubData.login} 
+                    className="w-14 h-14 rounded-2xl object-cover border border-zinc-200 dark:border-zinc-800" 
+                  />
                   <div>
-                    <h3 className="text-3xl font-black text-slate-950 dark:text-white uppercase tracking-tight mb-1">
+                    <h3 className="text-xl font-bold text-zinc-950 dark:text-white tracking-tight">
                       {githubData.name || githubData.login}
                     </h3>
-                    <div className="text-[11px] font-black uppercase tracking-widest text-slate-400">
-                      GitHub Activity <span className="mx-2 text-slate-300">•</span> Just Now
+                    <div className="text-xs font-mono text-zinc-500 dark:text-zinc-400">
+                      @{githubData.login} • Open Source Activity
                     </div>
                   </div>
                 </div>
@@ -321,80 +287,58 @@ const Home: React.FC = () => {
                   href={`https://github.com/${githubData.login}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[12px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-blue-600 transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white transition-colors"
                 >
-                  View Profile
+                  GitHub Profile <ArrowUpRight size={14} />
                 </a>
               </div>
 
-              <div className="h-px bg-slate-200 dark:bg-slate-800 w-full mb-12 opacity-60" />
+              <div className="h-px bg-zinc-200 dark:bg-zinc-800 w-full mb-10" />
 
               {/* Stats Row */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-0">
-                <div className="md:pr-10">
-                  <h5 className="text-[12px] font-black uppercase tracking-[0.15em] text-slate-400 mb-6">Commits (2026)</h5>
-                  <div className="text-5xl font-black text-slate-950 dark:text-white">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6">
+                <div>
+                  <div className="text-xs font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
+                    Commits (2026)
+                  </div>
+                  <div className="text-4xl font-black text-zinc-950 dark:text-white tracking-tight">
                     {githubData.currentYearCommits}
                   </div>
                 </div>
 
-                <div className="md:px-10 md:border-l border-slate-200 dark:border-slate-800">
-                  <h5 className="text-[12px] font-black uppercase tracking-[0.15em] text-slate-400 mb-6">Repositories</h5>
-                  <div className="text-4xl md:text-5xl font-black text-slate-950 dark:text-white">
+                <div className="sm:border-l border-zinc-200 dark:border-zinc-800 sm:pl-8">
+                  <div className="text-xs font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
+                    Repositories
+                  </div>
+                  <div className="text-4xl font-black text-zinc-950 dark:text-white tracking-tight">
                     {githubData.publicRepositories}
                   </div>
                 </div>
 
-                <div className="md:pl-10 md:border-l border-slate-200 dark:border-slate-800">
-                  <h5 className="text-[12px] font-black uppercase tracking-[0.15em] text-slate-400 mb-6">Most Used Languages</h5>
-                  <div className="space-y-4">
-                    {(() => {
-                      const langs: Record<string, { count: number, color: string }> = {};
-                      githubData.repositories.forEach(repo => {
-                        if (repo.primaryLanguage) {
-                          if (!langs[repo.primaryLanguage.name]) {
-                            langs[repo.primaryLanguage.name] = { count: 0, color: repo.primaryLanguage.color };
-                          }
-                          langs[repo.primaryLanguage.name].count++;
-                        }
-                      });
-                      const total = Object.values(langs).reduce((sum, l) => sum + l.count, 0);
-                      return Object.entries(langs)
-                        .sort((a, b) => b[1].count - a[1].count)
-                        .slice(0, 3)
-                        .map(([name, info], idx) => {
-                          const percent = Math.round((info.count / total) * 100);
-                          return (
-                            <div key={idx} className="flex items-center justify-between">
-                              <div className="flex items-center gap-3">
-                                <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: info.color }} />
-                                <span className="text-[12px] font-bold uppercase tracking-widest text-slate-700 dark:text-slate-300">
-                                  {name}
-                                </span>
-                              </div>
-                              <span className="text-[12px] font-bold text-slate-400 opacity-60">
-                                {percent}%
-                              </span>
-                            </div>
-                          );
-                        });
-                    })()}
-                    <div className="flex items-center justify-between opacity-40">
-                      <div className="flex items-center gap-3">
-                        <div className="w-2.5 h-2.5 rounded-full bg-slate-400" />
-                        <span className="text-[12px] font-bold uppercase tracking-widest text-slate-400">Others</span>
-                      </div>
-                      <span className="text-[12px] font-bold">--</span>
+                <div className="sm:border-l border-zinc-200 dark:border-zinc-800 sm:pl-8">
+                  <div className="text-xs font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-3">
+                    Top Languages
+                  </div>
+                  <div className="space-y-2 font-mono text-xs text-zinc-700 dark:text-zinc-300">
+                    <div className="flex justify-between items-center">
+                      <span>PHP</span>
+                      <span className="text-zinc-400">45%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Java / C</span>
+                      <span className="text-zinc-400">30%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>JavaScript</span>
+                      <span className="text-zinc-400">25%</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Footer Row */}
-              <div className="mt-16 pt-10 border-t border-slate-200 dark:border-slate-800 border-dashed">
-                <p className="text-slate-400 text-[14px] font-medium tracking-wide">
-                  Total commits <span className="text-slate-900 dark:text-white font-black">{githubData.lifetimeCommits}</span> since {new Date(githubData.createdAt).getFullYear()}.
-                </p>
+              <div className="mt-10 pt-6 border-t border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+                Lifetime Commits: <span className="font-bold text-zinc-950 dark:text-white">{githubData.lifetimeCommits}</span> since {new Date(githubData.createdAt).getFullYear()}
               </div>
 
             </div>
@@ -402,245 +346,252 @@ const Home: React.FC = () => {
         </section>
       )}
 
-
-      {/* 3. PROJECTS SECTION */}
-      <section id="projects" className={`transition-colors relative ${sectionPadding}`}>
+      {/* 3. SELECTED WORK / PROJECTS SECTION */}
+      <section id="projects" className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900`}>
         <div className="max-w-7xl mx-auto">
-          <div className="mb-16 text-center">
+          <div className="mb-14">
+            <div className="text-xs font-mono tracking-[0.3em] uppercase text-zinc-400 dark:text-zinc-500 mb-3">
+              Featured Engineering
+            </div>
             <RevealText>
-              <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase mb-4 text-slate-950 dark:text-white leading-none">Selected Work.</h2>
+              <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase text-zinc-950 dark:text-white">
+                Selected Work.
+              </h2>
             </RevealText>
-            <motion.div 
-              initial={{ width: 0 }}
-              whileInView={{ width: 60 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="h-2 bg-blue-600 rounded-full mx-auto"
-            />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {projects.map((project, idx) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projects.map((project) => (
               <GlowCard 
-                key={idx}
+                key={project.id}
                 onClick={() => navigate(`/project/${project.id}`)}
-                className="bg-white dark:bg-slate-900/50 rounded-[2rem] border border-slate-200/60 dark:border-slate-800/60 hover:border-blue-500/30 transition-all shadow-sm hover:shadow-xl dark:shadow-none min-h-[480px] flex flex-col overflow-hidden"
+                className="bg-white dark:bg-zinc-900/40 rounded-3xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all shadow-sm min-h-[480px] flex flex-col overflow-hidden"
               >
                 {/* Project Image Header */}
-                <div className="h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-800 relative group-hover:scale-105 transition-transform duration-700">
+                <div className="h-48 w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900 relative border-b border-zinc-200/80 dark:border-zinc-800/80">
                   <ProjectImage project={project} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-slate-900 to-transparent opacity-60" />
                 </div>
 
-                <div className="p-8 flex-1 flex flex-col text-center">
+                <div className="p-7 flex-1 flex flex-col">
+                  {/* Architectural Highlights */}
+                  {project.highlights && project.highlights.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {project.highlights.slice(0, 2).map((highlight, hIdx) => (
+                        <span 
+                          key={hIdx} 
+                          className="text-[9px] font-mono px-2 py-0.5 bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 rounded border border-zinc-200 dark:border-zinc-700/60 font-semibold"
+                        >
+                          {highlight}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
                   <div className="flex-1">
-                    <h3 className="text-lg font-black mb-3 uppercase tracking-tight text-slate-950 dark:text-white leading-tight">
+                    <h3 className="text-base font-bold mb-2 tracking-tight text-zinc-950 dark:text-white leading-snug">
                       {project.title}
                     </h3>
-                    <p className="text-slate-500 dark:text-slate-400 text-[15px] leading-relaxed mb-6 italic line-clamp-3">
+                    <p className="text-zinc-600 dark:text-zinc-400 text-xs leading-relaxed mb-6 line-clamp-3">
                       {project.description}
                     </p>
                   </div>
                   
-                  <div className="pt-6 border-t border-slate-50 dark:border-slate-800/50 mt-auto">
-                  <div className="flex flex-wrap gap-1.5 mb-6 h-12 items-start justify-center overflow-hidden">
-                    {project.technologies.slice(0, 3).map((tech, tIdx) => (
-                      <span key={tIdx} className="text-[8px] font-black px-2.5 py-1 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-700 dark:text-slate-400 uppercase tracking-wider border border-slate-200/50 dark:border-transparent">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="group/link inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-blue-600 group-hover:text-blue-700 transition-colors">
-                      View Case Study <ArrowUpRight size={12} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                  <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800/80 mt-auto">
+                    {/* Tech Stack Pills */}
+                    <div className="flex flex-wrap gap-1.5 mb-5">
+                      {project.technologies.slice(0, 3).map((tech, tIdx) => (
+                        <span key={tIdx} className="text-[10px] font-mono px-2 py-0.5 bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 rounded-md border border-zinc-200/60 dark:border-zinc-800 uppercase">
+                          {tech}
+                        </span>
+                      ))}
                     </div>
-                    {project.link && (
-                      <a 
-                        href={project.link} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        onClick={(e) => e.stopPropagation()}
-                        className="text-slate-400 hover:text-slate-950 dark:hover:text-white transition-colors relative z-20"
-                        title="View Source"
-                      >
-                        <Github size={14} />
-                      </a>
-                    )}
+
+                    {/* Actions Bar */}
+                    <div className="flex justify-between items-center">
+                      <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold uppercase tracking-wider text-zinc-950 dark:text-white group-hover:underline">
+                        Case Study <ArrowUpRight size={13} />
+                      </span>
+                      
+                      <div className="flex items-center gap-3">
+                        {project.liveLink && (
+                          <a
+                            href={project.liveLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="inline-flex items-center gap-1 text-[11px] font-mono font-semibold text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition-colors bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-md border border-zinc-200 dark:border-zinc-700"
+                            title="Open Live Preview"
+                          >
+                            <span>Live Demo</span>
+                            <ExternalLink size={11} />
+                          </a>
+                        )}
+                        {project.link && (
+                          <a 
+                            href={project.link} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-zinc-400 hover:text-zinc-950 dark:hover:text-white transition-colors p-1"
+                            title="View Source Code"
+                          >
+                            <Github size={15} />
+                          </a>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </GlowCard>
-          ))}
-        </div>
-      </div>
-    </section>
-
-      {/* 4. SERVICES SECTION */}
-      <section className={`relative ${sectionPadding} bg-slate-50/50 dark:bg-slate-900/10`}>
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="mb-20">
-             <RevealText className="mb-6">
-                <h2 className="text-blue-600 font-black text-xs tracking-[0.4em] uppercase">Core Expertise</h2>
-             </RevealText>
-             <RevealText delay={0.1}>
-                <h3 className="text-4xl md:text-6xl font-black tracking-tighter text-slate-950 dark:text-white uppercase">What I Do<span className="text-blue-600">.</span></h3>
-             </RevealText>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-             <motion.div 
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               className="space-y-6"
-             >
-                <div className="w-16 h-16 rounded-3xl bg-blue-600 flex items-center justify-center text-white shadow-xl shadow-blue-600/20 mx-auto">
-                   <Terminal size={32} />
-                </div>
-                <h4 className="text-2xl font-black uppercase tracking-tight text-slate-950 dark:text-white">API Development</h4>
-                <p className="text-slate-500 dark:text-slate-400 text-lg font-medium leading-relaxed italic">
-                  Building secure, scalable, and well-documented RESTful APIs using Laravel and Node.js to power modern client applications.
-                </p>
-             </motion.div>
-
-             <motion.div 
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               transition={{ delay: 0.1 }}
-               className="space-y-6"
-             >
-                <div className="w-16 h-16 rounded-3xl bg-slate-950 dark:bg-white flex items-center justify-center text-white dark:text-slate-950 shadow-xl shadow-slate-950/10 mx-auto">
-                   <Database size={32} />
-                </div>
-                <h4 className="text-2xl font-black uppercase tracking-tight text-slate-950 dark:text-white">Database Design</h4>
-                <p className="text-slate-500 dark:text-slate-400 text-lg font-medium leading-relaxed italic">
-                  Designing optimized SQL/NoSQL database schemas and implementing efficient queries to ensure high performance and data integrity.
-                </p>
-             </motion.div>
-
-             <motion.div 
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               transition={{ delay: 0.2 }}
-               className="space-y-6"
-             >
-                <div className="w-16 h-16 rounded-3xl bg-blue-600/10 flex items-center justify-center text-blue-600 mx-auto">
-                   <Cpu size={32} />
-                </div>
-                <h4 className="text-2xl font-black uppercase tracking-tight text-slate-950 dark:text-white">Server Deployment</h4>
-                <p className="text-slate-500 dark:text-slate-400 text-lg font-medium leading-relaxed italic">
-                  Managing and deploying applications to cloud environments, ensuring smooth performance and continuous availability.
-                </p>
-             </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. TOOLS SECTION */}
-      <section className={`relative ${sectionPadding}`}>
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col items-center mb-16 gap-8">
-            <div className="max-w-2xl text-center mx-auto">
-              <RevealText className="mb-6">
-                <h2 className="text-blue-600 font-black text-xs tracking-[0.4em] uppercase">Tech Ecosystem</h2>
-              </RevealText>
-              <RevealText delay={0.1}>
-                <h3 className="text-4xl md:text-6xl font-black tracking-tighter text-slate-950 dark:text-white uppercase leading-none">
-                  The Stack <span className="text-slate-300 dark:text-slate-800">.</span>
-                </h3>
-              </RevealText>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {skillCategories.map((cat, idx) => (
-              <GlowCard 
-                key={idx}
-                className="relative p-10 rounded-[3rem] bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/50 hover:border-blue-500/30 transition-all shadow-sm hover:shadow-2xl dark:shadow-none h-full"
-              >
-                <div className="mb-10 w-14 h-14 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 mx-auto">
-                  {cat.title.toLowerCase().includes('backend') ? <Database size={28} /> : 
-                   cat.title.toLowerCase().includes('frontend') ? <LayoutIcon size={28} /> : 
-                   cat.title.toLowerCase().includes('database') ? <Cpu size={28} /> :
-                   <Terminal size={28} />}
-                </div>
-
-                <div className="text-center">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Category 0{idx + 1}</h4>
-                  <h3 className="text-xl font-black text-slate-950 dark:text-white mb-8 uppercase tracking-tight">{cat.title}</h3>
-                </div>
-
-                <ul className="space-y-4 max-w-[200px] mx-auto">
-                  {cat.skills.map((skill, sIdx) => (
-                    <li key={sIdx} className="flex items-center gap-3 text-slate-600 dark:text-slate-400 font-bold text-[18px] group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors">
-                      <div className="w-2.5 h-2.5 rounded-full bg-blue-600/20 group-hover:bg-blue-600 transition-colors shrink-0" />
-                      {skill}
-                    </li>
-                  ))}
-                </ul>
               </GlowCard>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 5. CALL TO ACTION SECTION */}
-      <section id="contact" className={`text-slate-950 dark:text-white relative transition-colors ${sectionPadding} pt-48 pb-48`}>
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-24">
-            <div className="text-center md:text-left flex-1">
-              <RevealText className="mb-8">
-                <h2 className="text-blue-600 font-black text-xs tracking-[0.4em] uppercase">Ready to start?</h2>
-              </RevealText>
-              
-              <RevealText className="mb-12" delay={0.1}>
-                <h1 className="text-5xl md:text-8xl font-black tracking-tighter uppercase leading-[0.9]">
-                  Let's work <br />
-                  <span className="text-slate-400 dark:text-slate-500 italic">on something</span> <br />
-                  Together<span className="text-blue-600">.</span>
-                </h1>
-              </RevealText>
-              
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1, delay: 0.5 }}
-                className="flex flex-wrap justify-center md:justify-start gap-10 mt-12"
-              >
-                 <button 
-                   onClick={openHireModal}
-                   className="group relative bg-slate-950 dark:bg-white text-white dark:text-slate-950 px-14 py-7 rounded-full font-black uppercase tracking-[0.2em] text-[13px] overflow-hidden transition-all hover:scale-105 shadow-2xl active:scale-95"
-                 >
-                   <span className="relative z-10">Hire Me</span>
-                   <div className="absolute inset-0 bg-blue-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-                 </button>
-                 <div className="flex items-center gap-12 px-4">
-                   <a href={contact.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white hover:scale-110 transition-all uppercase text-[12px] font-black tracking-widest">Github</a>
-                   <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-slate-950 dark:hover:text-white hover:scale-110 transition-all uppercase text-[12px] font-black tracking-widest">Linkedin</a>
-                 </div>
-              </motion.div>
+      {/* 4. CORE EXPERTISE / CAPABILITIES SECTION */}
+      <section className={`relative ${sectionPadding} bg-zinc-100/50 dark:bg-zinc-900/20 border-t border-zinc-200/80 dark:border-zinc-900`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-14">
+            <div className="text-xs font-mono tracking-[0.3em] uppercase text-zinc-400 dark:text-zinc-500 mb-3">
+              Capabilities
             </div>
+            <RevealText>
+              <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase text-zinc-950 dark:text-white">
+                What I Build.
+              </h2>
+            </RevealText>
+          </div>
 
-            <div className="hidden lg:block w-[1px] h-64 bg-slate-200 dark:bg-slate-800 transition-colors" />
-
-            <div className="flex-1 text-center md:text-left max-w-sm">
-              <motion.p 
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1, delay: 0.6 }}
-                className="text-2xl text-slate-500 dark:text-slate-400 leading-relaxed mb-8 italic"
-              >
-                "I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision."
-              </motion.p>
-              <div className="space-y-2">
-                <div className="text-[10px] font-black uppercase tracking-widest text-blue-600">Currently Based In</div>
-                <div className="text-lg font-bold text-slate-900 dark:text-white">{contact.location}</div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="p-8 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 space-y-4"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white flex items-center justify-center border border-zinc-200 dark:border-zinc-700">
+                <Terminal size={22} />
               </div>
+              <h3 className="text-lg font-bold tracking-tight text-zinc-950 dark:text-white">
+                API & Backend Logic
+              </h3>
+              <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm leading-relaxed">
+                Building secure, scalable, and well-documented RESTful APIs using Laravel and PHP MVC architecture to power responsive client applications.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="p-8 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 space-y-4"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white flex items-center justify-center border border-zinc-200 dark:border-zinc-700">
+                <Database size={22} />
+              </div>
+              <h3 className="text-lg font-bold tracking-tight text-zinc-950 dark:text-white">
+                Database Architecture
+              </h3>
+              <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm leading-relaxed">
+                Designing normalized relational schemas in MySQL, optimizing queries, and implementing transaction management for high integrity.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="p-8 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 space-y-4"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white flex items-center justify-center border border-zinc-200 dark:border-zinc-700">
+                <Server size={22} />
+              </div>
+              <h3 className="text-lg font-bold tracking-tight text-zinc-950 dark:text-white">
+                System Integration
+              </h3>
+              <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm leading-relaxed">
+                Implementing authentication (Sanctum/JWT), Role-Based Access Control (RBAC), and connecting multi-platform clients with server backends.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. TECH STACK SECTION */}
+      <section className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-14">
+            <div className="text-xs font-mono tracking-[0.3em] uppercase text-zinc-400 dark:text-zinc-500 mb-3">
+              Tools & Technologies
             </div>
+            <RevealText>
+              <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase text-zinc-950 dark:text-white">
+                Technical Stack.
+              </h2>
+            </RevealText>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {skillCategories.map((cat, idx) => (
+              <div 
+                key={idx}
+                className="p-7 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
+                    0{idx + 1} / STACK
+                  </div>
+                  <h3 className="text-base font-bold text-zinc-950 dark:text-white mb-6 uppercase tracking-tight">
+                    {cat.title}
+                  </h3>
+                </div>
+
+                <ul className="space-y-3 font-mono text-xs text-zinc-600 dark:text-zinc-400">
+                  {cat.skills.map((skill, sIdx) => (
+                    <li key={sIdx} className="flex items-center gap-2.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700" />
+                      {skill}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. CALL TO ACTION / CONTACT */}
+      <section id="contact" className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900 py-28 md:py-36`}>
+        <div className="max-w-5xl mx-auto text-center">
+          <div className="text-xs font-mono tracking-[0.3em] uppercase text-zinc-400 dark:text-zinc-500 mb-6">
+            Collaboration
+          </div>
+          <RevealText className="mb-8">
+            <h2 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter uppercase text-zinc-950 dark:text-white leading-[0.95]">
+              Let's Build <br />
+              <span className="text-zinc-400 dark:text-zinc-600">Something Solid.</span>
+            </h2>
+          </RevealText>
+
+          <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 max-w-lg mx-auto mb-10 font-normal">
+            Whether you need a backend developer for your project, an intern for your engineering team, or want to discuss technical ideas.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button 
+              onClick={openHireModal}
+              className="w-full sm:w-auto bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 px-9 py-4 rounded-full font-mono text-xs uppercase tracking-widest font-bold hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all active:scale-95 shadow-lg"
+            >
+              Get In Touch
+            </button>
+            <a 
+              href={`mailto:${contact.email}`}
+              className="w-full sm:w-auto px-8 py-4 rounded-full font-mono text-xs uppercase tracking-widest border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all"
+            >
+              {contact.email}
+            </a>
           </div>
         </div>
       </section>

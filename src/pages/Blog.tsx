@@ -1,89 +1,108 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Calendar, Clock, ArrowRight, BookOpen } from 'lucide-react';
+import { Search, Clock, ArrowRight, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { blogPosts } from '../data/blogPosts';
 
 const Blog: React.FC = () => {
-  const posts = blogPosts;
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  const posts = blogPosts.filter(p => 
+    p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    p.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    p.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1,
-      transition: { staggerChildren: 0.1 }
+      transition: { staggerChildren: 0.08 }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 15 },
     visible: { opacity: 1, y: 0 }
   };
 
   return (
-    <div className="pt-32 md:pt-40 pb-20 px-6 md:px-20 min-h-screen">
-      <div className="max-w-7xl mx-auto">
-        <header className="mb-20 flex flex-col md:flex-row justify-between items-end gap-10 border-b border-slate-100 dark:border-slate-900 pb-16">
-          <div className="max-w-2xl">
-            <h1 className="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-8 text-slate-950 dark:text-white leading-none">Blog<span className="text-blue-600">.</span></h1>
-            <p className="text-xl text-slate-500 dark:text-slate-400 italic">
-              "Sharing my thoughts on backend architecture, school projects, and my journey as a developer."
+    <div className="pt-28 md:pt-36 pb-20 px-6 md:px-16 min-h-screen bg-[#fafafa] dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 transition-colors duration-500">
+      <div className="max-w-6xl mx-auto">
+        
+        {/* Header */}
+        <header className="mb-14 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-zinc-200/80 dark:border-zinc-900 pb-12">
+          <div>
+            <div className="text-xs font-mono tracking-[0.3em] uppercase text-zinc-400 dark:text-zinc-500 mb-2">
+              Writings & Thoughts
+            </div>
+            <h1 className="text-4xl md:text-6xl font-black tracking-tight uppercase text-zinc-950 dark:text-white">
+              Blog.
+            </h1>
+            <p className="text-sm md:text-base text-zinc-500 dark:text-zinc-400 mt-2 max-w-xl">
+              Notes on backend architecture, system design, lessons learned in computer science, and engineering insights.
             </p>
           </div>
-          <div className="relative w-full max-w-sm">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+
+          {/* Search bar */}
+          <div className="relative w-full max-w-xs">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" size={16} />
             <input 
               type="text" 
               placeholder="Search articles..." 
-              className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl py-4 pl-12 pr-6 text-sm focus:ring-2 ring-blue-600/20 outline-none transition-all dark:text-white"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs font-mono focus:border-zinc-950 dark:focus:border-white focus:outline-none transition-all dark:text-white"
             />
           </div>
         </header>
 
+        {/* Blog Post Grid */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {posts.map((post) => (
             <motion.div 
               key={post.id}
               variants={itemVariants}
-              whileHover={{ y: -8 }}
-              className="group relative flex flex-col p-8 rounded-[2.5rem] bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/50 hover:border-blue-500/30 transition-all shadow-sm hover:shadow-2xl hover:shadow-blue-500/5 dark:shadow-none overflow-hidden"
+              whileHover={{ y: -4 }}
+              className="group relative flex flex-col p-7 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all shadow-sm flex-grow"
             >
               <Link to={`/blog/${post.id}`} className="flex flex-col h-full">
-                <div className="mb-8 w-12 h-12 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
-                  <BookOpen size={24} />
+                <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 mb-6">
+                  <span className="uppercase tracking-widest text-zinc-700 dark:text-zinc-300 font-semibold">{post.category}</span>
+                  <span>{post.date}</span>
                 </div>
 
-                <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-blue-600 mb-4">
-                  <span>{post.category}</span>
-                  <span className="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full"></span>
-                  <span className="text-slate-400">{post.date}</span>
-                </div>
-
-                <h2 className="text-2xl font-black tracking-tight mb-4 group-hover:text-blue-600 transition-colors text-slate-950 dark:text-white leading-tight">
+                <h2 className="text-xl font-bold tracking-tight mb-3 group-hover:underline text-zinc-950 dark:text-white leading-snug">
                   {post.title}
                 </h2>
                 
-                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-10 italic flex-grow">
+                <p className="text-zinc-600 dark:text-zinc-400 text-xs leading-relaxed mb-8 flex-grow">
                   {post.excerpt}
                 </p>
 
-                <div className="flex items-center justify-between mt-auto pt-6 border-t border-slate-50 dark:border-slate-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
-                    <Clock size={12} /> {post.readTime}
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-zinc-100 dark:border-zinc-800/80 font-mono text-xs">
+                  <span className="text-zinc-400 flex items-center gap-1.5">
+                    <Clock size={13} /> {post.readTime}
                   </span>
-                  <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest group-hover:gap-4 transition-all text-blue-600">
-                    Read <ArrowRight size={16} />
-                  </div>
+                  <span className="font-bold text-zinc-950 dark:text-white flex items-center gap-1 group-hover:gap-2 transition-all uppercase tracking-wider text-[11px]">
+                    Read <ArrowRight size={13} />
+                  </span>
                 </div>
               </Link>
             </motion.div>
           ))}
         </motion.div>
+
+        {posts.length === 0 && (
+          <div className="py-20 text-center text-zinc-500 font-mono text-xs">
+            No articles found matching "{searchQuery}".
+          </div>
+        )}
       </div>
     </div>
   );

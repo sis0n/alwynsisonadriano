@@ -3,18 +3,23 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   ArrowLeft, 
-  Database, 
+  ArrowRight,
+  Code2, 
   Github, 
   ExternalLink,
   Layers,
-  ShieldCheck,
-  Zap
+  AlertCircle,
+  CheckCircle2,
+  Terminal
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 
 const ProjectDetail: React.FC = () => {
   const { id } = useParams();
   const project = portfolioData.projects.find(p => p.id === id);
+  const currentIndex = portfolioData.projects.findIndex(p => p.id === id);
+  const prevProject = currentIndex > 0 ? portfolioData.projects[currentIndex - 1] : null;
+  const nextProject = currentIndex < portfolioData.projects.length - 1 ? portfolioData.projects[currentIndex + 1] : null;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -22,176 +27,205 @@ const ProjectDetail: React.FC = () => {
 
   if (!project) {
     return (
-      <div className="pt-40 text-center min-h-screen">
-        <h1 className="text-4xl font-black tracking-tighter mb-8 text-slate-950 dark:text-white uppercase">Project not found.</h1>
-        <Link to="/" className="text-blue-600 font-black uppercase tracking-widest text-[10px] hover:underline transition-all">Back to home</Link>
+      <div className="pt-40 text-center min-h-screen bg-[#fafafa] dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100">
+        <h1 className="text-3xl font-black tracking-tight mb-4 uppercase">Project not found.</h1>
+        <Link to="/" className="text-zinc-500 hover:text-zinc-950 dark:hover:text-white font-mono text-xs uppercase tracking-wider underline">
+          Back to home
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="pt-32 pb-32 px-6 md:px-20 min-h-screen bg-white dark:bg-[#050505] text-slate-900 dark:text-slate-200 transition-colors duration-500">
+    <div className="pt-28 md:pt-36 pb-32 px-6 md:px-16 min-h-screen bg-[#fafafa] dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 transition-colors duration-500">
       <div className="max-w-5xl mx-auto">
+        
         {/* Back Link */}
         <motion.div
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
         >
-          <Link to="/#projects" className="inline-flex items-center gap-2 text-slate-400 hover:text-blue-600 transition-colors mb-12 uppercase text-[10px] font-black tracking-[0.2em]">
+          <Link 
+            to="/#projects" 
+            className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-950 dark:hover:text-white transition-colors mb-10 font-mono text-xs uppercase tracking-wider"
+          >
             <ArrowLeft size={14} /> Back to Projects
           </Link>
         </motion.div>
 
         {/* Header Section */}
-        <header className="mb-20">
+        <header className="mb-16">
           {project.image && (
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1 }}
-              className="w-full h-[40vh] md:h-[60vh] rounded-[3rem] overflow-hidden mb-16 border border-slate-100 dark:border-slate-800 shadow-2xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center p-4 md:p-12"
+              transition={{ duration: 0.7 }}
+              className="w-full h-[35vh] md:h-[50vh] rounded-3xl overflow-hidden mb-12 border border-zinc-200 dark:border-zinc-800 shadow-xl bg-zinc-100 dark:bg-zinc-900/60 flex items-center justify-center p-6 md:p-10"
             >
-              <img src={project.image} alt={project.title} className="max-w-full max-h-full object-contain rounded-xl md:rounded-2xl" />
+              <img 
+                src={project.image} 
+                alt={project.title} 
+                className="max-w-full max-h-full object-contain rounded-xl transition-transform duration-500 hover:scale-[1.02]" 
+              />
             </motion.div>
           )}
 
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] text-blue-600 mb-8"
-          >
-            <span className="px-3 py-1 bg-blue-600/5 rounded-full border border-blue-600/10">Case Study</span>
-            <span className="w-1.5 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full"></span>
-            <span className="text-slate-400 font-bold">{project.technologies[0]}</span>
-          </motion.div>
+          <div className="flex flex-wrap items-center gap-2.5 mb-6">
+            <span className="text-[10px] font-mono px-3 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-full border border-zinc-200 dark:border-zinc-700 uppercase tracking-wider">
+              Case Study
+            </span>
+            {project.technologies.map((tech, i) => (
+              <span key={i} className="text-[10px] font-mono px-3 py-1 bg-white dark:bg-zinc-900 rounded-full text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 uppercase tracking-wider">
+                {tech}
+              </span>
+            ))}
+          </div>
           
           <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl md:text-7xl font-black tracking-tighter leading-tight text-slate-950 dark:text-white mb-8 uppercase"
+            transition={{ duration: 0.6 }}
+            className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight text-zinc-950 dark:text-white mb-6 uppercase"
           >
             {project.title}
           </motion.h1>
 
           <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="flex flex-wrap gap-3 mb-12"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start border-t border-zinc-200/80 dark:border-zinc-800 pt-8"
           >
-            {project.technologies.map((tech, i) => (
-              <span key={i} className="text-[10px] font-black px-4 py-2 bg-slate-50 dark:bg-slate-900 rounded-xl text-slate-600 dark:text-slate-400 uppercase tracking-widest border border-slate-100 dark:border-slate-800/50">
-                {tech}
-              </span>
-            ))}
-          </motion.div>
-
-          <motion.div 
-             initial={{ opacity: 0, y: 20 }}
-             animate={{ opacity: 1, y: 0 }}
-             transition={{ duration: 0.8, delay: 0.2 }}
-             className="grid grid-cols-1 md:grid-cols-3 gap-12"
-          >
-            <div className="md:col-span-2">
-               <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6">Overview</h3>
-               <p className="text-xl md:text-2xl text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
-                 {project.description}
-               </p>
+            <div className="md:col-span-8">
+              <div className="text-xs font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-3">
+                Overview
+              </div>
+              <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed font-normal">
+                {project.description}
+              </p>
             </div>
-            <div className="flex flex-col gap-6 justify-end">
-               {project.liveLink && (
-                 <a 
-                   href={project.liveLink} 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   className="group flex items-center justify-between bg-blue-600 text-white px-8 py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] transition-all hover:scale-[1.02] active:scale-95 shadow-xl shadow-blue-600/20"
-                 >
-                   Live Preview <ExternalLink size={18} />
-                 </a>
-               )}
-               {project.link && (
-                 <a 
-                   href={project.link} 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   className="group flex items-center justify-between bg-slate-950 dark:bg-white text-white dark:text-slate-950 px-8 py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] transition-all hover:scale-[1.02] active:scale-95 shadow-xl"
-                 >
-                   View Source Code <Github size={18} />
-                 </a>
-               )}
+
+            <div className="md:col-span-4 flex flex-col gap-3">
+              {project.liveLink && (
+                <a 
+                  href={project.liveLink} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center justify-between bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 px-6 py-3.5 rounded-2xl font-mono text-xs uppercase tracking-wider font-bold transition-all hover:bg-zinc-800 dark:hover:bg-zinc-200 active:scale-95 shadow-md"
+                >
+                  <span>Live Demo</span>
+                  <ExternalLink size={15} />
+                </a>
+              )}
+              {project.link && (
+                <a 
+                  href={project.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center justify-between bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-950 dark:text-white px-6 py-3.5 rounded-2xl font-mono text-xs uppercase tracking-wider font-bold transition-all hover:border-zinc-400 dark:hover:border-zinc-600 active:scale-95 shadow-xs"
+                >
+                  <span>Source Code</span>
+                  <Github size={15} />
+                </a>
+              )}
             </div>
           </motion.div>
         </header>
 
         {/* Technical Details Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-16">
           {/* Architecture */}
           {project.architecture && (
             <motion.section 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-slate-50 dark:bg-slate-900/50 p-10 rounded-[2.5rem] border border-slate-100 dark:border-slate-800/50"
+              className="bg-white dark:bg-zinc-900/40 p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col"
             >
-              <div className="w-12 h-12 rounded-2xl bg-blue-600/10 text-blue-600 flex items-center justify-center mb-8">
-                <Layers size={24} />
+              <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white flex items-center justify-center mb-6 border border-zinc-200 dark:border-zinc-700">
+                <Layers size={20} />
               </div>
-              <h3 className="text-xl font-black uppercase tracking-tight text-slate-950 dark:text-white mb-6">Architecture</h3>
-              <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-medium italic">
+              <h3 className="text-base font-bold uppercase tracking-tight text-zinc-950 dark:text-white mb-3">
+                Architecture & System Design
+              </h3>
+              <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm leading-relaxed mb-6">
                 {project.architecture}
               </p>
+              {project.highlights && project.highlights.length > 0 && (
+                <div className="mt-auto pt-4 border-t border-zinc-100 dark:border-zinc-800/80">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 mb-2">Key Highlights</div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.highlights.map((h, i) => (
+                      <span key={i} className="text-[10px] font-mono px-2.5 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-md">
+                        {h}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </motion.section>
           )}
 
-          {/* Database Schema */}
-          {project.databaseSchema && (
-            <motion.section 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-slate-50 dark:bg-slate-900/50 p-10 rounded-[2.5rem] border border-slate-100 dark:border-slate-800/50"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-blue-600/10 text-blue-600 flex items-center justify-center mb-8">
-                <Database size={24} />
-              </div>
-              <h3 className="text-xl font-black uppercase tracking-tight text-slate-950 dark:text-white mb-6">Database Schema</h3>
-              <p className="text-slate-500 dark:text-slate-400 leading-relaxed font-mono text-sm bg-white dark:bg-slate-950 p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
-                {project.databaseSchema}
-              </p>
-            </motion.section>
-          )}
+          {/* Languages & Technologies List */}
+          <motion.section 
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-white dark:bg-zinc-900/40 p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col"
+          >
+            <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white flex items-center justify-center mb-6 border border-zinc-200 dark:border-zinc-700">
+              <Code2 size={20} />
+            </div>
+            <h3 className="text-base font-bold uppercase tracking-tight text-zinc-950 dark:text-white mb-4">
+              Languages & Tech Stack
+            </h3>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {project.technologies.map((tech, i) => (
+                <div 
+                  key={i} 
+                  className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200/80 dark:border-zinc-800/80 text-xs font-mono font-medium text-zinc-900 dark:text-zinc-200"
+                >
+                  <div className="w-1.5 h-1.5 rounded-full bg-zinc-400 dark:bg-zinc-600" />
+                  <span>{tech}</span>
+                </div>
+              ))}
+            </div>
+          </motion.section>
         </div>
 
         {/* Challenges & Solutions */}
         {project.challenges && project.challenges.length > 0 && (
           <motion.section 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-20"
+            className="mb-16"
           >
-            <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-12 text-center md:text-left">Challenges & Solutions</h3>
-            <div className="space-y-6">
+            <div className="text-xs font-mono tracking-[0.3em] uppercase text-zinc-400 dark:text-zinc-500 mb-6">
+              Engineering Notes
+            </div>
+            <h3 className="text-2xl font-bold uppercase tracking-tight text-zinc-950 dark:text-white mb-6">
+              Challenges & Solutions
+            </h3>
+            
+            <div className="space-y-4">
               {project.challenges.map((challenge, i) => (
-                <div key={i} className="group grid grid-cols-1 md:grid-cols-2 gap-8 p-10 rounded-[2.5rem] bg-white dark:bg-transparent border border-slate-100 dark:border-slate-800/50 hover:border-blue-600/30 transition-all">
-                  <div>
-                    <div className="flex items-center gap-3 text-red-500 mb-4">
-                       <ShieldCheck size={18} className="rotate-180" />
-                       <span className="text-[10px] font-black uppercase tracking-widest">The Problem</span>
+                <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-6 p-7 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 font-mono text-[11px] uppercase tracking-wider">
+                      <AlertCircle size={14} /> Problem Encountered
                     </div>
-                    <p className="text-lg font-bold text-slate-900 dark:text-slate-200 leading-snug">
+                    <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-200 leading-snug">
                       {challenge.problem}
                     </p>
                   </div>
-                  <div className="md:border-l border-slate-100 dark:border-slate-800/50 md:pl-8">
-                    <div className="flex items-center gap-3 text-green-500 mb-4">
-                       <Zap size={18} />
-                       <span className="text-[10px] font-black uppercase tracking-widest">The Solution</span>
+                  <div className="space-y-2 md:border-l border-zinc-200 dark:border-zinc-800 md:pl-6">
+                    <div className="flex items-center gap-2 text-zinc-950 dark:text-white font-mono text-[11px] uppercase tracking-wider font-bold">
+                      <CheckCircle2 size={14} /> Engineering Solution
                     </div>
-                    <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed italic">
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
                       {challenge.solution}
                     </p>
                   </div>
@@ -201,15 +235,49 @@ const ProjectDetail: React.FC = () => {
           </motion.section>
         )}
 
-        {/* Footer Navigation */}
-        <div className="mt-32 pt-12 border-t border-slate-100 dark:border-slate-900 flex justify-between items-center">
-           <Link to="/#projects" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-blue-600 transition-colors">
-              ← All Projects
-           </Link>
-           <Link to="/resume" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-blue-600 transition-colors">
-              View Resume →
-           </Link>
+        {/* Next / Previous Project Navigation */}
+        <div className="mt-16 pt-8 border-t border-zinc-200/80 dark:border-zinc-800">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {prevProject ? (
+              <Link 
+                to={`/project/${prevProject.id}`}
+                className="group p-5 rounded-2xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all flex flex-col items-start"
+              >
+                <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider mb-1 flex items-center gap-1 group-hover:-translate-x-1 transition-transform">
+                  <ArrowLeft size={12} /> Previous Case Study
+                </span>
+                <span className="font-bold text-sm text-zinc-950 dark:text-white uppercase truncate w-full">
+                  {prevProject.title.split('—')[0].trim()}
+                </span>
+              </Link>
+            ) : (
+              <div />
+            )}
+
+            {nextProject ? (
+              <Link 
+                to={`/project/${nextProject.id}`}
+                className="group p-5 rounded-2xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all flex flex-col items-end sm:text-right"
+              >
+                <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider mb-1 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  Next Case Study <ArrowRight size={12} />
+                </span>
+                <span className="font-bold text-sm text-zinc-950 dark:text-white uppercase truncate w-full">
+                  {nextProject.title.split('—')[0].trim()}
+                </span>
+              </Link>
+            ) : (
+              <div />
+            )}
+          </div>
+
+          <div className="mt-8 flex justify-center">
+            <Link to="/#projects" className="text-zinc-500 hover:text-zinc-950 dark:hover:text-white font-mono text-xs uppercase tracking-wider transition-colors">
+              ← Return to All Projects
+            </Link>
+          </div>
         </div>
+
       </div>
     </div>
   );
