@@ -10,7 +10,9 @@ import {
   Layers,
   AlertCircle,
   CheckCircle2,
-  Terminal
+  Terminal,
+  Cpu,
+  Database
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 
@@ -56,7 +58,7 @@ const ProjectDetail: React.FC = () => {
 
         {/* Header Section */}
         <header className="mb-16">
-          {project.image && (
+          {project.image ? (
             <motion.div 
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -69,11 +71,28 @@ const ProjectDetail: React.FC = () => {
                 className="max-w-full max-h-full object-contain rounded-xl transition-transform duration-500 hover:scale-[1.02]" 
               />
             </motion.div>
+          ) : (
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7 }}
+              className="w-full h-[26vh] md:h-[32vh] rounded-3xl overflow-hidden mb-12 border border-zinc-200 dark:border-zinc-800 shadow-xl bg-gradient-to-br from-zinc-100 via-zinc-100/70 to-zinc-200/50 dark:from-zinc-900 dark:via-zinc-900/70 dark:to-zinc-950 flex flex-col items-center justify-center p-6 md:p-10 relative"
+            >
+              <div className="w-16 h-16 rounded-2xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-950 dark:text-white shadow-sm mb-4">
+                {project.id === 'specmatch' || project.title.toLowerCase().includes('spec') ? <Cpu size={32} /> :
+                 project.title.toLowerCase().includes('lib') ? <Database size={32} /> : 
+                 project.title.toLowerCase().includes('bagyo') ? <Cpu size={32} /> : 
+                 <Terminal size={32} />}
+              </div>
+              <span className="font-pixel text-[13px] text-zinc-500 dark:text-zinc-400 tracking-tight">
+                {project.id === 'specmatch' ? '[AI SPECIFICATION MATCHING PLATFORM]' : '[STATE MACHINE ARCHITECTURE]'}
+              </span>
+            </motion.div>
           )}
 
           <div className="flex flex-wrap items-center gap-2.5 mb-6">
-            <span className="text-[10px] font-mono px-3 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-full border border-zinc-200 dark:border-zinc-700 uppercase tracking-wider">
-              Case Study
+            <span className="text-[12px] font-pixel px-3 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-full border border-zinc-200 dark:border-zinc-700 tracking-tight">
+              [PROJECT]
             </span>
             {project.technologies.map((tech, i) => (
               <span key={i} className="text-[10px] font-mono px-3 py-1 bg-white dark:bg-zinc-900 rounded-full text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 uppercase tracking-wider">
@@ -86,7 +105,7 @@ const ProjectDetail: React.FC = () => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight text-zinc-950 dark:text-white mb-6 uppercase"
+            className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight leading-tight text-zinc-950 dark:text-white mb-6"
           >
             {project.title}
           </motion.h1>
@@ -98,8 +117,8 @@ const ProjectDetail: React.FC = () => {
             className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start border-t border-zinc-200/80 dark:border-zinc-800 pt-8"
           >
             <div className="md:col-span-8">
-              <div className="text-xs font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-3">
-                Overview
+              <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-3">
+                [OVERVIEW]
               </div>
               <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed font-normal">
                 {project.description}
@@ -146,7 +165,7 @@ const ProjectDetail: React.FC = () => {
               <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white flex items-center justify-center mb-6 border border-zinc-200 dark:border-zinc-700">
                 <Layers size={20} />
               </div>
-              <h3 className="text-base font-bold uppercase tracking-tight text-zinc-950 dark:text-white mb-3">
+              <h3 className="text-base font-semibold tracking-tight text-zinc-950 dark:text-white mb-3">
                 Architecture & System Design
               </h3>
               <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm leading-relaxed mb-6">
@@ -177,7 +196,7 @@ const ProjectDetail: React.FC = () => {
             <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white flex items-center justify-center mb-6 border border-zinc-200 dark:border-zinc-700">
               <Code2 size={20} />
             </div>
-            <h3 className="text-base font-bold uppercase tracking-tight text-zinc-950 dark:text-white mb-4">
+            <h3 className="text-base font-semibold tracking-tight text-zinc-950 dark:text-white mb-4">
               Languages & Tech Stack
             </h3>
             
@@ -203,10 +222,10 @@ const ProjectDetail: React.FC = () => {
             viewport={{ once: true }}
             className="mb-16"
           >
-            <div className="text-xs font-mono tracking-[0.3em] uppercase text-zinc-400 dark:text-zinc-500 mb-6">
-              Engineering Notes
+            <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-3">
+              [ENGINEERING NOTES]
             </div>
-            <h3 className="text-2xl font-bold uppercase tracking-tight text-zinc-950 dark:text-white mb-6">
+            <h3 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-950 dark:text-white mb-6">
               Challenges & Solutions
             </h3>
             
@@ -244,7 +263,7 @@ const ProjectDetail: React.FC = () => {
                 className="group p-5 rounded-2xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all flex flex-col items-start"
               >
                 <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider mb-1 flex items-center gap-1 group-hover:-translate-x-1 transition-transform">
-                  <ArrowLeft size={12} /> Previous Case Study
+                  <ArrowLeft size={12} /> Previous Project
                 </span>
                 <span className="font-bold text-sm text-zinc-950 dark:text-white uppercase truncate w-full">
                   {prevProject.title.split('—')[0].trim()}
@@ -260,7 +279,7 @@ const ProjectDetail: React.FC = () => {
                 className="group p-5 rounded-2xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all flex flex-col items-end sm:text-right"
               >
                 <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider mb-1 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                  Next Case Study <ArrowRight size={12} />
+                  Next Project <ArrowRight size={12} />
                 </span>
                 <span className="font-bold text-sm text-zinc-950 dark:text-white uppercase truncate w-full">
                   {nextProject.title.split('—')[0].trim()}

@@ -147,8 +147,8 @@ const Resume: React.FC = () => {
 
           {/* SUMMARY */}
           <section className="mb-8">
-            <h2 className="section-border text-xs font-mono font-bold uppercase tracking-widest mb-3 pb-1 text-zinc-950">
-              Professional Summary
+            <h2 className="section-border font-pixel text-[13px] tracking-tight mb-3 pb-1 text-zinc-950">
+              [PROFESSIONAL SUMMARY]
             </h2>
             <p className="text-sm leading-relaxed text-zinc-800">
               {summary}
@@ -157,8 +157,8 @@ const Resume: React.FC = () => {
 
           {/* TECHNICAL SKILLS */}
           <section className="mb-8">
-            <h2 className="section-border text-xs font-mono font-bold uppercase tracking-widest mb-3 pb-1 text-zinc-950">
-              Technical Skills
+            <h2 className="section-border font-pixel text-[13px] tracking-tight mb-3 pb-1 text-zinc-950">
+              [TECHNICAL SKILLS]
             </h2>
             <div className="space-y-1 text-sm text-zinc-800">
               {skillCategories.map((cat, i) => (
@@ -172,8 +172,8 @@ const Resume: React.FC = () => {
 
           {/* SELECTED PROJECTS */}
           <section className="mb-8">
-            <h2 className="section-border text-xs font-mono font-bold uppercase tracking-widest mb-3 pb-1 text-zinc-950">
-              Selected Projects
+            <h2 className="section-border font-pixel text-[13px] tracking-tight mb-3 pb-1 text-zinc-950">
+              [SELECTED PROJECTS]
             </h2>
             <div className="space-y-5">
               {projects.map((project, i) => (
@@ -193,8 +193,8 @@ const Resume: React.FC = () => {
 
           {/* WORK EXPERIENCE */}
           <section className="mb-8 break-before-page print:mt-[1.5cm]">
-            <h2 className="section-border text-xs font-mono font-bold uppercase tracking-widest mb-3 pb-1 text-zinc-950">
-              Experience & Projects
+            <h2 className="section-border font-pixel text-[13px] tracking-tight mb-3 pb-1 text-zinc-950">
+              [EXPERIENCE & PROJECTS]
             </h2>
             <div className="space-y-5 text-zinc-800">
               {experiences.map((exp, i) => (
@@ -218,8 +218,8 @@ const Resume: React.FC = () => {
 
           {/* EDUCATION */}
           <section className="mb-4">
-            <h2 className="section-border text-xs font-mono font-bold uppercase tracking-widest mb-3 pb-1 text-zinc-950">
-              Education
+            <h2 className="section-border font-pixel text-[13px] tracking-tight mb-3 pb-1 text-zinc-950">
+              [EDUCATION]
             </h2>
             <div className="space-y-4 text-zinc-800">
               {education.map((edu, i) => (

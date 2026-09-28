@@ -33,11 +33,11 @@ const Blog: React.FC = () => {
         {/* Header */}
         <header className="mb-14 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-zinc-200/80 dark:border-zinc-900 pb-12">
           <div>
-            <div className="text-xs font-mono tracking-[0.3em] uppercase text-zinc-400 dark:text-zinc-500 mb-2">
-              Writings & Thoughts
+            <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-2">
+              [WRITINGS & THOUGHTS]
             </div>
-            <h1 className="text-4xl md:text-6xl font-black tracking-tight uppercase text-zinc-950 dark:text-white">
-              Blog.
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-zinc-950 dark:text-white">
+              Blog
             </h1>
             <p className="text-sm md:text-base text-zinc-500 dark:text-zinc-400 mt-2 max-w-xl">
               Notes on backend architecture, system design, lessons learned in computer science, and engineering insights.

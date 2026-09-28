@@ -113,10 +113,16 @@ const ProjectImage: React.FC<{ project: any }> = ({ project }) => {
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-center text-zinc-400 dark:text-zinc-600 bg-zinc-100 dark:bg-zinc-900">
-      {project.title.toLowerCase().includes('lib') ? <Database size={40} /> : 
-       project.title.toLowerCase().includes('bagyo') ? <Cpu size={40} /> : 
-       <Terminal size={40} />}
+    <div className="w-full h-full flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 bg-gradient-to-br from-zinc-100 to-zinc-200/60 dark:from-zinc-900 dark:to-zinc-950 p-6 relative overflow-hidden group-hover:bg-zinc-200/50 dark:group-hover:bg-zinc-800/40 transition-colors">
+      <div className="w-14 h-14 rounded-2xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-950 dark:text-white shadow-xs mb-3 transition-transform duration-500 group-hover:scale-110">
+        {project.id === 'specmatch' || project.title.toLowerCase().includes('spec') ? <Cpu size={26} /> :
+         project.title.toLowerCase().includes('lib') ? <Database size={26} /> : 
+         project.title.toLowerCase().includes('bagyo') ? <Cpu size={26} /> : 
+         <Terminal size={26} />}
+      </div>
+      <span className="font-pixel text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tight">
+        {project.id === 'specmatch' ? '[AI SPEC MATCH ENGINE]' : '[SYSTEM STATE MACHINE]'}
+      </span>
     </div>
   );
 };
@@ -183,10 +189,17 @@ const Home: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="lg:col-span-7 text-center lg:text-left"
           >
+            <RevealText delay={0.05}>
+              <div className="font-pixel text-[13px] text-zinc-500 dark:text-zinc-400 mb-4 tracking-tight inline-flex items-center gap-2">
+                <span>[AI-NATIVE SOFTWARE ENGINEER]</span>
+                <span className="opacity-40">•</span>
+                <span>[CS STUDENT]</span>
+              </div>
+            </RevealText>
+
             <RevealText delay={0.1}>
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.92] text-zinc-950 dark:text-white mb-6 uppercase">
-                {name} <br />
-                <span className="text-zinc-400 dark:text-zinc-600">BACKEND DEV.</span>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-zinc-950 dark:text-white mb-6">
+                {name}
               </h1>
             </RevealText>
 
@@ -198,10 +211,10 @@ const Home: React.FC = () => {
               className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 mb-8 max-w-xl leading-relaxed font-normal mx-auto lg:mx-0 space-y-2.5"
             >
               <p>
-                Computer Science student at <span className="font-semibold text-zinc-950 dark:text-white">University of Caloocan City</span> specializing in backend development, structured databases, and scalable system logic.
+                Computer Science student at <span className="font-semibold text-zinc-950 dark:text-white">University of Caloocan City</span> and <span className="font-semibold text-zinc-950 dark:text-white">AI-Native Software Engineer</span> leveraging modern AI workflows, agentic tooling, and clean architecture to build and ship production software rapidly.
               </p>
               <p className="text-sm sm:text-base text-zinc-500 dark:text-zinc-500">
-                Passionate about clean architecture using PHP, Laravel, and SQL — driven by engineering discipline both in code and fitness.
+                Focused on core backend logic, structured relational databases, and rigorous code verification standards — driven by discipline both in engineering and fitness.
               </p>
             </motion.div>
             
@@ -350,12 +363,12 @@ const Home: React.FC = () => {
       <section id="projects" className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900`}>
         <div className="max-w-7xl mx-auto">
           <div className="mb-14">
-            <div className="text-xs font-mono tracking-[0.3em] uppercase text-zinc-400 dark:text-zinc-500 mb-3">
-              Featured Engineering
+            <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-2">
+              [01] SELECTED WORK
             </div>
             <RevealText>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase text-zinc-950 dark:text-white">
-                Selected Work.
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-zinc-950 dark:text-white">
+                Featured Projects
               </h2>
             </RevealText>
           </div>
@@ -388,7 +401,7 @@ const Home: React.FC = () => {
                   )}
 
                   <div className="flex-1">
-                    <h3 className="text-base font-bold mb-2 tracking-tight text-zinc-950 dark:text-white leading-snug">
+                    <h3 className="text-base font-semibold mb-1.5 tracking-tight text-zinc-950 dark:text-white leading-snug">
                       {project.title}
                     </h3>
                     <p className="text-zinc-600 dark:text-zinc-400 text-xs leading-relaxed mb-6 line-clamp-3">
@@ -409,7 +422,7 @@ const Home: React.FC = () => {
                     {/* Actions Bar */}
                     <div className="flex justify-between items-center">
                       <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold uppercase tracking-wider text-zinc-950 dark:text-white group-hover:underline">
-                        Case Study <ArrowUpRight size={13} />
+                        View Project <ArrowUpRight size={13} />
                       </span>
                       
                       <div className="flex items-center gap-3">
@@ -452,12 +465,12 @@ const Home: React.FC = () => {
       <section className={`relative ${sectionPadding} bg-zinc-100/50 dark:bg-zinc-900/20 border-t border-zinc-200/80 dark:border-zinc-900`}>
         <div className="max-w-7xl mx-auto">
           <div className="mb-14">
-            <div className="text-xs font-mono tracking-[0.3em] uppercase text-zinc-400 dark:text-zinc-500 mb-3">
-              Capabilities
+            <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-2">
+              [02] CAPABILITIES
             </div>
             <RevealText>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase text-zinc-950 dark:text-white">
-                What I Build.
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-zinc-950 dark:text-white">
+                What I Build
               </h2>
             </RevealText>
           </div>
@@ -470,13 +483,13 @@ const Home: React.FC = () => {
               className="p-8 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 space-y-4"
             >
               <div className="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white flex items-center justify-center border border-zinc-200 dark:border-zinc-700">
-                <Terminal size={22} />
+                <Cpu size={22} />
               </div>
-              <h3 className="text-lg font-bold tracking-tight text-zinc-950 dark:text-white">
-                API & Backend Logic
+              <h3 className="text-base font-semibold tracking-tight text-zinc-950 dark:text-white">
+                AI-Accelerated Engineering
               </h3>
               <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm leading-relaxed">
-                Building secure, scalable, and well-documented RESTful APIs using Laravel and PHP MVC architecture to power responsive client applications.
+                Leveraging agentic AI tooling and prompt architecture for rapid prototyping, automated scaffolding, and accelerated shipping without sacrificing code quality.
               </p>
             </motion.div>
 
@@ -488,13 +501,13 @@ const Home: React.FC = () => {
               className="p-8 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 space-y-4"
             >
               <div className="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white flex items-center justify-center border border-zinc-200 dark:border-zinc-700">
-                <Database size={22} />
+                <Server size={22} />
               </div>
-              <h3 className="text-lg font-bold tracking-tight text-zinc-950 dark:text-white">
-                Database Architecture
+              <h3 className="text-base font-semibold tracking-tight text-zinc-950 dark:text-white">
+                Backend & System Logic
               </h3>
               <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm leading-relaxed">
-                Designing normalized relational schemas in MySQL, optimizing queries, and implementing transaction management for high integrity.
+                Building secure, scalable, and well-documented RESTful APIs using Laravel and PHP MVC architecture to power responsive multi-platform applications.
               </p>
             </motion.div>
 
@@ -506,13 +519,13 @@ const Home: React.FC = () => {
               className="p-8 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 space-y-4"
             >
               <div className="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white flex items-center justify-center border border-zinc-200 dark:border-zinc-700">
-                <Server size={22} />
+                <Database size={22} />
               </div>
-              <h3 className="text-lg font-bold tracking-tight text-zinc-950 dark:text-white">
-                System Integration
+              <h3 className="text-base font-semibold tracking-tight text-zinc-950 dark:text-white">
+                Database & Data Integrity
               </h3>
               <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm leading-relaxed">
-                Implementing authentication (Sanctum/JWT), Role-Based Access Control (RBAC), and connecting multi-platform clients with server backends.
+                Designing normalized relational schemas in MySQL, optimizing queries with indexing, and applying strict validation to ensure complete data fidelity.
               </p>
             </motion.div>
           </div>
@@ -523,12 +536,12 @@ const Home: React.FC = () => {
       <section className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900`}>
         <div className="max-w-7xl mx-auto">
           <div className="mb-14">
-            <div className="text-xs font-mono tracking-[0.3em] uppercase text-zinc-400 dark:text-zinc-500 mb-3">
-              Tools & Technologies
+            <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-2">
+              [03] TECHNICAL STACK
             </div>
             <RevealText>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase text-zinc-950 dark:text-white">
-                Technical Stack.
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-zinc-950 dark:text-white">
+                Technical Stack
               </h2>
             </RevealText>
           </div>
@@ -543,7 +556,7 @@ const Home: React.FC = () => {
                   <div className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
                     0{idx + 1} / STACK
                   </div>
-                  <h3 className="text-base font-bold text-zinc-950 dark:text-white mb-6 uppercase tracking-tight">
+                  <h3 className="text-sm font-semibold text-zinc-950 dark:text-white mb-4 tracking-tight">
                     {cat.title}
                   </h3>
                 </div>
@@ -565,13 +578,13 @@ const Home: React.FC = () => {
       {/* 6. CALL TO ACTION / CONTACT */}
       <section id="contact" className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900 py-28 md:py-36`}>
         <div className="max-w-5xl mx-auto text-center">
-          <div className="text-xs font-mono tracking-[0.3em] uppercase text-zinc-400 dark:text-zinc-500 mb-6">
-            Collaboration
+          <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-4">
+            [04] COLLABORATION
           </div>
           <RevealText className="mb-8">
-            <h2 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter uppercase text-zinc-950 dark:text-white leading-[0.95]">
-              Let's Build <br />
-              <span className="text-zinc-400 dark:text-zinc-600">Something Solid.</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-zinc-950 dark:text-white leading-tight">
+              Let's build <br />
+              <span className="text-zinc-400 dark:text-zinc-500">something solid.</span>
             </h2>
           </RevealText>
 

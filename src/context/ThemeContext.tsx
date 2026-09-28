@@ -36,16 +36,18 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
 
     // Determine the exact center coordinates of the clicked button
-    let x = window.innerWidth - 60;
-    let y = 30;
+    let x = window.innerWidth / 2;
+    let y = 0;
 
-    if (e && 'currentTarget' in e && e.currentTarget) {
-      const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-      x = rect.left + rect.width / 2;
-      y = rect.top + rect.height / 2;
-    } else if (e && 'clientX' in e && typeof e.clientX === 'number') {
-      x = e.clientX;
-      y = e.clientY;
+    if (e) {
+      if ('clientX' in e && typeof e.clientX === 'number' && e.clientX > 0) {
+        x = e.clientX;
+        y = e.clientY;
+      } else if ('currentTarget' in e && e.currentTarget) {
+        const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+        x = rect.left + rect.width / 2;
+        y = rect.top + rect.height / 2;
+      }
     }
 
     // Calculate maximum distance to the furthest corner of the viewport
@@ -63,18 +65,16 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     });
 
     transition.ready.then(() => {
-      const clipPath = [
-        `circle(0px at ${x}px ${y}px)`,
-        `circle(${endRadius}px at ${x}px ${y}px)`,
-      ];
-
       document.documentElement.animate(
         {
-          clipPath: clipPath,
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ],
         },
         {
-          duration: 700,
-          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          duration: 550,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
           pseudoElement: '::view-transition-new(root)',
         }
       );

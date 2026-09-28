@@ -4,11 +4,12 @@ import { PortfolioData } from '../types/portfolio';
 import libsysImg from '../assets/libsys.png';
 import bagyoalertoImg from '../assets/bagyoalerto.png';
 import borrowhubImg from '../assets/borrowhub.png';
+import specmatchImg from '../assets/specmatch.jpeg';
 
 export const portfolioData: PortfolioData = {
-  name: "Alwyn Sison Adriano",
-  title: "Software Developer | Computer Science Student",
-  summary: "Computer Science student with a strong foundation in core PHP, JavaScript, and relational database systems. Proficient in engineering modular web applications and RESTful APIs, with hands-on experience building custom MVC architectures and production Laravel applications. Committed to writing clean, maintainable code with strict attention to data integrity and system security. Driven by discipline both in software engineering and fitness.",
+  name: "Alwyn Adriano",
+  title: "AI-Native Software Engineer | Computer Science Student",
+  summary: "Computer Science student and AI-Native Software Engineer with a solid foundation in core PHP, JavaScript, and relational database systems. Proficient in leveraging AI tooling, prompt architecture, and agentic workflows to rapidly prototype, build, and deploy production web applications and RESTful APIs. Committed to writing clean, maintainable code with strict attention to data integrity, robust architecture, and system security. Driven by discipline both in software engineering and fitness.",
   contact: {
     location: "Manila, Metro Manila",
     email: "adrianoalwyn@gmail.com",
@@ -32,11 +33,31 @@ export const portfolioData: PortfolioData = {
       skills: ["MySQL", "SQLite", "Database Design", "Repository Pattern", "RESTful APIs"]
     },
     {
-      title: "Tools & DevOps",
-      skills: ["Git / GitHub", "Postman", "Linux", "Vite", "Composer", "XAMPP"]
+      title: "AI & Modern Tooling",
+      skills: ["AI-Augmented Development", "Git / GitHub", "Postman", "Linux", "Vite", "Composer"]
     }
   ],
   projects: [
+    {
+      id: "specmatch",
+      title: "Spec Match — AI Technical Specification Matching Platform",
+      image: specmatchImg,
+      technologies: ["AI Integration", "LLM Prompt Chaining", "Semantic Parsing", "TypeScript", "React", "Python", "Wasmer Serverless", "Docker", "Tailwind CSS"],
+      highlights: ["AI Integration", "APPCON 2026 Hackathon", "Device Asset Optimization", "Wasmer Serverless", "LLM Spec Engine"],
+      description: "An AI-native enterprise platform featuring end-to-end AI integration, engineered during the 24-hour APPCON 2026: AI Matsuri Hackathon by Team-10 (Code Titans) for the sub-theme 'Intelligent Internal Device Asset Optimization'. Implements intelligent LLM prompt pipelines that automatically ingest, parse, and match internal hardware device specifications against organizational software demands, delivering instant compatibility scoring and bottleneck mitigation.",
+      liveLink: "https://appcon2026-codetitans-specmatch.wasmer.app/login",
+      architecture: "Full-stack AI integration combining LLM prompt engineering pipelines, deterministic semantic specification parsers, and containerized serverless hosting on Wasmer.",
+      challenges: [
+        {
+          problem: "Parsing unstructured technical requirement documents into deterministic schemas under strict latency limits.",
+          solution: "Structured prompt chains with schema enforcement to produce reliable, parseable comparison summaries without model hallucination."
+        },
+        {
+          problem: "Deploying a complete containerized AI web application within a 24-hour hackathon window on zero-downtime infrastructure.",
+          solution: "Packaged the stack into lightweight containers and deployed directly to Wasmer for instant serverless availability."
+        }
+      ]
+    },
     {
       id: "libsys",
       title: "LibSys — Full-Stack Library Management System",

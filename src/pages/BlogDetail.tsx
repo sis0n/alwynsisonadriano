@@ -49,15 +49,18 @@ const BlogDetail: React.FC = () => {
 
         {/* Post Header */}
         <header className="mb-12 border-b border-zinc-200/80 dark:border-zinc-800 pb-10">
-          <div className="flex items-center gap-3 font-mono text-xs text-zinc-400 mb-4 uppercase tracking-wider">
-            <span className="text-zinc-950 dark:text-white font-bold">{post.category}</span>
+          <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-3">
+            [ARTICLE]
+          </div>
+          <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-zinc-400 mb-5 uppercase tracking-wider">
+            <span className="text-zinc-950 dark:text-white font-semibold">{post.category}</span>
             <span>•</span>
             <span className="flex items-center gap-1"><Calendar size={12} /> {post.date}</span>
             <span>•</span>
             <span className="flex items-center gap-1"><Clock size={12} /> {post.readTime}</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight text-zinc-950 dark:text-white mb-6">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight leading-tight text-zinc-950 dark:text-white mb-6">
             {post.title}
           </h1>
 
@@ -68,10 +71,67 @@ const BlogDetail: React.FC = () => {
 
         {/* Post Article Content */}
         <article className="prose dark:prose-invert max-w-none text-zinc-700 dark:text-zinc-300">
-          <div className="space-y-6 leading-relaxed text-base font-normal">
+          <div className="space-y-4 leading-relaxed text-base font-normal">
             {post.content.split('\n').map((paragraph: string, i: number) => {
-              if (!paragraph.trim()) return null;
-              return <p key={i}>{paragraph}</p>;
+              const trimmed = paragraph.trim();
+              if (!trimmed) return null;
+
+              // Bullet points
+              if (trimmed.startsWith('- ')) {
+                return (
+                  <div key={i} className="flex items-start gap-2.5 pl-2 py-0.5 text-zinc-700 dark:text-zinc-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 dark:bg-zinc-600 mt-2 flex-shrink-0" />
+                    <span>{trimmed.substring(2)}</span>
+                  </div>
+                );
+              }
+
+              // Numbered list
+              if (/^\d+\.\s/.test(trimmed)) {
+                const match = trimmed.match(/^(\d+\.)\s(.*)$/);
+                return (
+                  <div key={i} className="flex items-start gap-2.5 pl-2 py-0.5 text-zinc-700 dark:text-zinc-300">
+                    <span className="font-mono text-xs text-zinc-400 mt-0.5 flex-shrink-0">{match ? match[1] : ''}</span>
+                    <span>{match ? match[2] : trimmed}</span>
+                  </div>
+                );
+              }
+
+              // Headings or Questions
+              if (trimmed.endsWith('?') || trimmed.endsWith(':')) {
+                return (
+                  <h3 key={i} className="text-lg font-semibold text-zinc-950 dark:text-white mt-6 mb-2">
+                    {trimmed}
+                  </h3>
+                );
+              }
+
+              // URL detection
+              if (trimmed.includes('https://')) {
+                const parts = trimmed.split(/(https:\/\/[^\s]+)/g);
+                return (
+                  <p key={i} className="leading-relaxed">
+                    {parts.map((part, pIdx) => {
+                      if (part.startsWith('https://')) {
+                        return (
+                          <a
+                            key={pIdx}
+                            href={part}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-mono text-xs text-zinc-950 dark:text-white underline underline-offset-4 hover:opacity-70 transition-opacity break-all inline-block mt-2 px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800"
+                          >
+                            {part} ↗
+                          </a>
+                        );
+                      }
+                      return part;
+                    })}
+                  </p>
+                );
+              }
+
+              return <p key={i} className="leading-relaxed">{trimmed}</p>;
             })}
           </div>
           

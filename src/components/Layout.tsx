@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Sun,
   Moon,
@@ -10,13 +10,17 @@ import {
   User,
   Mail,
   MessageSquare,
+  Github,
+  Linkedin,
+  Layers,
+  FileText,
+  BookOpen
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { useUI } from "../context/UIContext";
 import { portfolioData } from "../data/portfolioData";
 
 import CustomCursor from "./CustomCursor";
-import ChatBot from "./ChatBot";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -30,13 +34,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { name, contact } = portfolioData;
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -48,8 +45,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   >("idle");
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
+    if (location.hash) {
+      const targetId = location.hash.replace("#", "");
+      const timer = setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location.pathname, location.hash]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,10 +71,23 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     e.preventDefault();
     if (location.pathname === "/") {
       window.scrollTo({ top: 0, behavior: "smooth" });
-      navigate("/", { replace: true });
+      window.history.pushState(null, "", "/");
     } else {
       navigate("/");
       window.scrollTo({ top: 0 });
+    }
+  };
+
+  const handleProjectsClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (location.pathname === "/") {
+      const el = document.getElementById("projects");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+        window.history.pushState(null, "", "/#projects");
+      }
+    } else {
+      navigate("/#projects");
     }
   };
 
@@ -110,93 +131,160 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   return (
-    <div className="bg-[#fafafa] dark:bg-[#09090b] min-h-screen transition-colors duration-500 font-sans relative text-zinc-900 dark:text-zinc-100 selection:bg-zinc-900 selection:text-white dark:selection:bg-white dark:selection:text-zinc-950 pb-24 lg:pb-0">
+    <div className="bg-[#fafafa] dark:bg-[#09090b] min-h-screen transition-colors duration-500 font-sans relative text-zinc-900 dark:text-zinc-100 selection:bg-zinc-900 selection:text-white dark:selection:bg-white dark:selection:text-zinc-950 pb-24 lg:pb-0 flex flex-col lg:flex-row">
       <CustomCursor />
-      
-      {/* Scroll Progress Bar */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-0.5 bg-zinc-900 dark:bg-white z-[100] origin-left print:hidden"
-        style={{ scaleX, position: "fixed" }}
-      />
 
-      {/* Top Navigation Bar */}
-      <nav className="fixed top-0 w-full z-[100] px-6 md:px-12 py-4 md:py-5 flex justify-between items-center bg-[#fafafa]/80 dark:bg-[#09090b]/80 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 transition-colors print:hidden">
-        {/* Left: Monogram / Logo */}
-        <div className="flex-1 text-zinc-950 dark:text-white">
+      {/* ============================================================ */}
+      {/* DESKTOP FIXED SIDEBAR (lg: and up) */}
+      {/* ============================================================ */}
+      <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 w-64 xl:w-72 bg-[#fafafa] dark:bg-[#09090b] border-r border-zinc-200/80 dark:border-zinc-800/80 p-7 flex-col justify-between z-50 print:hidden transition-colors">
+        {/* Sidebar Header */}
+        <div>
           <a
             href="/"
             onClick={handleLogoClick}
-            className="font-black text-lg md:text-xl tracking-tighter hover:opacity-70 transition-opacity cursor-pointer inline-flex items-center gap-1.5"
+            className="font-pixel text-[16px] tracking-tight hover:opacity-60 transition-opacity cursor-pointer inline-flex items-center gap-1.5 select-none text-zinc-950 dark:text-white"
           >
-            <span>
-              {name
-                .split(" ")
-                .map((n) => n[0])
-                .join("")}
-            </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 dark:bg-white inline-block" />
+            <span>Alwyn A.</span>
           </a>
+          <div className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400 mt-1">
+            AI-Native Software Engineer
+          </div>
+
+          <div className="mt-4 inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-[11px] font-mono text-zinc-600 dark:text-zinc-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Manila, PH</span>
+          </div>
         </div>
 
-        {/* Center: Desktop Navigation Links (hidden on mobile) */}
-        <div className="hidden lg:flex items-center gap-8 text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
-          <Link
-            to="/#projects"
-            className="hover:text-zinc-950 dark:hover:text-white transition-colors"
+        {/* Sidebar Navigation Links */}
+        <nav className="my-8 flex flex-col space-y-1.5 font-mono text-xs">
+          <a
+            href="/#projects"
+            onClick={handleProjectsClick}
+            className={`px-3 py-2.5 rounded-xl transition-all flex items-center justify-between group cursor-pointer ${
+              location.pathname === "/" && location.hash === "#projects"
+                ? "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 font-bold"
+                : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-900"
+            }`}
           >
-            Projects
-          </Link>
+            <span className="flex items-center gap-2.5">
+              <Layers size={14} className="opacity-70" />
+              <span>Projects</span>
+            </span>
+            <span className="text-[10px] opacity-40 font-pixel">[01]</span>
+          </a>
+
           <Link
             to="/resume"
-            className={`transition-colors ${
-              location.pathname === "/resume" 
-                ? "text-zinc-950 dark:text-white font-bold" 
-                : "hover:text-zinc-950 dark:hover:text-white"
+            className={`px-3 py-2.5 rounded-xl transition-all flex items-center justify-between group ${
+              location.pathname === "/resume"
+                ? "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 font-bold"
+                : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-900"
             }`}
           >
-            Resume
+            <span className="flex items-center gap-2.5">
+              <FileText size={14} className="opacity-70" />
+              <span>Resume</span>
+            </span>
+            <span className="text-[10px] opacity-40 font-pixel">[02]</span>
           </Link>
+
           <Link
             to="/blog"
-            className={`transition-colors ${
-              location.pathname.startsWith("/blog") 
-                ? "text-zinc-950 dark:text-white font-bold" 
-                : "hover:text-zinc-950 dark:hover:text-white"
+            className={`px-3 py-2.5 rounded-xl transition-all flex items-center justify-between group ${
+              location.pathname.startsWith("/blog")
+                ? "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 font-bold"
+                : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-900"
             }`}
           >
-            Blog
+            <span className="flex items-center gap-2.5">
+              <BookOpen size={14} className="opacity-70" />
+              <span>Blog</span>
+            </span>
+            <span className="text-[10px] opacity-40 font-pixel">[03]</span>
           </Link>
-        </div>
+        </nav>
 
-        {/* Right: Desktop Actions & Mobile Contact Button */}
-        <div className="flex-1 flex justify-end items-center gap-3 md:gap-5">
-          {/* Desktop Theme Toggle */}
-          <button
-            onClick={(e) => toggleTheme(e)}
-            aria-label="Toggle Theme"
-            className="hidden lg:flex p-2.5 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 text-zinc-700 dark:text-zinc-300 active:scale-90 cursor-pointer overflow-hidden transition-all duration-300"
-          >
-            <motion.div
-              key={theme}
-              initial={{ rotate: -90, scale: 0.7, opacity: 0 }}
-              animate={{ rotate: 0, scale: 1, opacity: 1 }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        {/* Sidebar Footer */}
+        <div className="pt-6 border-t border-zinc-200/80 dark:border-zinc-800/80 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <a 
+                href={contact.github} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-zinc-500 hover:text-zinc-950 dark:hover:text-white transition-colors"
+                title="GitHub"
+              >
+                <Github size={16} />
+              </a>
+              <a 
+                href={contact.linkedin} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-zinc-500 hover:text-zinc-950 dark:hover:text-white transition-colors"
+                title="LinkedIn"
+              >
+                <Linkedin size={16} />
+              </a>
+              <a 
+                href={`mailto:${contact.email}`} 
+                className="text-zinc-500 hover:text-zinc-950 dark:hover:text-white transition-colors"
+                title="Email"
+              >
+                <Mail size={16} />
+              </a>
+            </div>
+
+            {/* Desktop Theme Toggle */}
+            <button
+              onClick={(e) => toggleTheme(e)}
+              aria-label="Toggle Theme"
+              className="p-2 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 text-zinc-700 dark:text-zinc-300 transition-colors"
             >
-              {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
-            </motion.div>
-          </button>
+              {theme === "light" ? <Moon size={15} /> : <Sun size={15} />}
+            </button>
+          </div>
 
-          {/* Get In Touch CTA */}
           <button
             onClick={openHireModal}
-            className="inline-flex items-center justify-center bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 px-4 md:px-5 py-2 md:py-2.5 rounded-full font-mono text-[10px] md:text-[11px] uppercase tracking-wider hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all active:scale-95 shadow-sm"
+            className="w-full bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 py-2.5 rounded-xl font-mono text-xs uppercase tracking-wider font-bold hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all active:scale-95 shadow-sm"
           >
             Get In Touch
           </button>
+
+          <div className="text-[10px] font-mono text-zinc-400 dark:text-zinc-600 text-center">
+            © {new Date().getFullYear()} Alwyn A.
+          </div>
         </div>
+      </aside>
+
+      {/* ============================================================ */}
+      {/* MOBILE TOP BAR (< lg) */}
+      {/* ============================================================ */}
+      <nav className="lg:hidden fixed top-0 w-full z-[100] px-6 py-4 flex justify-between items-center bg-[#fafafa]/80 dark:bg-[#09090b]/80 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 transition-colors print:hidden">
+        <div className="text-zinc-950 dark:text-white">
+          <a
+            href="/"
+            onClick={handleLogoClick}
+            className="font-pixel text-[15px] tracking-tight hover:opacity-60 transition-opacity cursor-pointer inline-flex items-center gap-1.5 select-none"
+          >
+            <span>Alwyn A.</span>
+          </a>
+        </div>
+
+        <button
+          onClick={openHireModal}
+          className="inline-flex items-center justify-center bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 px-4 py-2 rounded-full font-mono text-[10px] uppercase tracking-wider hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all active:scale-95 shadow-sm"
+        >
+          Get In Touch
+        </button>
       </nav>
 
-      {/* Floating Mobile Bottom Navigation Dock */}
+      {/* ============================================================ */}
+      {/* MOBILE FLOATING BOTTOM DOCK (< lg) */}
+      {/* ============================================================ */}
       <div className="lg:hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-[100] print:hidden max-w-[94vw] w-auto pointer-events-auto">
         <motion.div 
           initial={{ y: 20, opacity: 0 }}
@@ -204,16 +292,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-zinc-200/90 dark:border-zinc-800/90 rounded-full shadow-2xl p-1.5 flex items-center gap-1"
         >
-          <Link
-            to="/#projects"
-            className={`px-3.5 py-2 rounded-full text-xs font-mono tracking-wider transition-all ${
+          <a
+            href="/#projects"
+            onClick={handleProjectsClick}
+            className={`px-3.5 py-2 rounded-full text-xs font-mono tracking-wider transition-all cursor-pointer ${
               location.pathname === "/" && location.hash === "#projects"
                 ? "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 font-bold shadow-xs"
                 : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white"
             }`}
           >
             Projects
-          </Link>
+          </a>
           <Link
             to="/resume"
             className={`px-3.5 py-2 rounded-full text-xs font-mono tracking-wider transition-all ${
@@ -237,7 +326,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
           <div className="w-px h-4 bg-zinc-200 dark:bg-zinc-800 mx-0.5" />
 
-          {/* Mobile Floating Theme Toggle */}
+          {/* Mobile Theme Toggle */}
           <button
             onClick={(e) => toggleTheme(e)}
             aria-label="Toggle Theme"
@@ -255,33 +344,36 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </motion.div>
       </div>
 
-      {/* Main Content */}
+      {/* ============================================================ */}
+      {/* MAIN CONTENT CONTAINER */}
+      {/* ============================================================ */}
       <motion.main
         key={location.pathname}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4 }}
+        className="flex-1 w-full lg:pl-64 xl:pl-72 min-h-screen"
       >
         {children}
-      </motion.main>
 
-      {/* Persistent Footer */}
-      <footer className="py-12 px-6 md:px-20 border-t border-zinc-200/80 dark:border-zinc-900 bg-[#fafafa] dark:bg-[#09090b] transition-colors print:hidden">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
-          <div className="text-xs font-mono tracking-wider text-zinc-400 dark:text-zinc-600">
-            © {new Date().getFullYear()} {name} — Built with React & Tailwind CSS.
+        {/* Mobile-only Footer */}
+        <footer className="lg:hidden py-12 px-6 border-t border-zinc-200/80 dark:border-zinc-900 bg-[#fafafa] dark:bg-[#09090b] transition-colors print:hidden">
+          <div className="flex flex-col items-center gap-4 text-center">
+            <div className="text-xs font-mono tracking-wider text-zinc-400 dark:text-zinc-600 flex flex-wrap items-center justify-center gap-1.5">
+              <span>© {new Date().getFullYear()}</span>
+              <span className="font-pixel text-[13px] text-zinc-800 dark:text-zinc-200">Alwyn A.</span>
+              <span>— Built with React & Tailwind.</span>
+            </div>
+            <div className="flex gap-4 text-xs font-mono text-zinc-500">
+              <a href={contact.github} target="_blank" rel="noopener noreferrer" className="hover:text-zinc-950 dark:hover:text-white">GitHub</a>
+              <span>•</span>
+              <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-zinc-950 dark:hover:text-white">LinkedIn</a>
+              <span>•</span>
+              <a href={`mailto:${contact.email}`} className="hover:text-zinc-950 dark:hover:text-white">{contact.email}</a>
+            </div>
           </div>
-          <div className="flex flex-wrap justify-center gap-6 text-xs font-mono tracking-wider text-zinc-500 dark:text-zinc-400">
-            <span className="hover:text-zinc-950 dark:hover:text-white transition-colors cursor-default">
-              {contact.location}
-            </span>
-            <span className="text-zinc-300 dark:text-zinc-700">•</span>
-            <a href={`mailto:${contact.email}`} className="hover:text-zinc-950 dark:hover:text-white transition-colors">
-              {contact.email}
-            </a>
-          </div>
-        </div>
-      </footer>
+        </footer>
+      </motion.main>
 
       {/* Hire Me / Contact Modal */}
       <AnimatePresence>
@@ -468,8 +560,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </motion.button>
       )}
 
-      {/* ChatBot AI */}
-      <ChatBot />
+      {/* ChatBot AI (temporarily disabled until full AI backend integration) */}
+      {/* <ChatBot /> */}
     </div>
   );
 };
