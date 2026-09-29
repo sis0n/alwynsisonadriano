@@ -44,6 +44,12 @@ export const portfolioData: PortfolioData = {
       image: specmatchImg,
       technologies: ["Laravel", "Inertia.js", "React", "Google Gemini API", "TechSpecs API", "laravel-dompdf", "Tailwind CSS", "MySQL / SQLite", "Wasmer Serverless"],
       highlights: ["AI Integration (Gemini)", "APPCON 2026 Hackathon", "Inertia.js / React", "TechSpecs API", "DomPDF Reports"],
+      metrics: [
+        { label: "Delivery", value: "24h Hackathon Sprint" },
+        { label: "AI Pipeline", value: "Gemini + TechSpecs API" },
+        { label: "Reporting", value: "Automated PDF Reports" }
+      ],
+      shortDescription: "AI-native hardware matching engine engineered in a 24-hour hackathon sprint to benchmark enterprise devices against workload demands with automated PDF audit reports.",
       description: "An AI-native enterprise platform engineered during the 24-hour APPCON 2026: AI Matsuri Hackathon by Team-10 (Code Titans) for the sub-theme 'Intelligent Internal Device Asset Optimization'. Built with a full-stack Laravel and Inertia.js/React architecture, integrated with Google Gemini AI and the TechSpecs API. Automatically queries, parses, and matches internal device hardware capabilities against organizational workload demands, generating automated PDF asset audit and optimization reports via laravel-dompdf.",
       liveLink: "https://appcon2026-codetitans-specmatch.wasmer.app/login",
       architecture: "Full-stack Laravel monolith with Inertia.js and React frontend, Google Gemini AI prompt integration, TechSpecs API hardware data ingestion, laravel-dompdf server-side report generation, and serverless hosting on Wasmer.",
@@ -68,6 +74,12 @@ export const portfolioData: PortfolioData = {
       image: libsysImg,
       technologies: ["PHP (Native)", "MySQL", "JavaScript (ES6)", "Tailwind CSS", "MVC Pattern", "QR Code Scanner", "Apache"],
       highlights: ["Custom PHP MVC", "QR Code Check-ins", "RBAC Architecture", "Repository Pattern"],
+      metrics: [
+        { label: "Architecture", value: "Custom Native PHP MVC" },
+        { label: "Security", value: "3-Tier Granular RBAC" },
+        { label: "Concurrency", value: "Atomic DB Transactions" }
+      ],
+      shortDescription: "Full-stack library system built with a custom PHP MVC architecture, featuring 3-tier role-based access control, QR check-ins, and atomic inventory transactions.",
       description: "A full-stack library management system engineered from scratch using a custom PHP MVC architecture. Features granular Role-Based Access Control (RBAC) for administrators, staff, and students, an automated book catalog, and full borrowing/returning lifecycle tracking. Integrated QR code check-ins for expedited circulation and utilized the Repository pattern for maintainable data querying.",
       link: "https://github.com/sis0n/LibSys-v3",
       liveLink: "https://library.ucc-caloocan.com/",
@@ -89,6 +101,12 @@ export const portfolioData: PortfolioData = {
       image: borrowhubImg,
       technologies: ["PHP / Laravel", "MySQL", "Java (Android)", "Laravel Sanctum", "Tailwind CSS", "RESTful API", "RBAC"],
       highlights: ["Laravel REST API", "Android Client", "Audit Logging", "Sanctum Auth"],
+      metrics: [
+        { label: "Platform", value: "Laravel REST + Android" },
+        { label: "Audit Trail", value: "Immutable State Snapshots" },
+        { label: "Auth Protocol", value: "Sanctum Bearer Tokens" }
+      ],
+      shortDescription: "Enterprise equipment tracking platform with a Laravel REST API backend, token-based Sanctum authentication, and an immutable model audit trail.",
       description: "An enterprise-grade asset and equipment management platform comprising a Laravel REST API web dashboard and a native Android client application. Features automated asset tracking, barcode scanning, token-based authentication with Laravel Sanctum, and an immutable audit logging pipeline for regulatory compliance.",
       link: "https://github.com/sis0n/BorrowHub",
       architecture: "Decoupled client-server architecture with Laravel RESTful API backend, token-based authentication via Laravel Sanctum, and asynchronous Android Java HTTP client.",
@@ -108,7 +126,13 @@ export const portfolioData: PortfolioData = {
       title: "BagyoAlerto — Typhoon Emergency Alert PWA",
       image: bagyoalertoImg,
       technologies: ["JavaScript (ES6+)", "Service Workers", "PWA APIs", "OpenWeatherMap API", "HTML5 & CSS3"],
-      highlights: ["CodeSprout 2025 Hackathon", "Offline PWA", "Weather API Integration"],
+      highlights: ["CodeSprout 2025 Hackathon", "Offline PWA", "OpenWeather API", "Emergency Alert System"],
+      metrics: [
+        { label: "Event", value: "CodeSprout 2025 Hackathon" },
+        { label: "Reliability", value: "100% Offline PWA Cache" },
+        { label: "Telemetry", value: "OpenWeather Live Feed" }
+      ],
+      shortDescription: "Progressive Web App developed for the CodeSprout 2025 Hackathon, delivering real-time localized typhoon alerts and offline emergency survival guides.",
       description: "A Progressive Web App (PWA) developed for the CodeSprout 2025 Hackathon to provide real-time, localized typhoon alerts and disaster preparedness guides. Utilizes Geolocation APIs, live weather feeds, and service worker caching to ensure mission-critical safety information remains accessible even during severe network outages.",
       link: "https://github.com/99lash/BagyoAlerto",
       liveLink: "https://bagyoalerto.vercel.app/",
@@ -129,6 +153,12 @@ export const portfolioData: PortfolioData = {
       title: "ATM Simulator — Banking State Machine",
       technologies: ["C Language", "Standard File I/O", "Data Structures", "Transaction State Machine"],
       highlights: ["File-Based Persistence", "Transaction State Machine", "C Architecture"],
+      metrics: [
+        { label: "Runtime", value: "Pure C Architecture" },
+        { label: "Persistence", value: "Flat-File Binary Buffer" },
+        { label: "Safety", value: "Overdraft State Machine" }
+      ],
+      shortDescription: "Terminal banking simulator implemented in pure C with persistent flat-file binary records, PIN authentication, and overdraft transaction safeguards.",
       description: "A robust banking terminal simulator implemented in pure C. Features persistent file-based account storage, secure PIN hashing and authentication, account balance inquiry, cash deposits, withdrawals with overdraft prevention, and persistent audit transaction logs.",
       link: "https://github.com/sis0n/First-Year",
       architecture: "Modular C program employing structured file I/O buffers, state-driven transaction execution, and strict memory safety practices.",

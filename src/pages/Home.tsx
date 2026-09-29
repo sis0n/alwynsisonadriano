@@ -703,11 +703,28 @@ const Home: React.FC = () => {
                   )}
 
                   <div className="flex-1">
-                    <h3 className="text-base font-semibold mb-1.5 tracking-tight text-zinc-950 dark:text-white leading-snug">
+                    <h3 className="text-base font-semibold mb-2 tracking-tight text-zinc-950 dark:text-white leading-snug">
                       {project.title}
                     </h3>
-                    <p className="text-zinc-600 dark:text-zinc-400 text-xs leading-relaxed mb-6 line-clamp-3">
-                      {project.description}
+
+                    {/* Concrete Engineering Metrics */}
+                    {project.metrics && project.metrics.length > 0 && (
+                      <div className="grid grid-cols-2 gap-2 mb-3.5 p-2.5 rounded-2xl bg-zinc-100/80 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-800">
+                        {project.metrics.slice(0, 2).map((m, mIdx) => (
+                          <div key={mIdx} className="min-w-0">
+                            <span className="block text-[8px] font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-semibold truncate">
+                              {m.label}
+                            </span>
+                            <span className="text-[10px] font-mono font-medium text-zinc-800 dark:text-zinc-200 truncate block">
+                              {m.value}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <p className="text-zinc-600 dark:text-zinc-400 text-xs leading-relaxed mb-6 font-normal">
+                      {project.shortDescription || project.description}
                     </p>
                   </div>
                   

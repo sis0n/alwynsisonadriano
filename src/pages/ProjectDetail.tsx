@@ -152,6 +152,27 @@ const ProjectDetail: React.FC = () => {
           </motion.div>
         </header>
 
+        {/* Concrete Engineering Metrics */}
+        {project.metrics && project.metrics.length > 0 && (
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12 p-6 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 shadow-sm"
+          >
+            {project.metrics.map((m, idx) => (
+              <div key={idx} className="flex flex-col">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-1 font-semibold">
+                  {m.label}
+                </span>
+                <span className="text-sm font-semibold font-mono text-zinc-950 dark:text-white">
+                  {m.value}
+                </span>
+              </div>
+            ))}
+          </motion.div>
+        )}
+
         {/* Technical Details Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-16">
           {/* Architecture */}

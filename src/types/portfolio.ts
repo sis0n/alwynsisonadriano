@@ -21,6 +21,11 @@ export interface Project {
     name: string;
     role: string;
   }[];
+  metrics?: {
+    label: string;
+    value: string;
+  }[];
+  shortDescription?: string;
   description: string;
   highlights?: string[];
   link?: string;
