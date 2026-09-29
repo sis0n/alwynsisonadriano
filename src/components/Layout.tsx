@@ -254,7 +254,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             Get In Touch
           </button>
 
-          <div className="text-[10px] font-mono text-zinc-400 dark:text-zinc-600 text-center">
+          <div className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 text-center tracking-wider">
             © {new Date().getFullYear()} Alwyn A.
           </div>
         </div>
@@ -359,9 +359,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         {/* Mobile-only Footer */}
         <footer className="lg:hidden py-12 px-6 border-t border-zinc-200/80 dark:border-zinc-900 bg-[#fafafa] dark:bg-[#09090b] transition-colors print:hidden">
           <div className="flex flex-col items-center gap-4 text-center">
-            <div className="text-xs font-mono tracking-wider text-zinc-400 dark:text-zinc-600 flex flex-wrap items-center justify-center gap-1.5">
+            <div className="text-xs font-mono tracking-wider text-zinc-500 dark:text-zinc-400 flex flex-wrap items-center justify-center gap-1.5">
               <span>© {new Date().getFullYear()}</span>
-              <span className="font-pixel text-[13px] text-zinc-800 dark:text-zinc-200">Alwyn A.</span>
+              <span className="font-pixel text-[12px] text-zinc-700 dark:text-zinc-300">Alwyn A.</span>
               <span>— Built with React & Tailwind.</span>
             </div>
             <div className="flex gap-4 text-xs font-mono text-zinc-500">

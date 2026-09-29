@@ -4,15 +4,18 @@ import {
   Github, 
   Linkedin, 
   ArrowUpRight,
+  ArrowRight,
   ExternalLink,
   Database,
   Cpu,
   Terminal,
-  Server
+  Server,
+  BookOpen
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
+import { blogPosts } from '../data/blogPosts';
 import { useUI } from '../context/UIContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import gradPhoto from '../assets/grad.png';
 
@@ -461,12 +464,69 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 4. CORE EXPERTISE / CAPABILITIES SECTION */}
+      {/* 4. RECENT WRITINGS / BLOG SECTION */}
+      <section className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-10 flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
+            <div>
+              <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-2">
+                [02] WRITINGS & NOTES
+              </div>
+              <RevealText>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-zinc-950 dark:text-white">
+                  Recent Articles
+                </h2>
+              </RevealText>
+            </div>
+            <Link
+              to="/blog"
+              className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-zinc-500 hover:text-zinc-950 dark:hover:text-white transition-colors group"
+            >
+              <span>View All Writings</span>
+              <span className="font-pixel text-[10px] opacity-40">[03]</span>
+              <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+
+          <div className="divide-y divide-zinc-200/80 dark:divide-zinc-800/80 border-y border-zinc-200/80 dark:border-zinc-800/80">
+            {blogPosts.slice(0, 3).map((post) => (
+              <Link
+                key={post.id}
+                to={`/blog/${post.id}`}
+                className="group flex flex-col md:flex-row md:items-baseline justify-between gap-3 md:gap-8 py-5 px-3 hover:bg-zinc-100/60 dark:hover:bg-zinc-900/40 rounded-2xl transition-all"
+              >
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">
+                      {post.category}
+                    </span>
+                    <span className="text-zinc-300 dark:text-zinc-700">•</span>
+                    <span className="font-mono text-[10px] text-zinc-400 dark:text-zinc-500">
+                      {post.readTime}
+                    </span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-semibold text-zinc-950 dark:text-white group-hover:underline leading-snug">
+                    {post.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-1 font-normal">
+                    {post.excerpt}
+                  </p>
+                </div>
+                <time className="shrink-0 font-mono text-xs text-zinc-400 dark:text-zinc-500 md:text-right">
+                  {post.date}
+                </time>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. CORE EXPERTISE / CAPABILITIES SECTION */}
       <section className={`relative ${sectionPadding} bg-zinc-100/50 dark:bg-zinc-900/20 border-t border-zinc-200/80 dark:border-zinc-900`}>
         <div className="max-w-7xl mx-auto">
           <div className="mb-14">
             <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-2">
-              [02] CAPABILITIES
+              [03] CAPABILITIES
             </div>
             <RevealText>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-zinc-950 dark:text-white">
@@ -532,12 +592,12 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 5. TECH STACK SECTION */}
+      {/* 6. TECH STACK SECTION */}
       <section className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900`}>
         <div className="max-w-7xl mx-auto">
           <div className="mb-14">
             <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-2">
-              [03] TECHNICAL STACK
+              [04] TECHNICAL STACK
             </div>
             <RevealText>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-zinc-950 dark:text-white">
@@ -575,11 +635,11 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 6. CALL TO ACTION / CONTACT */}
+      {/* 7. CALL TO ACTION / CONTACT */}
       <section id="contact" className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900 py-28 md:py-36`}>
         <div className="max-w-5xl mx-auto text-center">
           <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-4">
-            [04] COLLABORATION
+            [05] COLLABORATION
           </div>
           <RevealText className="mb-8">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-zinc-950 dark:text-white leading-tight">
