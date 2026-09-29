@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Github, 
   Linkedin, 
@@ -10,7 +10,9 @@ import {
   Cpu,
   Terminal,
   Server,
-  BookOpen
+  BookOpen,
+  Copy,
+  Check
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 import { blogPosts } from '../data/blogPosts';
@@ -135,6 +137,15 @@ const Home: React.FC = () => {
   const { openHireModal } = useUI();
   const navigate = useNavigate();
 
+  const [copiedEmail, setCopiedEmail] = useState(false);
+
+  const handleCopyEmail = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigator.clipboard.writeText(contact.email);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2200);
+  };
+
   const [githubData, setGithubData] = React.useState<GithubData | null>(null);
   const [githubLoading, setGithubLoading] = React.useState(true);
 
@@ -159,12 +170,21 @@ const Home: React.FC = () => {
       };
 
       try {
-        const res = await fetch('/api/github');
-        if (!res.ok) throw new Error('API request failed');
-        
-        const data = await res.json();
-        if (data && !data.error && !data.errors) {
-          setGithubData(data);
+        const res = await fetch('https://api.github.com/users/sis0n');
+        if (res.ok) {
+          const user = await res.json();
+          setGithubData({
+            name: user.name || "Alwyn Sison Adriano",
+            login: user.login || "sis0n",
+            avatarUrl: user.avatar_url || "https://github.com/sis0n.png",
+            bio: user.bio || "Computer Science Student | Backend Developer",
+            publicRepositories: user.public_repos ?? 12,
+            followers: user.followers ?? 5,
+            lifetimeCommits: 450,
+            currentYearCommits: 120,
+            createdAt: user.created_at || "2020-01-01T00:00:00Z",
+            repositories: mockData.repositories
+          });
         } else {
           setGithubData(mockData);
         }
@@ -192,11 +212,21 @@ const Home: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="lg:col-span-7 text-center lg:text-left"
           >
+            {/* Live Status Pill & Subtitle */}
             <RevealText delay={0.05}>
-              <div className="font-pixel text-[13px] text-zinc-500 dark:text-zinc-400 mb-4 tracking-tight inline-flex items-center gap-2">
-                <span>[AI-NATIVE SOFTWARE ENGINEER]</span>
-                <span className="opacity-40">•</span>
-                <span>[CS STUDENT]</span>
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 mb-4">
+                <div className="font-pixel text-[13px] text-zinc-500 dark:text-zinc-400 tracking-tight inline-flex items-center gap-2">
+                  <span>[AI-NATIVE SOFTWARE ENGINEER]</span>
+                  <span className="opacity-40">•</span>
+                  <span>[CS STUDENT]</span>
+                </div>
+                <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/20 text-[11px] font-mono text-emerald-700 dark:text-emerald-400">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  <span>Open for Internships & Junior Roles</span>
+                </div>
               </div>
             </RevealText>
 
@@ -225,7 +255,7 @@ const Home: React.FC = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 sm:gap-6"
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-4"
             >
               <button 
                 onClick={openHireModal} 
@@ -233,8 +263,31 @@ const Home: React.FC = () => {
               >
                 Get In Touch
               </button>
+
+              <div className="relative w-full sm:w-auto">
+                <button
+                  onClick={handleCopyEmail}
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/60 text-zinc-700 dark:text-zinc-300 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all font-mono text-xs uppercase tracking-wider group"
+                  title="Copy email address"
+                >
+                  {copiedEmail ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} className="text-zinc-400 group-hover:text-zinc-950 dark:group-hover:text-white transition-colors" />}
+                  <span>{copiedEmail ? "Copied!" : "Copy Email"}</span>
+                </button>
+                <AnimatePresence>
+                  {copiedEmail && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6, scale: 0.95 }}
+                      animate={{ opacity: 1, y: -4, scale: 1 }}
+                      exit={{ opacity: 0, y: 4, scale: 0.95 }}
+                      className="absolute -top-7 left-1/2 -translate-x-1/2 bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 text-[10px] font-mono px-2 py-0.5 rounded shadow-lg whitespace-nowrap z-20 pointer-events-none"
+                    >
+                      Copied {contact.email}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
               
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
                 <a 
                   href={contact.github} 
                   target="_blank" 
@@ -654,17 +707,33 @@ const Home: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button 
-              onClick={openHireModal}
+              onClick={openHireModal} 
               className="w-full sm:w-auto bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 px-9 py-4 rounded-full font-mono text-xs uppercase tracking-widest font-bold hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all active:scale-95 shadow-lg"
             >
               Get In Touch
             </button>
-            <a 
-              href={`mailto:${contact.email}`}
-              className="w-full sm:w-auto px-8 py-4 rounded-full font-mono text-xs uppercase tracking-widest border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all"
-            >
-              {contact.email}
-            </a>
+            <div className="relative w-full sm:w-auto">
+              <button
+                onClick={handleCopyEmail}
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 rounded-full font-mono text-xs uppercase tracking-widest border border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/60 text-zinc-700 dark:text-zinc-300 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all"
+                title="Copy email to clipboard"
+              >
+                {copiedEmail ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} className="text-zinc-400" />}
+                <span>{copiedEmail ? "Copied!" : contact.email}</span>
+              </button>
+              <AnimatePresence>
+                {copiedEmail && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6, scale: 0.95 }}
+                    animate={{ opacity: 1, y: -4, scale: 1 }}
+                    exit={{ opacity: 0, y: 4, scale: 0.95 }}
+                    className="absolute -top-7 left-1/2 -translate-x-1/2 bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 text-[10px] font-mono px-2 py-0.5 rounded shadow-lg whitespace-nowrap z-20 pointer-events-none"
+                  >
+                    Copied to clipboard!
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </section>

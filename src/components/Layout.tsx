@@ -67,6 +67,49 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "SELECT" ||
+        target.isContentEditable
+      ) {
+        return;
+      }
+
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      const key = e.key.toLowerCase();
+
+      if (key === "1") {
+        e.preventDefault();
+        if (location.pathname === "/") {
+          const el = document.getElementById("projects");
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+            window.history.pushState(null, "", "/#projects");
+          }
+        } else {
+          navigate("/#projects");
+        }
+      } else if (key === "2") {
+        e.preventDefault();
+        navigate("/resume");
+      } else if (key === "3") {
+        e.preventDefault();
+        navigate("/blog");
+      } else if (key === "t") {
+        e.preventDefault();
+        toggleTheme();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [location.pathname, navigate, toggleTheme]);
+
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();
     if (location.pathname === "/") {
@@ -172,7 +215,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <Layers size={14} className="opacity-70" />
               <span>Projects</span>
             </span>
-            <span className="text-[10px] opacity-40 font-pixel">[01]</span>
+            <kbd className="text-[9px] font-mono px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-800 text-zinc-400 dark:text-zinc-500 group-hover:border-zinc-400 dark:group-hover:border-zinc-600 transition-colors">
+              1
+            </kbd>
           </a>
 
           <Link
@@ -187,7 +232,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <FileText size={14} className="opacity-70" />
               <span>Resume</span>
             </span>
-            <span className="text-[10px] opacity-40 font-pixel">[02]</span>
+            <kbd className="text-[9px] font-mono px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-800 text-zinc-400 dark:text-zinc-500 group-hover:border-zinc-400 dark:group-hover:border-zinc-600 transition-colors">
+              2
+            </kbd>
           </Link>
 
           <Link
@@ -202,7 +249,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <BookOpen size={14} className="opacity-70" />
               <span>Blog</span>
             </span>
-            <span className="text-[10px] opacity-40 font-pixel">[03]</span>
+            <kbd className="text-[9px] font-mono px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-800 text-zinc-400 dark:text-zinc-500 group-hover:border-zinc-400 dark:group-hover:border-zinc-600 transition-colors">
+              3
+            </kbd>
           </Link>
         </nav>
 
@@ -237,13 +286,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </a>
             </div>
 
-            {/* Desktop Theme Toggle */}
+            {/* Desktop Theme Toggle with Key Hint */}
             <button
               onClick={(e) => toggleTheme(e)}
               aria-label="Toggle Theme"
-              className="p-2 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 text-zinc-700 dark:text-zinc-300 transition-colors"
+              title="Toggle Theme (Press T)"
+              className="p-2 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 text-zinc-700 dark:text-zinc-300 transition-colors flex items-center gap-1.5"
             >
-              {theme === "light" ? <Moon size={15} /> : <Sun size={15} />}
+              {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
+              <kbd className="text-[9px] font-mono text-zinc-400 dark:text-zinc-500">T</kbd>
             </button>
           </div>
 

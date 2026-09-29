@@ -17,16 +17,18 @@ Sleep was a luxury we couldn't afford. Operating on just 4 hours of sleep and pu
 What is Spec Match?
 Spec Match is an intelligent platform designed to automate the semantic parsing, comparison, and verification of complex device hardware specifications against internal software and operational requirements. Instead of manual spreadsheets, our AI engine delivers instant compatibility checks, hardware bottleneck analysis, and optimal asset allocation recommendations.
 
-AI Integration & Pipeline:
-- Semantic Spec Ingestion: Leverages LLM prompting pipelines to ingest unstructured PDF and text hardware sheets, automatically normalizing multi-vendor technical specs into deterministic JSON models.
-- Intelligent Workload Matching Engine: Uses AI semantic reasoning to map developer workload profiles (e.g., local LLM inference, mobile compilation, virtual machines) to optimal device hardware classes.
-- Automated Bottleneck Detection: Analyzes hardware capability constraints (VRAM, thermal thresholds, memory bandwidth) to deliver automated asset upgrade and relocation recommendations.
+AI Integration & Technical Stack:
+- Full-Stack Architecture: Laravel monolith powered by Inertia.js with React and Tailwind CSS for seamless full-stack state management.
+- Google Gemini Integration: Leveraged Gemini AI prompt pipelines for intelligent semantic reasoning, workload matching, and compatibility scoring without model hallucination.
+- External Hardware Telemetry: Ingested real-time device hardware specifications via the TechSpecs API.
+- Automated Audit Reports: Generated downloadable, styled multi-page PDF audit reports on the fly using laravel-dompdf.
+- Database & Deployment: Backed by MySQL / SQLite database layers and deployed serverless to Wasmer.
 
 The Hackathon Sprint:
-- Hour 0-4: Deconstructing the 'Intelligent Internal Device Asset Optimization' sub-theme, schema design, and UX wireframing.
-- Hour 4-14: Core AI integration, prompt engineering, device specification parser, and responsive web interface.
-- Hour 14-20: Discrepancy reporting logic, error handling, edge-case testing, and UI polish under heavy sleep deprivation.
-- Hour 20-24: Production containerization and deploying the live instance to Wasmer.
+- Hour 0-4: Deconstructing the 'Intelligent Internal Device Asset Optimization' sub-theme, Laravel and Inertia.js scaffolding, database modeling (MySQL/SQLite), and TechSpecs API integration.
+- Hour 4-14: Gemini AI prompt engineering pipeline, hardware compatibility scoring algorithm, and Inertia.js + React frontend components.
+- Hour 14-20: Automated PDF report generation with laravel-dompdf, error handling, edge-case testing, and UI polish under heavy sleep deprivation.
+- Hour 20-24: Final end-to-end testing, seed data verification, and deploying the live instance to Wasmer.
 
 The Outcome & 9th Place Finish:
 Finishing in 9th place out of 11 teams was both a humbling and eye-opening experience. While we successfully shipped a fully functional, live-deployed app on Wasmer before the final buzzer, the competition showed us that technical delivery is only half the battle — pitching effectively, demonstrating clear product-market alignment, and highlighting measurable business impact to the judges are just as crucial.
@@ -34,7 +36,7 @@ Finishing in 9th place out of 11 teams was both a humbling and eye-opening exper
 Key Engineering Takeaways:
 1. AI-Driven Velocity: Using modern AI developer tools enabled us to build in hours what would traditionally take weeks of manual boilerplate coding.
 2. Graceful Failures: Under extreme time constraints, bulletproof error handling on model endpoints is essential to prevent system crashes during live demo evaluation.
-3. Rapid Deployment on Wasmer: Containerizing and deploying to Wasmer allowed us to achieve instantaneous serverless hosting without complex infrastructure overhead.
+3. Rapid Deployment on Wasmer: Deploying our Laravel + Inertia stack to Wasmer allowed us to achieve instantaneous serverless hosting without complex infrastructure overhead.
 4. Beyond Just Code: Hackathons are won on product clarity, business relevance, and storytelling just as much as raw technical implementation.
 
 You can check out the live deployment of our project here: https://appcon2026-codetitans-specmatch.wasmer.app/login`,

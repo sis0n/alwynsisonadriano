@@ -42,19 +42,23 @@ export const portfolioData: PortfolioData = {
       id: "specmatch",
       title: "Spec Match — AI Technical Specification Matching Platform",
       image: specmatchImg,
-      technologies: ["AI Integration", "LLM Prompt Chaining", "Semantic Parsing", "TypeScript", "React", "Python", "Wasmer Serverless", "Docker", "Tailwind CSS"],
-      highlights: ["AI Integration", "APPCON 2026 Hackathon", "Device Asset Optimization", "Wasmer Serverless", "LLM Spec Engine"],
-      description: "An AI-native enterprise platform featuring end-to-end AI integration, engineered during the 24-hour APPCON 2026: AI Matsuri Hackathon by Team-10 (Code Titans) for the sub-theme 'Intelligent Internal Device Asset Optimization'. Implements intelligent LLM prompt pipelines that automatically ingest, parse, and match internal hardware device specifications against organizational software demands, delivering instant compatibility scoring and bottleneck mitigation.",
+      technologies: ["Laravel", "Inertia.js", "React", "Google Gemini API", "TechSpecs API", "laravel-dompdf", "Tailwind CSS", "MySQL / SQLite", "Wasmer Serverless"],
+      highlights: ["AI Integration (Gemini)", "APPCON 2026 Hackathon", "Inertia.js / React", "TechSpecs API", "DomPDF Reports"],
+      description: "An AI-native enterprise platform engineered during the 24-hour APPCON 2026: AI Matsuri Hackathon by Team-10 (Code Titans) for the sub-theme 'Intelligent Internal Device Asset Optimization'. Built with a full-stack Laravel and Inertia.js/React architecture, integrated with Google Gemini AI and the TechSpecs API. Automatically queries, parses, and matches internal device hardware capabilities against organizational workload demands, generating automated PDF asset audit and optimization reports via laravel-dompdf.",
       liveLink: "https://appcon2026-codetitans-specmatch.wasmer.app/login",
-      architecture: "Full-stack AI integration combining LLM prompt engineering pipelines, deterministic semantic specification parsers, and containerized serverless hosting on Wasmer.",
+      architecture: "Full-stack Laravel monolith with Inertia.js and React frontend, Google Gemini AI prompt integration, TechSpecs API hardware data ingestion, laravel-dompdf server-side report generation, and serverless hosting on Wasmer.",
       challenges: [
         {
-          problem: "Parsing unstructured technical requirement documents into deterministic schemas under strict latency limits.",
-          solution: "Structured prompt chains with schema enforcement to produce reliable, parseable comparison summaries without model hallucination."
+          problem: "Extreme 24-hour (1-day) active development window during a 3-day hackathon event, requiring full architectural design, AI pipeline integration, PDF report generation, and production deployment under intense time constraints and sleep deprivation.",
+          solution: "Leveraged rapid full-stack scaffolding using Laravel with Inertia.js and React alongside AI-assisted engineering workflows to design, integrate APIs, test, and ship a live working application to Wasmer before the final buzzer."
         },
         {
-          problem: "Deploying a complete containerized AI web application within a 24-hour hackathon window on zero-downtime infrastructure.",
-          solution: "Packaged the stack into lightweight containers and deployed directly to Wasmer for instant serverless availability."
+          problem: "Integrating external hardware telemetry from TechSpecs API and processing unstructured specs through Google Gemini with deterministic scoring.",
+          solution: "Designed structured prompt pipelines with strict schema validation and fallback heuristics to generate reliable device compatibility scores and bottleneck insights without hallucination."
+        },
+        {
+          problem: "Generating downloadable, multi-page hardware asset optimization and compatibility audit reports dynamically on the server.",
+          solution: "Integrated laravel-dompdf with custom print CSS stylesheets to render server-side PDF asset reports in sub-second response times."
         }
       ]
     },
