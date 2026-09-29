@@ -12,7 +12,9 @@ import {
   Server,
   BookOpen,
   Copy,
-  Check
+  Check,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 import { blogPosts } from '../data/blogPosts';
@@ -22,6 +24,12 @@ import { useNavigate, Link } from 'react-router-dom';
 import gradPhoto from '../assets/grad.png';
 
 // GitHub Activity Types
+interface GithubContributionDay {
+  date: string;
+  count: number;
+  level: number;
+}
+
 interface GithubData {
   name: string;
   login: string;
@@ -32,6 +40,8 @@ interface GithubData {
   currentYearCommits: number;
   lifetimeCommits: number;
   createdAt: string;
+  totalPerYear: Record<string, number>;
+  contributions: GithubContributionDay[];
   repositories: Array<{
     name: string;
     stargazerCount: number;
@@ -132,6 +142,314 @@ const ProjectImage: React.FC<{ project: any }> = ({ project }) => {
   );
 };
 
+// 365-Day & Multi-Year Lifetime Real GitHub Contribution Heatmap Grid
+interface ContributionHeatmapProps {
+  contributions: GithubContributionDay[];
+  totalPerYear: Record<string, number>;
+}
+
+const ContributionHeatmap: React.FC<ContributionHeatmapProps> = ({ contributions, totalPerYear }) => {
+  const [hoveredDay, setHoveredDay] = useState<{ date: string; count: number; x: number; y: number } | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  
+  const availableYears = React.useMemo(() => {
+    const years = Object.keys(totalPerYear || {})
+      .filter((y) => y !== 'all' && y !== 'lastYear')
+      .sort((a, b) => Number(b) - Number(a));
+    return ['All', 'Last Year', ...years];
+  }, [totalPerYear]);
+
+  const [selectedYear, setSelectedYear] = useState<string>('All');
+
+  const filteredDays = React.useMemo(() => {
+    if (!contributions || contributions.length === 0) return [];
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    if (selectedYear === 'All') {
+      return [...contributions]
+        .filter((d) => d.date <= todayStr)
+        .sort((a, b) => a.date.localeCompare(b.date));
+    }
+    if (selectedYear === 'Last Year') {
+      const pastDays = contributions
+        .filter((d) => d.date <= todayStr)
+        .sort((a, b) => a.date.localeCompare(b.date));
+      return pastDays.slice(-365);
+    }
+    return contributions
+      .filter((d) => d.date.startsWith(selectedYear))
+      .sort((a, b) => a.date.localeCompare(b.date));
+  }, [contributions, selectedYear]);
+
+  const weeks = React.useMemo(() => {
+    if (!filteredDays || filteredDays.length === 0) return [];
+    
+    const res: Array<Array<{ date: string; count: number; level: number }>> = [];
+    let currentWeek: Array<{ date: string; count: number; level: number }> = [];
+
+    const firstDayOfWeek = new Date(filteredDays[0].date).getDay();
+    for (let i = 0; i < firstDayOfWeek; i++) {
+      currentWeek.push({ date: '', count: 0, level: -1 });
+    }
+
+    filteredDays.forEach((day) => {
+      currentWeek.push(day);
+      if (currentWeek.length === 7) {
+        res.push(currentWeek);
+        currentWeek = [];
+      }
+    });
+
+    if (currentWeek.length > 0) {
+      while (currentWeek.length < 7) {
+        currentWeek.push({ date: '', count: 0, level: -1 });
+      }
+      res.push(currentWeek);
+    }
+
+    return res;
+  }, [filteredDays]);
+
+  const headerLabels = React.useMemo(() => {
+    const labels: { label: string; weekIndex: number; isYearStart?: boolean }[] = [];
+    let lastMonth = '';
+    let lastYear = '';
+
+    weeks.forEach((week, wIdx) => {
+      const validDay = week.find((d) => d.date);
+      if (validDay) {
+        const dObj = new Date(validDay.date);
+        const m = dObj.toLocaleDateString('en-US', { month: 'short' });
+        const y = dObj.getFullYear().toString();
+        
+        const isNewMonth = m !== lastMonth;
+        const isNewYear = y !== lastYear;
+
+        if (isNewYear && selectedYear === 'All') {
+          labels.push({
+            label: `${y} ${m}`,
+            weekIndex: wIdx,
+            isYearStart: true
+          });
+          lastMonth = m;
+          lastYear = y;
+        } else if (isNewMonth) {
+          labels.push({
+            label: m,
+            weekIndex: wIdx,
+            isYearStart: false
+          });
+          lastMonth = m;
+        }
+      }
+    });
+
+    return labels;
+  }, [weeks, selectedYear]);
+
+  const dayLabels = ['', 'Mon', '', 'Wed', '', 'Fri', ''];
+
+  const getLevelColor = (level: number) => {
+    if (level === -1) return 'opacity-0 pointer-events-none';
+    switch (level) {
+      case 1:
+        return 'bg-emerald-300/90 dark:bg-emerald-950 border border-emerald-400/40 dark:border-emerald-800/60';
+      case 2:
+        return 'bg-emerald-400 dark:bg-emerald-800 border border-emerald-500/40 dark:border-emerald-700/60';
+      case 3:
+        return 'bg-emerald-500 dark:bg-emerald-600 border border-emerald-600/40 dark:border-emerald-500/60';
+      case 4:
+        return 'bg-emerald-600 dark:bg-emerald-400 border border-emerald-700/40 dark:border-emerald-300/60';
+      default:
+        return 'bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200/50 dark:border-zinc-700/40';
+    }
+  };
+
+  const currentPeriodCount = React.useMemo(() => {
+    if (selectedYear === 'All') {
+      const lifetime = Object.entries(totalPerYear || {})
+        .filter(([key]) => key !== 'all' && key !== 'lastYear')
+        .reduce((sum, [, val]) => sum + val, 0);
+      return lifetime > 0 ? lifetime : filteredDays.reduce((acc, curr) => acc + curr.count, 0);
+    }
+    if (selectedYear === 'Last Year') {
+      return filteredDays.reduce((acc, curr) => acc + curr.count, 0);
+    }
+    return totalPerYear[selectedYear] ?? filteredDays.reduce((acc, curr) => acc + curr.count, 0);
+  }, [selectedYear, totalPerYear, filteredDays]);
+
+  const handleScroll = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollOffset = direction === 'left' ? -360 : 360;
+      scrollContainerRef.current.scrollBy({ left: scrollOffset, behavior: 'smooth' });
+    }
+  };
+
+  // Scroll to the newest activity on mount or selection change
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollLeft = scrollContainerRef.current.scrollWidth;
+      }
+    }, 60);
+    return () => clearTimeout(timer);
+  }, [selectedYear, weeks]);
+
+  return (
+    <div className="w-full">
+      {/* Header & Year Tabs */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-5">
+        <div>
+          <div className="font-mono text-xs font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+            <span>
+              {selectedYear === 'All' 
+                ? 'All-Time Contribution Timeline' 
+                : selectedYear === 'Last Year' 
+                ? 'Past 365 Days Activity' 
+                : `${selectedYear} Contribution Activity`}
+            </span>
+            <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+              {currentPeriodCount} contributions
+            </span>
+          </div>
+        </div>
+
+        {/* Year Selector Tabs & Scroll Controls */}
+        <div className="flex items-center gap-2">
+          {availableYears.length > 1 && (
+            <div className="flex flex-wrap items-center gap-1 bg-zinc-100/80 dark:bg-zinc-800/60 p-1 rounded-xl border border-zinc-200/60 dark:border-zinc-700/60">
+              {availableYears.map((yr) => (
+                <button
+                  key={yr}
+                  onClick={() => setSelectedYear(yr)}
+                  className={`px-2.5 py-1 rounded-lg text-[10px] font-mono transition-all ${
+                    selectedYear === yr
+                      ? 'bg-white dark:bg-zinc-900 text-zinc-950 dark:text-white font-bold shadow-xs'
+                      : 'text-zinc-500 hover:text-zinc-950 dark:hover:text-white'
+                  }`}
+                >
+                  {yr}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Quick Scroll Navigation Buttons */}
+          <div className="hidden sm:flex items-center gap-1 bg-zinc-100/80 dark:bg-zinc-800/60 p-1 rounded-xl border border-zinc-200/60 dark:border-zinc-700/60">
+            <button
+              onClick={() => handleScroll('left')}
+              className="p-1 rounded-lg text-zinc-500 hover:text-zinc-950 dark:hover:text-white hover:bg-white dark:hover:bg-zinc-900 transition-all"
+              title="Scroll Left"
+              aria-label="Scroll Heatmap Left"
+            >
+              <ChevronLeft size={14} />
+            </button>
+            <button
+              onClick={() => handleScroll('right')}
+              className="p-1 rounded-lg text-zinc-500 hover:text-zinc-950 dark:hover:text-white hover:bg-white dark:hover:bg-zinc-900 transition-all"
+              title="Scroll Right"
+              aria-label="Scroll Heatmap Right"
+            >
+              <ChevronRight size={14} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Heatmap Grid Scroll Container */}
+      <div 
+        ref={scrollContainerRef}
+        className="relative overflow-x-auto pb-3 pt-1 heatmap-scrollbar select-none"
+      >
+        <div className="inline-flex gap-2 min-w-full">
+          {/* Sticky Days column */}
+          <div className="sticky left-0 z-20 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xs pr-2 flex flex-col gap-1 text-[9px] font-mono text-zinc-400 dark:text-zinc-500 select-none">
+            {/* Header spacer to match month labels height */}
+            <div className="h-4" />
+            {dayLabels.map((day, idx) => (
+              <span key={idx} className="h-3 leading-none flex items-center">
+                {day}
+              </span>
+            ))}
+          </div>
+
+          {/* Main Weeks Columns & Month Headers */}
+          <div className="flex flex-col">
+            {/* Months header row */}
+            <div className="relative h-4 text-[9px] font-mono text-zinc-400 dark:text-zinc-500 mb-1">
+              {headerLabels.map((item, idx) => (
+                <span 
+                  key={idx}
+                  className={`absolute whitespace-nowrap ${item.isYearStart ? 'font-bold text-zinc-800 dark:text-zinc-200' : ''}`}
+                  style={{ left: `${item.weekIndex * 16}px` }}
+                >
+                  {item.label}
+                </span>
+              ))}
+            </div>
+
+            {/* Grid columns */}
+            <div className="flex gap-1">
+              {weeks.map((week, wIdx) => (
+                <div key={wIdx} className="flex flex-col gap-1 shrink-0 w-3">
+                  {week.map((day, dIdx) => (
+                    <div
+                      key={dIdx}
+                      onMouseEnter={(e) => {
+                        if (day.date) {
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          setHoveredDay({
+                            date: day.date,
+                            count: day.count,
+                            x: rect.left + rect.width / 2,
+                            y: rect.top,
+                          });
+                        }
+                      }}
+                      onMouseLeave={() => setHoveredDay(null)}
+                      className={`h-3 w-3 rounded-[2px] transition-transform hover:scale-125 cursor-pointer ${getLevelColor(day.level)}`}
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Legend & Summary */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mt-3 text-[10px] font-mono text-zinc-400 dark:text-zinc-500">
+        <div className="flex items-center gap-2">
+          <span>Real data synced directly with @sis0n</span>
+          <span className="hidden md:inline text-zinc-300 dark:text-zinc-700">•</span>
+          <span className="hidden md:inline">Scroll horizontally to view entire timeline</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span>Less</span>
+          <div className="flex items-center gap-1">
+            <span className="w-2.5 h-2.5 rounded-[2px] bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200/50 dark:border-zinc-700/40" />
+            <span className="w-2.5 h-2.5 rounded-[2px] bg-emerald-300 dark:bg-emerald-950 border border-emerald-400/40 dark:border-emerald-800/60" />
+            <span className="w-2.5 h-2.5 rounded-[2px] bg-emerald-400 dark:bg-emerald-800" />
+            <span className="w-2.5 h-2.5 rounded-[2px] bg-emerald-500 dark:bg-emerald-600" />
+            <span className="w-2.5 h-2.5 rounded-[2px] bg-emerald-600 dark:bg-emerald-400" />
+          </div>
+          <span>More</span>
+        </div>
+      </div>
+
+      {/* Floating Hover Tooltip */}
+      {hoveredDay && (
+        <div 
+          className="fixed z-50 pointer-events-none -translate-x-1/2 -translate-y-full mb-2 px-2.5 py-1 bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 text-[10px] font-mono rounded shadow-xl whitespace-nowrap"
+          style={{ left: hoveredDay.x, top: hoveredDay.y - 8 }}
+        >
+          {hoveredDay.count === 0 ? 'No contributions' : `${hoveredDay.count} contribution${hoveredDay.count > 1 ? 's' : ''}`} on {new Date(hoveredDay.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Home: React.FC = () => {
   const { name, skillCategories, projects, contact } = portfolioData;
   const { openHireModal } = useUI();
@@ -151,45 +469,59 @@ const Home: React.FC = () => {
 
   React.useEffect(() => {
     const fetchGithub = async () => {
-      const mockData: GithubData = {
-        name: "Alwyn Sison Adriano",
-        login: "sis0n",
-        avatarUrl: "https://github.com/sis0n.png",
-        bio: "Computer Science Student | Backend Developer",
-        publicRepositories: 12,
-        followers: 5,
-        lifetimeCommits: 450,
-        currentYearCommits: 120,
-        createdAt: "2020-01-01T00:00:00Z",
-        repositories: [
-          { name: "LibSys-v3", stargazerCount: 2, forkCount: 1, primaryLanguage: { name: "PHP", color: "#777bb4" } },
-          { name: "BorrowHub", stargazerCount: 3, forkCount: 2, primaryLanguage: { name: "Java", color: "#888888" } },
-          { name: "BagyoAlerto", stargazerCount: 1, forkCount: 0, primaryLanguage: { name: "JavaScript", color: "#a1a1aa" } },
-          { name: "Portfolio-v2", stargazerCount: 1, forkCount: 0, primaryLanguage: { name: "TypeScript", color: "#71717a" } }
-        ]
-      };
-
       try {
-        const res = await fetch('https://api.github.com/users/sis0n');
-        if (res.ok) {
-          const user = await res.json();
-          setGithubData({
-            name: user.name || "Alwyn Sison Adriano",
-            login: user.login || "sis0n",
-            avatarUrl: user.avatar_url || "https://github.com/sis0n.png",
-            bio: user.bio || "Computer Science Student | Backend Developer",
-            publicRepositories: user.public_repos ?? 12,
-            followers: user.followers ?? 5,
-            lifetimeCommits: 450,
-            currentYearCommits: 120,
-            createdAt: user.created_at || "2020-01-01T00:00:00Z",
-            repositories: mockData.repositories
-          });
-        } else {
-          setGithubData(mockData);
+        const userPromise = fetch('https://api.github.com/users/sis0n');
+        const contribPromise = fetch('https://github-contributions-api.jogruber.de/v4/sis0n?y=all');
+
+        const [userRes, contribRes] = await Promise.allSettled([userPromise, contribPromise]);
+
+        let user: any = null;
+        if (userRes.status === 'fulfilled' && userRes.value.ok) {
+          user = await userRes.value.json();
         }
+
+        let contribData: any = null;
+        if (contribRes.status === 'fulfilled' && contribRes.value.ok) {
+          contribData = await contribRes.value.json();
+        }
+
+        const totalPerYear: Record<string, number> = contribData?.total || {
+          "2023": 1,
+          "2024": 19,
+          "2025": 729,
+          "2026": 1048
+        };
+
+        const lifetimeCommits = Object.entries(totalPerYear)
+          .filter(([key]) => key !== 'all' && key !== 'lastYear')
+          .reduce((sum, [, val]) => sum + val, 0) || 1797;
+
+        const currentYear = new Date().getFullYear().toString();
+        const currentYearCommits = totalPerYear[currentYear] ?? 1048;
+
+        const contributions: GithubContributionDay[] = contribData?.contributions || [];
+
+        setGithubData({
+          name: user?.name || "Alwyn Sison Adriano",
+          login: user?.login || "sis0n",
+          avatarUrl: user?.avatar_url || "https://github.com/sis0n.png",
+          bio: user?.bio || "Computer Science Student | Backend Developer",
+          publicRepositories: user?.public_repos ?? 12,
+          followers: user?.followers ?? 5,
+          lifetimeCommits,
+          currentYearCommits,
+          createdAt: user?.created_at || "2023-06-20T00:00:00Z",
+          totalPerYear,
+          contributions,
+          repositories: [
+            { name: "LibSys-v3", stargazerCount: 2, forkCount: 1, primaryLanguage: { name: "PHP", color: "#777bb4" } },
+            { name: "BorrowHub", stargazerCount: 3, forkCount: 2, primaryLanguage: { name: "Java", color: "#888888" } },
+            { name: "BagyoAlerto", stargazerCount: 1, forkCount: 0, primaryLanguage: { name: "JavaScript", color: "#a1a1aa" } },
+            { name: "Portfolio-v2", stargazerCount: 1, forkCount: 0, primaryLanguage: { name: "TypeScript", color: "#71717a" } }
+          ]
+        });
       } catch (err) {
-        setGithubData(mockData);
+        console.error("Failed to fetch live GitHub contributions", err);
       } finally {
         setGithubLoading(false);
       }
@@ -405,8 +737,16 @@ const Home: React.FC = () => {
                 </div>
               </div>
 
+              {/* 365-Day & Lifetime Real Heatmap Grid */}
+              <div className="mt-10 pt-8 border-t border-zinc-200 dark:border-zinc-800">
+                <ContributionHeatmap 
+                  contributions={githubData.contributions} 
+                  totalPerYear={githubData.totalPerYear} 
+                />
+              </div>
+
               {/* Footer Row */}
-              <div className="mt-10 pt-6 border-t border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+              <div className="mt-8 pt-6 border-t border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-500 dark:text-zinc-400">
                 Lifetime Commits: <span className="font-bold text-zinc-950 dark:text-white">{githubData.lifetimeCommits}</span> since {new Date(githubData.createdAt).getFullYear()}
               </div>
 

@@ -79,3 +79,36 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(150, 150, 150, 0.4);
 }
+
+/* Dedicated horizontal heatmap scrollbar */
+.heatmap-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(160, 160, 160, 0.4) rgba(160, 160, 160, 0.08);
+}
+.heatmap-scrollbar::-webkit-scrollbar {
+  height: 7px;
+}
+.heatmap-scrollbar::-webkit-scrollbar-track {
+  background: rgba(160, 160, 160, 0.08);
+  border-radius: 9999px;
+}
+.heatmap-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(160, 160, 160, 0.35);
+  border-radius: 9999px;
+}
+.heatmap-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(160, 160, 160, 0.55);
+}
+.dark .heatmap-scrollbar {
+  scrollbar-color: rgba(255, 255, 255, 0.25) rgba(255, 255, 255, 0.05);
+}
+.dark .heatmap-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+}
+.dark .heatmap-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.22);
+}
+.dark .heatmap-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
