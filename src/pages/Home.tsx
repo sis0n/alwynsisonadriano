@@ -661,101 +661,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 2. GITHUB ACTIVITY SECTION */}
-      {!githubLoading && githubData && (
-        <section className={`relative ${sectionPadding} pt-0`}>
-          <div className="max-w-5xl mx-auto">
-            <div className="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 md:p-12 shadow-sm">
-              
-              {/* Header Row */}
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-10">
-                <div className="flex items-center gap-4">
-                  <img 
-                    src={githubData.avatarUrl} 
-                    alt={githubData.login} 
-                    className="w-14 h-14 rounded-2xl object-cover border border-zinc-200 dark:border-zinc-800" 
-                  />
-                  <div>
-                    <h3 className="text-xl font-bold text-zinc-950 dark:text-white tracking-tight">
-                      {githubData.name || githubData.login}
-                    </h3>
-                    <div className="text-xs font-mono text-zinc-500 dark:text-zinc-400">
-                      @{githubData.login} • Open Source Activity
-                    </div>
-                  </div>
-                </div>
-                <a 
-                  href={`https://github.com/${githubData.login}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white transition-colors"
-                >
-                  GitHub Profile <ArrowUpRight size={14} />
-                </a>
-              </div>
-
-              <div className="h-px bg-zinc-200 dark:bg-zinc-800 w-full mb-10" />
-
-              {/* Stats Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6">
-                <div>
-                  <div className="text-xs font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
-                    Commits (2026)
-                  </div>
-                  <div className="text-4xl font-black text-zinc-950 dark:text-white tracking-tight">
-                    {githubData.currentYearCommits}
-                  </div>
-                </div>
-
-                <div className="sm:border-l border-zinc-200 dark:border-zinc-800 sm:pl-8">
-                  <div className="text-xs font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
-                    Repositories
-                  </div>
-                  <div className="text-4xl font-black text-zinc-950 dark:text-white tracking-tight">
-                    {githubData.publicRepositories}
-                  </div>
-                </div>
-
-                <div className="sm:border-l border-zinc-200 dark:border-zinc-800 sm:pl-8">
-                  <div className="text-xs font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-3">
-                    Top Languages
-                  </div>
-                  <div className="space-y-2 font-mono text-xs text-zinc-700 dark:text-zinc-300">
-                    <div className="flex justify-between items-center">
-                      <span>PHP</span>
-                      <span className="text-zinc-400">45%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span>Java / C</span>
-                      <span className="text-zinc-400">30%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span>JavaScript</span>
-                      <span className="text-zinc-400">25%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* 365-Day & Lifetime Real Heatmap Grid */}
-              <div className="mt-10 pt-8 border-t border-zinc-200 dark:border-zinc-800">
-                <ContributionHeatmap 
-                  contributions={githubData.contributions} 
-                  totalPerYear={githubData.totalPerYear} 
-                />
-              </div>
-
-              {/* Footer Row */}
-              <div className="mt-8 pt-6 border-t border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-500 dark:text-zinc-400">
-                Lifetime Commits: <span className="font-bold text-zinc-950 dark:text-white">{githubData.lifetimeCommits}</span> since {new Date(githubData.createdAt).getFullYear()}
-              </div>
-
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 3. SELECTED WORK / PROJECTS SECTION */}
+      {/* 2. SELECTED WORK / PROJECTS SECTION */}
       <section id="projects" className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900`}>
         <div className="max-w-7xl mx-auto">
           <div className="mb-14">
@@ -857,13 +763,161 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 4. RECENT WRITINGS / BLOG SECTION */}
+      {/* 3. TECH STACK SECTION */}
+      <section className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-14">
+            <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-2">
+              [02] TECHNICAL STACK
+            </div>
+            <RevealText>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-zinc-950 dark:text-white">
+                Core Technologies
+              </h2>
+            </RevealText>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {skillCategories.map((cat, idx) => (
+              <div 
+                key={idx}
+                className="p-7 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
+                    0{idx + 1} / STACK
+                  </div>
+                  <h3 className="text-sm font-semibold text-zinc-950 dark:text-white mb-4 tracking-tight">
+                    {cat.title}
+                  </h3>
+                </div>
+
+                <ul className="space-y-3 font-mono text-xs text-zinc-600 dark:text-zinc-400">
+                  {cat.skills.map((skill, sIdx) => (
+                    <li key={sIdx} className="flex items-center gap-2.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700" />
+                      {skill}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. OPEN SOURCE & GITHUB ACTIVITY SECTION */}
+      {!githubLoading && githubData && (
+        <section className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900`}>
+          <div className="max-w-7xl mx-auto">
+            <div className="mb-14">
+              <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-2">
+                [03] OPEN SOURCE & CODE ACTIVITY
+              </div>
+              <RevealText>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-zinc-950 dark:text-white">
+                  Engineering Consistency
+                </h2>
+              </RevealText>
+            </div>
+
+            <div className="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 md:p-12 shadow-sm">
+              
+              {/* Header Row */}
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-10">
+                <div className="flex items-center gap-4">
+                  <img 
+                    src={githubData.avatarUrl} 
+                    alt={githubData.login} 
+                    className="w-14 h-14 rounded-2xl object-cover border border-zinc-200 dark:border-zinc-800" 
+                  />
+                  <div>
+                    <h3 className="text-xl font-bold text-zinc-950 dark:text-white tracking-tight">
+                      {githubData.name || githubData.login}
+                    </h3>
+                    <div className="text-xs font-mono text-zinc-500 dark:text-zinc-400">
+                      @{githubData.login} • Open Source Activity
+                    </div>
+                  </div>
+                </div>
+                <a 
+                  href={`https://github.com/${githubData.login}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white transition-colors"
+                >
+                  GitHub Profile <ArrowUpRight size={14} />
+                </a>
+              </div>
+
+              <div className="h-px bg-zinc-200 dark:bg-zinc-800 w-full mb-10" />
+
+              {/* Stats Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6">
+                <div>
+                  <div className="text-xs font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
+                    Commits (2026)
+                  </div>
+                  <div className="text-4xl font-black text-zinc-950 dark:text-white tracking-tight">
+                    {githubData.currentYearCommits}
+                  </div>
+                </div>
+
+                <div className="sm:border-l border-zinc-200 dark:border-zinc-800 sm:pl-8">
+                  <div className="text-xs font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
+                    Repositories
+                  </div>
+                  <div className="text-4xl font-black text-zinc-950 dark:text-white tracking-tight">
+                    {githubData.publicRepositories}
+                  </div>
+                </div>
+
+                <div className="sm:border-l border-zinc-200 dark:border-zinc-800 sm:pl-8">
+                  <div className="text-xs font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-3">
+                    Top Languages
+                  </div>
+                  <div className="space-y-2 font-mono text-xs text-zinc-700 dark:text-zinc-300">
+                    <div className="flex justify-between items-center">
+                      <span>PHP</span>
+                      <span className="text-zinc-400">45%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Java / C</span>
+                      <span className="text-zinc-400">30%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>JavaScript</span>
+                      <span className="text-zinc-400">25%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 365-Day & Lifetime Real Heatmap Grid */}
+              <div className="mt-10 pt-8 border-t border-zinc-200 dark:border-zinc-800">
+                <ContributionHeatmap 
+                  contributions={githubData.contributions} 
+                  totalPerYear={githubData.totalPerYear} 
+                />
+              </div>
+
+              {/* Footer Row */}
+              <div className="mt-8 pt-6 border-t border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+                Lifetime Commits: <span className="font-bold text-zinc-950 dark:text-white">{githubData.lifetimeCommits}</span> since {new Date(githubData.createdAt).getFullYear()}
+              </div>
+
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* 5. RECENT WRITINGS / BLOG SECTION */}
       <section className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900`}>
         <div className="max-w-7xl mx-auto">
           <div className="mb-10 flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
             <div>
               <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-2">
-                [02] WRITINGS & NOTES
+                [04] WRITINGS & NOTES
               </div>
               <RevealText>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-zinc-950 dark:text-white">
@@ -914,121 +968,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 5. CORE EXPERTISE / CAPABILITIES SECTION */}
-      <section className={`relative ${sectionPadding} bg-zinc-100/50 dark:bg-zinc-900/20 border-t border-zinc-200/80 dark:border-zinc-900`}>
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-14">
-            <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-2">
-              [03] CAPABILITIES
-            </div>
-            <RevealText>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-zinc-950 dark:text-white">
-                What I Build
-              </h2>
-            </RevealText>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="p-8 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 space-y-4"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white flex items-center justify-center border border-zinc-200 dark:border-zinc-700">
-                <Cpu size={22} />
-              </div>
-              <h3 className="text-base font-semibold tracking-tight text-zinc-950 dark:text-white">
-                AI-Accelerated Engineering
-              </h3>
-              <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm leading-relaxed">
-                Leveraging agentic AI tooling and prompt architecture for rapid prototyping, automated scaffolding, and accelerated shipping without sacrificing code quality.
-              </p>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="p-8 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 space-y-4"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white flex items-center justify-center border border-zinc-200 dark:border-zinc-700">
-                <Server size={22} />
-              </div>
-              <h3 className="text-base font-semibold tracking-tight text-zinc-950 dark:text-white">
-                Backend & System Logic
-              </h3>
-              <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm leading-relaxed">
-                Building secure, scalable, and well-documented RESTful APIs using Laravel and PHP MVC architecture to power responsive multi-platform applications.
-              </p>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="p-8 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 space-y-4"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-950 dark:text-white flex items-center justify-center border border-zinc-200 dark:border-zinc-700">
-                <Database size={22} />
-              </div>
-              <h3 className="text-base font-semibold tracking-tight text-zinc-950 dark:text-white">
-                Database & Data Integrity
-              </h3>
-              <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm leading-relaxed">
-                Designing normalized relational schemas in MySQL, optimizing queries with indexing, and applying strict validation to ensure complete data fidelity.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. TECH STACK SECTION */}
-      <section className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900`}>
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-14">
-            <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-2">
-              [04] TECHNICAL STACK
-            </div>
-            <RevealText>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-zinc-950 dark:text-white">
-                Technical Stack
-              </h2>
-            </RevealText>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {skillCategories.map((cat, idx) => (
-              <div 
-                key={idx}
-                className="p-7 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
-                    0{idx + 1} / STACK
-                  </div>
-                  <h3 className="text-sm font-semibold text-zinc-950 dark:text-white mb-4 tracking-tight">
-                    {cat.title}
-                  </h3>
-                </div>
-
-                <ul className="space-y-3 font-mono text-xs text-zinc-600 dark:text-zinc-400">
-                  {cat.skills.map((skill, sIdx) => (
-                    <li key={sIdx} className="flex items-center gap-2.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700" />
-                      {skill}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 7. CALL TO ACTION / CONTACT */}
+      {/* 6. CALL TO ACTION / CONTACT */}
       <section id="contact" className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900 py-28 md:py-36`}>
         <div className="max-w-5xl mx-auto text-center">
           <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-4">
