@@ -119,7 +119,7 @@ const ChatBot: React.FC = () => {
     }
 
     if (hasWord(['sino', 'who', 'alan', 'alwyn', 'about'])) {
-      return "I'm Alwyn Adriano, a 3rd Year Computer Science student at University of Caloocan City (UCC) and backend developer passionate about clean architecture and performant systems.";
+      return "I'm Alwyn Adriano, a 4th Year Computer Science student at University of Caloocan City (UCC) and AI-Native Software Engineer passionate about backend architecture and performant systems.";
     }
 
     if (hasWord(['joke', 'tawa', 'patawa', 'biro'])) {

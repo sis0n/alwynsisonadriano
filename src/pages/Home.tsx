@@ -550,7 +550,7 @@ const Home: React.FC = () => {
                 <div className="font-pixel text-[13px] text-zinc-500 dark:text-zinc-400 tracking-tight inline-flex items-center gap-2">
                   <span>[AI-NATIVE SOFTWARE ENGINEER]</span>
                   <span className="opacity-40">•</span>
-                  <span>[CS STUDENT]</span>
+                  <span>[4TH YEAR CS STUDENT]</span>
                 </div>
                 <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/20 text-[11px] font-mono text-emerald-700 dark:text-emerald-400">
                   <span className="relative flex h-2 w-2">
@@ -576,7 +576,7 @@ const Home: React.FC = () => {
               className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 mb-8 max-w-xl leading-relaxed font-normal mx-auto lg:mx-0 space-y-2.5"
             >
               <p>
-                Computer Science student at <span className="font-semibold text-zinc-950 dark:text-white">University of Caloocan City</span> and <span className="font-semibold text-zinc-950 dark:text-white">AI-Native Software Engineer</span> leveraging modern AI workflows, agentic tooling, and clean architecture to build and ship production software rapidly.
+                4th Year Computer Science student at <span className="font-semibold text-zinc-950 dark:text-white">University of Caloocan City</span> and <span className="font-semibold text-zinc-950 dark:text-white">AI-Native Software Engineer</span> leveraging modern AI workflows, agentic tooling, and clean architecture to build and ship production software rapidly.
               </p>
               <p className="text-sm sm:text-base text-zinc-500 dark:text-zinc-500">
                 Focused on core backend logic, structured relational databases, and rigorous code verification standards — driven by discipline both in engineering and fitness.
@@ -587,11 +587,11 @@ const Home: React.FC = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-4"
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-3"
             >
               <button 
                 onClick={openHireModal} 
-                className="w-full sm:w-auto bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 px-8 py-3.5 rounded-full font-mono text-xs uppercase tracking-widest font-bold transition-all hover:bg-zinc-800 dark:hover:bg-zinc-200 active:scale-95 shadow-md"
+                className="w-full sm:w-auto bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 px-7 py-3.5 rounded-full font-mono text-xs uppercase tracking-widest font-bold transition-all hover:bg-zinc-800 dark:hover:bg-zinc-200 active:scale-95 shadow-md"
               >
                 Get In Touch
               </button>
@@ -599,7 +599,7 @@ const Home: React.FC = () => {
               <div className="relative w-full sm:w-auto">
                 <button
                   onClick={handleCopyEmail}
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/60 text-zinc-700 dark:text-zinc-300 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all font-mono text-xs uppercase tracking-wider group"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/60 text-zinc-800 dark:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all font-mono text-xs uppercase tracking-wider group shadow-xs active:scale-95"
                   title="Copy email address"
                 >
                   {copiedEmail ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} className="text-zinc-400 group-hover:text-zinc-950 dark:group-hover:text-white transition-colors" />}
@@ -619,24 +619,26 @@ const Home: React.FC = () => {
                 </AnimatePresence>
               </div>
               
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5">
                 <a 
                   href={contact.github} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="p-3 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100/50 dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-all"
+                  className="p-3 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100/50 dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-all active:scale-95"
                   aria-label="GitHub Profile"
+                  title="GitHub Profile"
                 >
-                  <Github size={18} />
+                  <Github size={17} />
                 </a>
                 <a 
                   href={contact.linkedin} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="p-3 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100/50 dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-all"
+                  className="p-3 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100/50 dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 transition-all active:scale-95"
                   aria-label="LinkedIn Profile"
+                  title="LinkedIn Profile"
                 >
-                  <Linkedin size={18} />
+                  <Linkedin size={17} />
                 </a>
               </div>
             </motion.div>
@@ -928,13 +930,107 @@ const Home: React.FC = () => {
         </section>
       )}
 
-      {/* 5. RECENT WRITINGS / BLOG SECTION */}
+      {/* 5. ACADEMIC & HACKATHONS SECTION */}
+      <section className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-14">
+            <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-2">
+              [04] ACADEMIC & HACKATHONS
+            </div>
+            <RevealText>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-zinc-950 dark:text-white">
+                Education & Build Sprints
+              </h2>
+            </RevealText>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Education Card */}
+            <div className="p-8 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-semibold">
+                    Formal Education
+                  </span>
+                  <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200/60 dark:border-zinc-700/60 font-semibold">
+                    2023 – Present
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-zinc-950 dark:text-white tracking-tight mb-1">
+                  University of Caloocan City
+                </h3>
+                <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 mb-4 font-semibold">
+                  Bachelor of Science in Computer Science (4th Year Senior)
+                </div>
+                <p className="text-zinc-600 dark:text-zinc-400 text-xs leading-relaxed mb-6 font-normal">
+                  Focused on computer science fundamentals, data structures, relational database management systems, and clean architectural design patterns.
+                </p>
+              </div>
+
+              <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
+                <span>Location: Caloocan City, PH</span>
+                <span className="font-semibold text-zinc-950 dark:text-white">4th Year Senior Standing</span>
+              </div>
+            </div>
+
+            {/* Hackathons & Competitions Card */}
+            <div className="p-8 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-semibold">
+                    Hackathons & Competitions
+                  </span>
+                  <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-semibold">
+                    Sprint Builds
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-zinc-950 dark:text-white tracking-tight mb-4">
+                  Competitive Engineering
+                </h3>
+                
+                <div className="space-y-3">
+                  <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/60 dark:border-zinc-800">
+                    <div className="flex justify-between items-start gap-2 mb-1">
+                      <span className="font-semibold text-xs text-zinc-950 dark:text-white">
+                        APPCON 2026: AI Matsuri Hackathon
+                      </span>
+                      <span className="text-[9px] font-mono text-zinc-400">2026</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug">
+                      Engineered <span className="font-semibold text-zinc-900 dark:text-zinc-200">SpecMatch AI</span> with Team Code Titans. Completed full-stack Laravel + Gemini API integration within a 24-hour development sprint.
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/60 dark:border-zinc-800">
+                    <div className="flex justify-between items-start gap-2 mb-1">
+                      <span className="font-semibold text-xs text-zinc-950 dark:text-white">
+                        CodeSprout 2025 Hackathon
+                      </span>
+                      <span className="text-[9px] font-mono text-zinc-400">2025</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug">
+                      Developed <span className="font-semibold text-zinc-900 dark:text-zinc-200">BagyoAlerto</span>, an offline-first PWA with Service Worker cache strategies and OpenWeather telemetry for disaster resilience.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-[11px] font-mono text-zinc-500 dark:text-zinc-400 mt-4">
+                <span>Rapid Prototyping</span>
+                <span className="font-semibold text-zinc-950 dark:text-white">Production Delivery</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. RECENT WRITINGS / BLOG SECTION */}
       <section className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900`}>
         <div className="max-w-7xl mx-auto">
           <div className="mb-10 flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
             <div>
               <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-2">
-                [04] WRITINGS & NOTES
+                [05] WRITINGS & NOTES
               </div>
               <RevealText>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-zinc-950 dark:text-white">
@@ -985,11 +1081,11 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 6. CALL TO ACTION / CONTACT */}
+      {/* 7. CALL TO ACTION / CONTACT */}
       <section id="contact" className={`relative ${sectionPadding} border-t border-zinc-200/80 dark:border-zinc-900 py-28 md:py-36`}>
         <div className="max-w-5xl mx-auto text-center">
           <div className="font-pixel text-[13px] tracking-tight text-zinc-500 dark:text-zinc-400 mb-4">
-            [05] COLLABORATION
+            [06] COLLABORATION
           </div>
           <RevealText className="mb-8">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-zinc-950 dark:text-white leading-tight">

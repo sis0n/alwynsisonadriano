@@ -8,8 +8,8 @@ import specmatchImg from '../assets/specmatch.jpeg';
 
 export const portfolioData: PortfolioData = {
   name: "Alwyn Adriano",
-  title: "AI-Native Software Engineer | Computer Science Student",
-  summary: "Computer Science student and AI-Native Software Engineer with a solid foundation in core PHP, JavaScript, and relational database systems. Proficient in leveraging AI tooling, prompt architecture, and agentic workflows to rapidly prototype, build, and deploy production web applications and RESTful APIs. Committed to writing clean, maintainable code with strict attention to data integrity, robust architecture, and system security. Driven by discipline both in software engineering and fitness.",
+  title: "AI-Native Software Engineer | 4th Year CS Student",
+  summary: "4th Year Computer Science student at University of Caloocan City and AI-Native Software Engineer with a solid foundation in core PHP, JavaScript, and relational database systems. Proficient in leveraging AI tooling, prompt architecture, and agentic workflows to rapidly prototype, build, and deploy production web applications and RESTful APIs. Committed to writing clean, maintainable code with strict attention to data integrity, robust architecture, and system security. Driven by discipline both in software engineering and fitness.",
   contact: {
     location: "Manila, Metro Manila",
     email: "adrianoalwyn@gmail.com",
@@ -208,7 +208,7 @@ export const portfolioData: PortfolioData = {
   ],
   education: [
     {
-      degree: "Bachelor of Science in Computer Science",
+      degree: "Bachelor of Science in Computer Science (4th Year Senior)",
       institution: "University of Caloocan City",
       location: "Caloocan City, Metro Manila",
       period: "August 2023 – Present"
