@@ -85,12 +85,17 @@ const ChatBot: React.FC = () => {
 
     if (hasWord(['project', 'projects', 'gawa', 'portfolio', 'work'])) {
       setLastTopic('projects');
-      return "I have engineered several key projects including LibSys (Library System with Custom PHP MVC), BorrowHub (Asset Management Platform with Laravel REST API and Android Client), and BagyoAlerto (Emergency Weather Alert PWA). Which one would you like to know more about?";
+      return "I have engineered several key projects including LibSys (Library System with Custom PHP MVC), iAIMS (Thesis Project with Laravel & Next.js), BorrowHub (Asset Borrowing Platform with Laravel & React Native), BagyoAlerto (Emergency Weather Alert PWA), SpecMatch (AppCon 2026 Hackathon), and Bantai (AppBuildersPH Hackathon with Kotlin & Local AI). Which one would you like to know more about?";
     }
 
     if (hasWord(['libsys'])) {
       setLastTopic('libsys');
       return "LibSys is a full-stack library system built with native PHP following custom MVC architecture, RBAC middleware, QR code circulation check-ins, and MySQL repository abstractions. Live preview: https://library.ucc-caloocan.com/";
+    }
+
+    if (hasWord(['iaims'])) {
+      setLastTopic('iaims');
+      return "iAIMS is my university thesis project — an Academic Information Management System engineered with Laravel backend core logic, optimized PostgreSQL relational schemas, and responsive Next.js frontend interfaces.";
     }
 
     if (hasWord(['bagyo', 'alerto', 'bagyoalerto'])) {
@@ -100,26 +105,40 @@ const ChatBot: React.FC = () => {
 
     if (hasWord(['borrowhub'])) {
       setLastTopic('borrowhub');
-      return "BorrowHub is an inventory management platform featuring a Laravel REST API backend, token-based Sanctum authentication, audit logging, and a native Android client application.";
+      return "BorrowHub is an equipment borrowing platform featuring a Laravel RESTful API backend, cross-platform React Native mobile application, and automated reservation workflows.";
+    }
+
+    if (hasWord(['specmatch', 'spec'])) {
+      setLastTopic('specmatch');
+      return "SpecMatch was built during the AppCon 2026: AI Matsuri Hackathon using Laravel, Inertia.js, and MySQL with responsive frontend interfaces and optimized database queries.";
+    }
+
+    if (hasWord(['bantai'])) {
+      setLastTopic('bantai');
+      return "Bantai was engineered during the AppBuildersPH Hackathon using Kotlin and Local on-device AI for real-time scam message detection and alert notifications.";
+    }
+
+    if (hasWord(['experience', 'work', 'job', 'intern', 'ojt', 'company', 'krazy'])) {
+      return "My professional experience includes:\n• MIS Intern at Krazy Media Digital Solutions Corp. (May–July 2026): QA testing on HRIS, team training on Gemini CLI, Flutter app development.\n• Student Assistant (MIS) at University of Caloocan City South (Jan 2024–Sep 2025): AIMS Portal support, faculty IT troubleshooting, hardware/network maintenance.\n• DSWD Cash for Work (MIS) at University of Caloocan City South (Sep–Nov 2024): AIMS Portal data encoding and admissions technical assistance.";
     }
 
     if (hasWord(['skill', 'skills', 'tech', 'stack', 'marunong', 'talento'])) {
       setLastTopic('skills');
       const tech = skillCategories.flatMap((c) => c.skills).join(', ');
-      return `My core technical stack includes: ${tech}. I specialize primarily in backend development, relational database modeling, and clean system architecture.`;
+      return `My core technical stack includes: ${tech}. I specialize primarily in backend logic, database management (MySQL, SQLite), PHP & Laravel, and AI tooling.`;
     }
 
     if (hasWord(['hire', 'contact', 'email', 'recruit', 'number', 'kontak', 'message'])) {
       setLastTopic('contact');
-      return `I am actively looking for backend engineering opportunities and internships. Reach me via email at ${contact.email} or by phone at ${contact.phone}. You can also use the 'Get In Touch' button at the top.`;
+      return `I am seeking a Full Stack or Software Developer role to build reliable applications. Reach me via email at ${contact.email} or by phone at ${contact.phone}. You can also use the 'Get In Touch' button at the top.`;
     }
 
     if (hasWord(['socials', 'social', 'github', 'linkedin', 'links', 'link', 'facebook', 'instagram', 'fb', 'ig'])) {
-      return `Connect with me:\n- GitHub: ${contact.github}\n- LinkedIn: ${contact.linkedin}\n- Facebook: ${contact.facebook}\n- Instagram: ${contact.instagram}`;
+      return `Connect with me:\n- GitHub: ${contact.github}\n- LinkedIn: ${contact.linkedin}\n- Portfolio: ${contact.website || 'https://alwynsisonadriano.vercel.app'}\n- Facebook: ${contact.facebook}\n- Instagram: ${contact.instagram}`;
     }
 
     if (hasWord(['sino', 'who', 'alan', 'alwyn', 'about'])) {
-      return "I'm Alwyn Adriano, a 4th Year Computer Science student at University of Caloocan City (UCC) and AI-Native Software Engineer passionate about backend architecture and performant systems.";
+      return "I'm Alwyn Sison Adriano, an AI-Native Software Engineer and Computer Science student at University of Caloocan City South experienced in building web applications with PHP and Laravel, backend logic, and database management.";
     }
 
     if (hasWord(['joke', 'tawa', 'patawa', 'biro'])) {

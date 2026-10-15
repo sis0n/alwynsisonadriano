@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Download, ArrowLeft } from 'lucide-react';
+import { Download, ArrowLeft, Printer } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { portfolioData } from '../data/portfolioData';
@@ -68,6 +68,11 @@ const Resume: React.FC = () => {
               break-before: page !important;
             }
 
+            .resume-item {
+              break-inside: avoid !important;
+              page-break-inside: avoid !important;
+            }
+
             h1, h2, h3, p, span, li, a, div {
               color: black !important;
             }
@@ -92,21 +97,36 @@ const Resume: React.FC = () => {
           .section-border {
             border-bottom: 1px solid #d4d4d8 !important;
           }
+          .resume-item {
+            break-inside: avoid;
+            page-break-inside: avoid;
+          }
         `}
       </style>
 
       <div className="max-w-4xl mx-auto print:max-w-none resume-wrapper">
         {/* Header Actions - Hidden on Print */}
-        <div className="flex justify-between items-center mb-8 print:hidden font-mono header-actions">
+        <div className="flex flex-wrap justify-between items-center gap-4 mb-8 print:hidden font-mono header-actions">
           <Link to="/" className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-950 dark:hover:text-white transition-colors text-xs uppercase tracking-wider">
             <ArrowLeft size={14} /> Back to Home
           </Link>
-          <button 
-            onClick={handlePrint}
-            className="flex items-center gap-2 bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 px-5 py-2.5 rounded-full font-bold hover:bg-zinc-800 dark:hover:bg-zinc-200 transition shadow-sm text-xs uppercase tracking-wider"
-          >
-            <Download size={14} /> Print / Download PDF
-          </button>
+          <div className="flex items-center gap-3">
+            <a 
+              href="/alwyn-adriano-cv.pdf"
+              download="Alwyn-Adriano-CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 px-4 py-2 rounded-full font-bold hover:bg-zinc-100 dark:hover:bg-zinc-800 transition shadow-xs text-xs uppercase tracking-wider"
+            >
+              <Download size={14} /> Download PDF
+            </a>
+            <button 
+              onClick={handlePrint}
+              className="flex items-center gap-2 bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 px-5 py-2 rounded-full font-bold hover:bg-zinc-800 dark:hover:bg-zinc-200 transition shadow-sm text-xs uppercase tracking-wider"
+            >
+              <Printer size={14} /> Print
+            </button>
+          </div>
         </div>
 
         {/* Resume Paper */}
@@ -120,13 +140,9 @@ const Resume: React.FC = () => {
               <span className="opacity-30">•</span>
               <a href={`mailto:${contact.email}`}>{contact.email}</a>
               <span className="opacity-30">•</span>
-              <a href={contact.linkedin} target="_blank" rel="noopener noreferrer">{getCleanUrl(contact.linkedin)}</a>
-              <span className="opacity-30">•</span>
-              <a href={contact.github} target="_blank" rel="noopener noreferrer">{getCleanUrl(contact.github)}</a>
-              <span className="opacity-30">•</span>
               <div 
                 onClick={handleCopyPhone}
-                className="cursor-pointer hover:opacity-70 transition-opacity relative"
+                className="cursor-pointer hover:opacity-70 transition-opacity relative inline-block"
               >
                 {contact.phone}
                 <AnimatePresence>
@@ -143,10 +159,21 @@ const Resume: React.FC = () => {
                 </AnimatePresence>
               </div>
             </div>
+            <div className="flex flex-wrap justify-center items-center gap-x-2 text-xs font-mono text-zinc-700 mt-1">
+              <a href={contact.linkedin} target="_blank" rel="noopener noreferrer">{getCleanUrl(contact.linkedin)}</a>
+              <span className="opacity-30">•</span>
+              <a href={contact.github} target="_blank" rel="noopener noreferrer">{getCleanUrl(contact.github)}</a>
+              {contact.website && (
+                <>
+                  <span className="opacity-30">•</span>
+                  <a href={contact.website} target="_blank" rel="noopener noreferrer">{getCleanUrl(contact.website)}</a>
+                </>
+              )}
+            </div>
           </header>
 
-          {/* SUMMARY */}
-          <section className="mb-8">
+          {/* PROFESSIONAL SUMMARY */}
+          <section className="mb-8 resume-item">
             <h2 className="section-border font-pixel text-[13px] tracking-tight mb-3 pb-1 text-zinc-950">
               [PROFESSIONAL SUMMARY]
             </h2>
@@ -155,50 +182,14 @@ const Resume: React.FC = () => {
             </p>
           </section>
 
-          {/* TECHNICAL SKILLS */}
-          <section className="mb-8">
-            <h2 className="section-border font-pixel text-[13px] tracking-tight mb-3 pb-1 text-zinc-950">
-              [TECHNICAL SKILLS]
-            </h2>
-            <div className="space-y-1 text-sm text-zinc-800">
-              {skillCategories.map((cat, i) => (
-                <div key={i} className="flex flex-wrap gap-x-2">
-                  <span className="font-bold text-zinc-950">{cat.title}:</span>
-                  <span className="text-zinc-700">{cat.skills.join(', ')}</span>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* SELECTED PROJECTS */}
-          <section className="mb-8">
-            <h2 className="section-border font-pixel text-[13px] tracking-tight mb-3 pb-1 text-zinc-950">
-              [SELECTED PROJECTS]
-            </h2>
-            <div className="space-y-5">
-              {projects.map((project, i) => (
-                <div key={i}>
-                  <div className="flex justify-between items-baseline mb-1">
-                    <h3 className="text-sm font-bold uppercase text-zinc-950">
-                      {project.title} <span className="font-normal font-mono text-xs text-zinc-500">[{project.technologies.join(', ')}]</span>
-                    </h3>
-                  </div>
-                  <p className="text-sm leading-relaxed text-zinc-700">
-                    {project.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
-
           {/* WORK EXPERIENCE */}
-          <section className="mb-8 break-before-page print:mt-[1.5cm]">
+          <section className="mb-8">
             <h2 className="section-border font-pixel text-[13px] tracking-tight mb-3 pb-1 text-zinc-950">
-              [EXPERIENCE & PROJECTS]
+              [WORK EXPERIENCE]
             </h2>
             <div className="space-y-5 text-zinc-800">
               {experiences.map((exp, i) => (
-                <div key={i}>
+                <div key={i} className="resume-item">
                   <div className="flex justify-between items-baseline mb-1">
                     <h3 className="text-sm font-bold text-zinc-950 uppercase">{exp.role}</h3>
                     <span className="text-xs font-mono text-zinc-500">{exp.period}</span>
@@ -216,8 +207,54 @@ const Resume: React.FC = () => {
             </div>
           </section>
 
+          {/* PROJECTS */}
+          <section className="mb-8 break-before-page print:mt-[1cm]">
+            <h2 className="section-border font-pixel text-[13px] tracking-tight mb-3 pb-1 text-zinc-950">
+              [PROJECTS]
+            </h2>
+            <div className="space-y-5">
+              {projects.map((project, i) => (
+                <div key={i} className="resume-item">
+                  <div className="flex justify-between items-baseline mb-1">
+                    <h3 className="text-sm font-bold uppercase text-zinc-950">
+                      {project.title} <span className="font-normal font-mono text-xs text-zinc-500">[{project.technologies.join(', ')}]</span>
+                    </h3>
+                  </div>
+                  {project.bulletPoints && project.bulletPoints.length > 0 ? (
+                    <ul className="list-disc ml-5 space-y-1 text-zinc-700">
+                      {project.bulletPoints.map((bp, bpi) => (
+                        <li key={bpi} className="text-sm leading-relaxed">
+                          {bp}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-sm leading-relaxed text-zinc-700">
+                      {project.description}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* TECHNICAL SKILLS */}
+          <section className="mb-8 resume-item">
+            <h2 className="section-border font-pixel text-[13px] tracking-tight mb-3 pb-1 text-zinc-950">
+              [TECHNICAL SKILLS]
+            </h2>
+            <div className="space-y-1.5 text-sm text-zinc-800">
+              {skillCategories.map((cat, i) => (
+                <div key={i} className="flex flex-wrap gap-x-2">
+                  <span className="font-bold text-zinc-950">{cat.title}:</span>
+                  <span className="text-zinc-700">{cat.skills.join(', ')}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
           {/* EDUCATION */}
-          <section className="mb-4">
+          <section className="mb-4 resume-item">
             <h2 className="section-border font-pixel text-[13px] tracking-tight mb-3 pb-1 text-zinc-950">
               [EDUCATION]
             </h2>

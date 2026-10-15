@@ -131,12 +131,19 @@ const ProjectImage: React.FC<{ project: any }> = ({ project }) => {
     <div className="w-full h-full flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 bg-gradient-to-br from-zinc-100 to-zinc-200/60 dark:from-zinc-900 dark:to-zinc-950 p-6 relative overflow-hidden group-hover:bg-zinc-200/50 dark:group-hover:bg-zinc-800/40 transition-colors">
       <div className="w-14 h-14 rounded-2xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-950 dark:text-white shadow-xs mb-3 transition-transform duration-500 group-hover:scale-110">
         {project.id === 'specmatch' || project.title.toLowerCase().includes('spec') ? <Cpu size={26} /> :
+         project.id === 'iaims' || project.title.toLowerCase().includes('iaims') ? <Server size={26} /> :
+         project.id === 'bantai' || project.title.toLowerCase().includes('bantai') ? <Terminal size={26} /> :
          project.title.toLowerCase().includes('lib') ? <Database size={26} /> : 
          project.title.toLowerCase().includes('bagyo') ? <Cpu size={26} /> : 
          <Terminal size={26} />}
       </div>
       <span className="font-pixel text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tight">
-        {project.id === 'specmatch' ? '[AI SPEC MATCH ENGINE]' : '[SYSTEM STATE MACHINE]'}
+        {project.id === 'specmatch' ? '[AI SPEC MATCH ENGINE]' :
+         project.id === 'iaims' ? '[ACADEMIC INFORMATION SYSTEM]' :
+         project.id === 'bantai' ? '[SCAM DETECTION AI]' :
+         project.id === 'borrowhub' ? '[RESOURCE BORROWING PLATFORM]' :
+         project.id === 'bagyoalerto' ? '[WEATHER ALERT PWA]' :
+         '[SYSTEM ARCHITECTURE]'}
       </span>
     </div>
   );
@@ -550,14 +557,14 @@ const Home: React.FC = () => {
                 <div className="font-pixel text-[13px] text-zinc-500 dark:text-zinc-400 tracking-tight inline-flex items-center gap-2">
                   <span>[AI-NATIVE SOFTWARE ENGINEER]</span>
                   <span className="opacity-40">•</span>
-                  <span>[4TH YEAR CS STUDENT]</span>
+                  <span>[PHP & LARAVEL]</span>
                 </div>
                 <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/20 text-[11px] font-mono text-emerald-700 dark:text-emerald-400">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                   </span>
-                  <span>Open for Internships & Junior Roles</span>
+                  <span>Open for Full Stack & Software Developer Roles</span>
                 </div>
               </div>
             </RevealText>
@@ -576,10 +583,10 @@ const Home: React.FC = () => {
               className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 mb-8 max-w-xl leading-relaxed font-normal mx-auto lg:mx-0 space-y-2.5"
             >
               <p>
-                4th Year Computer Science student at <span className="font-semibold text-zinc-950 dark:text-white">University of Caloocan City</span> and <span className="font-semibold text-zinc-950 dark:text-white">AI-Native Software Engineer</span> leveraging modern AI workflows, agentic tooling, and clean architecture to build and ship production software rapidly.
+                Software developer experienced in building web applications with <span className="font-semibold text-zinc-950 dark:text-white">PHP</span> and <span className="font-semibold text-zinc-950 dark:text-white">Laravel</span>. Proficient in backend logic, database management, and leveraging AI tools to write clean and efficient code.
               </p>
               <p className="text-sm sm:text-base text-zinc-500 dark:text-zinc-500">
-                Focused on core backend logic, structured relational databases, and rigorous code verification standards — driven by discipline both in engineering and fitness.
+                Seeking a Full Stack or Software Developer role to build reliable applications and deliver value to software teams.
               </p>
             </motion.div>
             
@@ -796,7 +803,7 @@ const Home: React.FC = () => {
             </RevealText>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {skillCategories.map((cat, idx) => (
               <div 
                 key={idx}
@@ -957,19 +964,19 @@ const Home: React.FC = () => {
                   </span>
                 </div>
                 <h3 className="text-lg font-bold text-zinc-950 dark:text-white tracking-tight mb-1">
-                  University of Caloocan City
+                  University of Caloocan City South
                 </h3>
                 <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 mb-4 font-semibold">
-                  Bachelor of Science in Computer Science (4th Year Senior)
+                  Bachelor of Science in Computer Science
                 </div>
                 <p className="text-zinc-600 dark:text-zinc-400 text-xs leading-relaxed mb-6 font-normal">
-                  Focused on computer science fundamentals, data structures, relational database management systems, and clean architectural design patterns.
+                  Focused on software engineering fundamentals, backend architecture, relational database management systems, and building reliable web and mobile applications.
                 </p>
               </div>
 
               <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
-                <span>Location: Caloocan City, PH</span>
-                <span className="font-semibold text-zinc-950 dark:text-white">4th Year Senior Standing</span>
+                <span>Location: Metro Manila, PH</span>
+                <span className="font-semibold text-zinc-950 dark:text-white">Undergraduate Program</span>
               </div>
             </div>
 
@@ -989,19 +996,31 @@ const Home: React.FC = () => {
                 </h3>
                 
                 <div className="space-y-3">
-                  <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/60 dark:border-zinc-800">
+                  <div className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/60 dark:border-zinc-800">
                     <div className="flex justify-between items-start gap-2 mb-1">
                       <span className="font-semibold text-xs text-zinc-950 dark:text-white">
-                        APPCON 2026: AI Matsuri Hackathon
+                        AppCon 2026: AI Matsuri Hackathon
                       </span>
                       <span className="text-[9px] font-mono text-zinc-400">2026</span>
                     </div>
                     <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug">
-                      Engineered <span className="font-semibold text-zinc-900 dark:text-zinc-200">SpecMatch AI</span> with Team Code Titans. Completed full-stack Laravel + Gemini API integration within a 24-hour development sprint.
+                      Engineered <span className="font-semibold text-zinc-900 dark:text-zinc-200">SpecMatch</span> using Laravel, Inertia.js, and MySQL with responsive frontend interfaces and optimized database queries.
                     </p>
                   </div>
 
-                  <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/60 dark:border-zinc-800">
+                  <div className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/60 dark:border-zinc-800">
+                    <div className="flex justify-between items-start gap-2 mb-1">
+                      <span className="font-semibold text-xs text-zinc-950 dark:text-white">
+                        AppBuildersPH Hackathon
+                      </span>
+                      <span className="text-[9px] font-mono text-zinc-400">Hackathon</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug">
+                      Built <span className="font-semibold text-zinc-900 dark:text-zinc-200">Bantai</span>, an Android application engineered with Kotlin and Local AI for real-time scam message detection and alert notifications.
+                    </p>
+                  </div>
+
+                  <div className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/60 dark:border-zinc-800">
                     <div className="flex justify-between items-start gap-2 mb-1">
                       <span className="font-semibold text-xs text-zinc-950 dark:text-white">
                         CodeSprout 2025 Hackathon
@@ -1009,7 +1028,7 @@ const Home: React.FC = () => {
                       <span className="text-[9px] font-mono text-zinc-400">2025</span>
                     </div>
                     <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug">
-                      Developed <span className="font-semibold text-zinc-900 dark:text-zinc-200">BagyoAlerto</span>, an offline-first PWA with Service Worker cache strategies and OpenWeather telemetry for disaster resilience.
+                      Developed <span className="font-semibold text-zinc-900 dark:text-zinc-200">BagyoAlerto</span>, a disaster preparedness PWA with Service Worker offline caching and live Weather API integration.
                     </p>
                   </div>
                 </div>
@@ -1095,7 +1114,7 @@ const Home: React.FC = () => {
           </RevealText>
 
           <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 max-w-lg mx-auto mb-10 font-normal">
-            Whether you need a backend developer for your project, an intern for your engineering team, or want to discuss technical ideas.
+            Whether you need a backend or full stack developer for your team, an engineer to build reliable web applications, or want to discuss technical ideas.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

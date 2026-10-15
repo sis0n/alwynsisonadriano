@@ -1,8 +1,9 @@
 export interface Project {
   title: string;
   technologies: string;
-  description: string;
-  features: string[];
+  description?: string;
+  features?: string[];
+  bulletPoints?: string[];
 }
 
 export interface WorkExperience {
@@ -36,6 +37,7 @@ export interface CVData {
     linkedin: string;
     github: string;
     phone: string;
+    website?: string;
   };
   summary: string;
   skills: TechnicalSkills;

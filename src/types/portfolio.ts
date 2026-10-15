@@ -4,6 +4,7 @@ export interface ContactInfo {
   linkedin: string;
   github: string;
   phone: string;
+  website?: string;
   facebook?: string;
   instagram?: string;
 }
@@ -28,6 +29,8 @@ export interface Project {
   shortDescription?: string;
   description: string;
   highlights?: string[];
+  features?: string[];
+  bulletPoints?: string[];
   link?: string;
   liveLink?: string;
   image?: string;

@@ -7,223 +7,272 @@ import borrowhubImg from '../assets/borrowhub.png';
 import specmatchImg from '../assets/specmatch.jpeg';
 
 export const portfolioData: PortfolioData = {
-  name: "Alwyn Adriano",
-  title: "AI-Native Software Engineer | 4th Year CS Student",
-  summary: "4th Year Computer Science student at University of Caloocan City and AI-Native Software Engineer with a solid foundation in core PHP, JavaScript, and relational database systems. Proficient in leveraging AI tooling, prompt architecture, and agentic workflows to rapidly prototype, build, and deploy production web applications and RESTful APIs. Committed to writing clean, maintainable code with strict attention to data integrity, robust architecture, and system security. Driven by discipline both in software engineering and fitness.",
+  name: "Alwyn Sison Adriano",
+  title: "AI-Native Software Engineer",
+  summary: "Software developer experienced in building web applications with PHP and Laravel. Proficient in backend logic, database management, and leveraging AI tools to write clean and efficient code. Seeking a Full Stack or Software Developer role to build reliable applications and deliver value to software teams.",
   contact: {
     location: "Manila, Metro Manila",
     email: "adrianoalwyn@gmail.com",
     linkedin: "https://linkedin.com/in/alwyn-adriano-9659bb283",
     github: "https://github.com/sis0n",
     phone: "+63 976-368-3414",
+    website: "https://alwynsisonadriano.vercel.app",
     facebook: "https://www.facebook.com/adrianoalwyn05",
     instagram: "https://www.instagram.com/adrianoalwyn/"
   },
   skillCategories: [
     {
-      title: "Backend Development",
-      skills: ["PHP", "Laravel", "Java", "C", "Node.js"]
+      title: "Backend",
+      skills: ["PHP", "Java", "C"]
     },
     {
-      title: "Frontend Development",
-      skills: ["JavaScript (ES6+)", "TypeScript", "React", "HTML5", "CSS3", "Tailwind CSS"]
+      title: "Frontend",
+      skills: ["JavaScript (ES6+)", "HTML5", "CSS3"]
     },
     {
-      title: "Databases & Architecture",
-      skills: ["MySQL", "SQLite", "Database Design", "Repository Pattern", "RESTful APIs"]
+      title: "Databases",
+      skills: ["MySQL", "SQLite"]
     },
     {
-      title: "AI & Modern Tooling",
-      skills: ["AI-Augmented Development", "Git / GitHub", "Postman", "Linux", "Vite", "Composer"]
+      title: "Frameworks",
+      skills: ["Laravel", "Tailwind CSS", "Bootstrap CSS"]
+    },
+    {
+      title: "Tools & Platforms",
+      skills: ["Git/GitHub", "Postman", "XAMPP", "CI/CD Workflow", "RESTful Services"]
     }
   ],
   projects: [
     {
-      id: "specmatch",
-      title: "Spec Match — AI Technical Specification Matching Platform",
-      image: specmatchImg,
-      technologies: ["Laravel", "Inertia.js", "React", "Google Gemini API", "TechSpecs API", "laravel-dompdf", "Tailwind CSS", "MySQL / SQLite", "Wasmer Serverless"],
-      highlights: ["AI Integration (Gemini)", "APPCON 2026 Hackathon", "Inertia.js / React", "TechSpecs API", "DomPDF Reports"],
+      id: "libsys",
+      title: "LibSys (Software Engineering Project)",
+      image: libsysImg,
+      technologies: ["PHP Native", "MySQL"],
+      highlights: ["Custom PHP MVC", "QR Code Check-ins", "RBAC Architecture", "Repository Pattern"],
       metrics: [
-        { label: "Delivery", value: "24h Hackathon Sprint" },
-        { label: "AI Pipeline", value: "Gemini + TechSpecs API" },
-        { label: "Reporting", value: "Automated PDF Reports" }
+        { label: "Architecture", value: "Custom PHP MVC" },
+        { label: "Security", value: "Role-Based Access (RBAC)" },
+        { label: "Data Management", value: "Repository Pattern" }
       ],
-      shortDescription: "AI-native hardware matching engine engineered in a 24-hour hackathon sprint to benchmark enterprise devices against workload demands with automated PDF audit reports.",
-      description: "An AI-native enterprise platform engineered during the 24-hour APPCON 2026: AI Matsuri Hackathon by Team-10 (Code Titans) for the sub-theme 'Intelligent Internal Device Asset Optimization'. Built with a full-stack Laravel and Inertia.js/React architecture, integrated with Google Gemini AI and the TechSpecs API. Automatically queries, parses, and matches internal device hardware capabilities against organizational workload demands, generating automated PDF asset audit and optimization reports via laravel-dompdf.",
-      liveLink: "https://appcon2026-codetitans-specmatch.wasmer.app/login",
-      architecture: "Full-stack Laravel monolith with Inertia.js and React frontend, Google Gemini AI prompt integration, TechSpecs API hardware data ingestion, laravel-dompdf server-side report generation, and serverless hosting on Wasmer.",
+      shortDescription: "Full-stack library management system engineered from scratch using a custom PHP MVC architecture, featuring role-based access control, book cataloging, and QR code check-ins.",
+      description: "Developed a full-stack library management system from the ground up using a custom PHP MVC architecture, featuring role-based access control (RBAC) for administrators, staff, and students. Implemented a comprehensive book catalog and borrowing/returning workflow, along with QR code integration for streamlined library check-ins and improved user efficiency. Designed the MySQL database and applied the Repository pattern for maintainable data management, while developing a dynamic frontend using Vanilla JavaScript.",
+      bulletPoints: [
+        "Developed a full-stack library management system from the ground up using a custom PHP MVC architecture, featuring role-based access control (RBAC) for administrators, staff, and students.",
+        "Implemented a comprehensive book catalog and borrowing/returning workflow, along with QR code integration for streamlined library check-ins and improved user efficiency.",
+        "Designed the MySQL database and applied the Repository pattern for maintainable data management, while developing a dynamic frontend using Vanilla JavaScript."
+      ],
+      link: "https://github.com/sis0n/LibSys-v3",
+      liveLink: "https://library.ucc-caloocan.com/",
+      architecture: "Custom PHP MVC architecture featuring centralized routing, separation of concerns across service layers, and the Repository pattern for decoupled MySQL queries and clean business logic.",
       challenges: [
         {
-          problem: "Extreme 24-hour (1-day) active development window during a 3-day hackathon event, requiring full architectural design, AI pipeline integration, PDF report generation, and production deployment under intense time constraints and sleep deprivation.",
-          solution: "Leveraged rapid full-stack scaffolding using Laravel with Inertia.js and React alongside AI-assisted engineering workflows to design, integrate APIs, test, and ship a live working application to Wasmer before the final buzzer."
+          problem: "Managing granular user roles and permission policies across administrators, staff, and students.",
+          solution: "Implemented custom RBAC middleware that authenticates session tokens and enforces permission guards before controller execution."
         },
         {
-          problem: "Integrating external hardware telemetry from TechSpecs API and processing unstructured specs through Google Gemini with deterministic scoring.",
-          solution: "Designed structured prompt pipelines with strict schema validation and fallback heuristics to generate reliable device compatibility scores and bottleneck insights without hallucination."
-        },
-        {
-          problem: "Generating downloadable, multi-page hardware asset optimization and compatibility audit reports dynamically on the server.",
-          solution: "Integrated laravel-dompdf with custom print CSS stylesheets to render server-side PDF asset reports in sub-second response times."
+          problem: "Maintaining data integrity and performance during concurrent book checkout and return operations.",
+          solution: "Utilized atomic MySQL database transactions and optimized query routines structured through the Repository pattern."
         }
       ]
     },
     {
-      id: "libsys",
-      title: "LibSys — Full-Stack Library Management System",
-      image: libsysImg,
-      technologies: ["PHP (Native)", "MySQL", "JavaScript (ES6)", "Tailwind CSS", "MVC Pattern", "QR Code Scanner", "Apache"],
-      highlights: ["Custom PHP MVC", "QR Code Check-ins", "RBAC Architecture", "Repository Pattern"],
+      id: "iaims",
+      title: "iAIMS (Thesis Project)",
+      technologies: ["Laravel", "Next.js", "PostgreSQL (Ongoing)"],
+      highlights: ["Thesis Project", "Laravel Core Backend", "PostgreSQL Optimization", "Next.js UI"],
       metrics: [
-        { label: "Architecture", value: "Custom Native PHP MVC" },
-        { label: "Security", value: "3-Tier Granular RBAC" },
-        { label: "Concurrency", value: "Atomic DB Transactions" }
+        { label: "Backend Core", value: "Laravel Framework" },
+        { label: "Database", value: "Optimized PostgreSQL" },
+        { label: "Frontend", value: "Next.js RESTful UI" }
       ],
-      shortDescription: "Full-stack library system built with a custom PHP MVC architecture, featuring 3-tier role-based access control, QR check-ins, and atomic inventory transactions.",
-      description: "A full-stack library management system engineered from scratch using a custom PHP MVC architecture. Features granular Role-Based Access Control (RBAC) for administrators, staff, and students, an automated book catalog, and full borrowing/returning lifecycle tracking. Integrated QR code check-ins for expedited circulation and utilized the Repository pattern for maintainable data querying.",
-      link: "https://github.com/sis0n/LibSys-v3",
-      liveLink: "https://library.ucc-caloocan.com/",
-      architecture: "Custom MVC architecture with centralized front-controller routing, service-layer separation, and MySQL repository abstractions for modular, testable business logic.",
+      shortDescription: "Academic Information Management System engineered with Laravel backend core logic, optimized PostgreSQL schemas, and dynamic Next.js frontend interfaces.",
+      description: "Engineered backend core logic for administrative and registrar modules using Laravel, automating key record-processing functions and increasing administrative workflow efficiency. Designed PostgreSQL relational database schemas and optimized queries, enforcing data integrity across modules and reducing query response times during peak usage periods. Developed dynamic frontend user interfaces with Next.js and integrated RESTful APIs, delivering responsive user components and seamless web navigation for academic operations.",
+      bulletPoints: [
+        "Engineered backend core logic for administrative and registrar modules using Laravel, automating key record-processing functions and increasing administrative workflow efficiency.",
+        "Designed PostgreSQL relational database schemas and optimized queries, enforcing data integrity across modules and reducing query response times during peak usage periods.",
+        "Developed dynamic frontend user interfaces with Next.js and integrated RESTful APIs, delivering responsive user components and seamless web navigation for academic operations."
+      ],
+      architecture: "Modern full-stack architecture featuring a decoupled Laravel RESTful API backend handling business logic and authorization, an optimized PostgreSQL relational database, and a Next.js client delivering responsive user interfaces.",
       challenges: [
         {
-          problem: "Managing granular user roles and permission policies across multi-level admin, staff, and student workflows.",
-          solution: "Implemented custom RBAC middleware that authenticates session tokens and enforces permission guards before controller execution."
+          problem: "Enforcing data integrity and minimizing response times across interconnected administrative modules during heavy academic enrollment periods.",
+          solution: "Designed normalized PostgreSQL schemas with composite indexing, foreign key constraints, and optimized SQL queries to preserve data fidelity and prevent bottlenecks."
         },
         {
-          problem: "Handling high concurrency and potential race conditions during peak book borrowing periods.",
-          solution: "Implemented MySQL database transactions with row-level locking to guarantee atomic inventory updates."
+          problem: "Automating disparate manual record-processing functions for administrative and registrar offices.",
+          solution: "Architected modular Laravel service layers that orchestrate record transactions, data validation, and automated workflow triggers."
         }
       ]
     },
     {
       id: "borrowhub",
-      title: "BorrowHub — Asset & Inventory Management Platform",
+      title: "BorrowHub",
       image: borrowhubImg,
-      technologies: ["PHP / Laravel", "MySQL", "Java (Android)", "Laravel Sanctum", "Tailwind CSS", "RESTful API", "RBAC"],
-      highlights: ["Laravel REST API", "Android Client", "Audit Logging", "Sanctum Auth"],
+      technologies: ["Laravel", "React Native", "MySQL"],
+      highlights: ["Laravel REST API", "React Native Mobile", "Automated Workflows", "RBAC Authorization"],
       metrics: [
-        { label: "Platform", value: "Laravel REST + Android" },
-        { label: "Audit Trail", value: "Immutable State Snapshots" },
-        { label: "Auth Protocol", value: "Sanctum Bearer Tokens" }
+        { label: "Backend API", value: "Laravel RESTful API" },
+        { label: "Mobile App", value: "React Native" },
+        { label: "Database", value: "Relational MySQL" }
       ],
-      shortDescription: "Enterprise equipment tracking platform with a Laravel REST API backend, token-based Sanctum authentication, and an immutable model audit trail.",
-      description: "An enterprise-grade asset and equipment management platform comprising a Laravel REST API web dashboard and a native Android client application. Features automated asset tracking, barcode scanning, token-based authentication with Laravel Sanctum, and an immutable audit logging pipeline for regulatory compliance.",
+      shortDescription: "Full-stack equipment and resource borrowing platform featuring a Laravel RESTful API backend, cross-platform React Native mobile application, and automated reservation workflows.",
+      description: "Architected and developed a full-stack equipment and resource borrowing platform featuring a Laravel RESTful API backend and a cross-platform React Native mobile application. Designed MySQL database schemas, implemented role-based authorization, and integrated automated reservation workflows to streamline resource tracking and approval processes.",
+      bulletPoints: [
+        "Architected and developed a full-stack equipment and resource borrowing platform featuring a Laravel RESTful API backend and a cross-platform React Native mobile application.",
+        "Designed MySQL database schemas, implemented role-based authorization, and integrated automated reservation workflows to streamline resource tracking and approval processes."
+      ],
       link: "https://github.com/sis0n/BorrowHub",
-      architecture: "Decoupled client-server architecture with Laravel RESTful API backend, token-based authentication via Laravel Sanctum, and asynchronous Android Java HTTP client.",
+      architecture: "Decoupled client-server architecture with a Laravel RESTful API service communicating with a cross-platform React Native mobile client, backed by a relational MySQL database.",
       challenges: [
         {
-          problem: "Ensuring secure, stateless authentication between the Android client and Laravel backend.",
-          solution: "Integrated Laravel Sanctum to issue cryptographically signed bearer tokens with configurable expiration and permission abilities."
+          problem: "Preventing double-booking and schedule collisions across institutional equipment and assets.",
+          solution: "Designed automated reservation workflows with database-level checks and role-based approval pipelines to ensure accurate scheduling."
         },
         {
-          problem: "Maintaining complete traceability of sensitive asset movements and user actions.",
-          solution: "Engineered an automated Audit Logging system leveraging model observers to record before/after state snapshots on every modification."
+          problem: "Ensuring secure and consistent authorization policies across mobile and administrative interfaces.",
+          solution: "Implemented role-based authorization in Laravel to govern API endpoints and restrict actions based on user privilege."
         }
       ]
     },
     {
       id: "bagyoalerto",
-      title: "BagyoAlerto — Typhoon Emergency Alert PWA",
+      title: "BagyoAlerto (CodeSprout 2025 Hackathon Project)",
       image: bagyoalertoImg,
-      technologies: ["JavaScript (ES6+)", "Service Workers", "PWA APIs", "OpenWeatherMap API", "HTML5 & CSS3"],
-      highlights: ["CodeSprout 2025 Hackathon", "Offline PWA", "OpenWeather API", "Emergency Alert System"],
+      technologies: ["HTML5", "CSS3", "JavaScript", "Weather API", "PWA"],
+      highlights: ["CodeSprout 2025 Hackathon", "Offline PWA", "Weather API Integration", "Disaster Preparedness"],
       metrics: [
         { label: "Event", value: "CodeSprout 2025 Hackathon" },
-        { label: "Reliability", value: "100% Offline PWA Cache" },
-        { label: "Telemetry", value: "OpenWeather Live Feed" }
+        { label: "Architecture", value: "Progressive Web App (PWA)" },
+        { label: "Availability", value: "Offline-First Caching" }
       ],
-      shortDescription: "Progressive Web App developed for the CodeSprout 2025 Hackathon, delivering real-time localized typhoon alerts and offline emergency survival guides.",
-      description: "A Progressive Web App (PWA) developed for the CodeSprout 2025 Hackathon to provide real-time, localized typhoon alerts and disaster preparedness guides. Utilizes Geolocation APIs, live weather feeds, and service worker caching to ensure mission-critical safety information remains accessible even during severe network outages.",
+      shortDescription: "Progressive Web App developed for the CodeSprout 2025 Hackathon, delivering localized typhoon alerts, emergency preparedness checklists, and offline accessibility.",
+      description: "Developed a Progressive Web App (PWA) for localized typhoon alerts and disaster preparedness, integrating the Geolocation API and external Weather APIs to provide location-based weather information. Implemented an interactive dashboard with real-time weather updates, emergency preparedness checklists, and essential emergency contact information to help users prepare for severe weather conditions. Implemented PWA capabilities for offline accessibility and an installable app experience, improving access to critical information during limited or unavailable internet connectivity.",
+      bulletPoints: [
+        "Developed a Progressive Web App (PWA) for localized typhoon alerts and disaster preparedness, integrating the Geolocation API and external Weather APIs to provide location-based weather information.",
+        "Implemented an interactive dashboard with real-time weather updates, emergency preparedness checklists, and essential emergency contact information to help users prepare for severe weather conditions.",
+        "Implemented PWA capabilities for offline accessibility and an installable app experience, improving access to critical information during limited or unavailable internet connectivity."
+      ],
       link: "https://github.com/99lash/BagyoAlerto",
       liveLink: "https://bagyoalerto.vercel.app/",
-      architecture: "Progressive Web App leveraging Service Workers for cache-first offline asset delivery, paired with dynamic OpenWeatherMap API telemetry.",
+      architecture: "Progressive Web Application architecture combining client-side Geolocation and Weather APIs with Service Worker caching routines for resilient offline availability.",
       challenges: [
         {
-          problem: "Delivering life-saving weather alerts in disaster zones with intermittent or lost internet connectivity.",
-          solution: "Implemented Service Worker caching strategies to cache emergency checklists, hotlines, and last-known radar data for offline utility."
+          problem: "Delivering critical survival guides and alerts when network connectivity is disrupted during storms.",
+          solution: "Implemented Service Worker caching strategies to cache emergency checklists, hotlines, and weather data for reliable offline use."
         },
         {
-          problem: "Rapidly designing and shipping a fully functional MVP under intense hackathon deadlines.",
-          solution: "Established a structured Git workflow with feature branches and paired modular JavaScript architecture for rapid team integration."
+          problem: "Providing accurate, location-sensitive typhoon telemetry across varied user devices.",
+          solution: "Integrated the browser Geolocation API with external Weather APIs to dynamically serve localized conditions and safety advisories."
         }
       ]
     },
     {
-      id: "atm-simulator",
-      title: "ATM Simulator — Banking State Machine",
-      technologies: ["C Language", "Standard File I/O", "Data Structures", "Transaction State Machine"],
-      highlights: ["File-Based Persistence", "Transaction State Machine", "C Architecture"],
+      id: "specmatch",
+      title: "SpecMatch (AppCon 2026: AI Matsuri Hackathon Project)",
+      image: specmatchImg,
+      technologies: ["Laravel", "Inertia.js", "MySQL"],
+      highlights: ["AppCon 2026: AI Matsuri", "Laravel Core Logic", "Inertia.js Integration", "MySQL Optimization"],
       metrics: [
-        { label: "Runtime", value: "Pure C Architecture" },
-        { label: "Persistence", value: "Flat-File Binary Buffer" },
-        { label: "Safety", value: "Overdraft State Machine" }
+        { label: "Event", value: "AppCon 2026 Hackathon" },
+        { label: "Full-Stack Bridge", value: "Inertia.js" },
+        { label: "Database Tuning", value: "Optimized MySQL Queries" }
       ],
-      shortDescription: "Terminal banking simulator implemented in pure C with persistent flat-file binary records, PIN authentication, and overdraft transaction safeguards.",
-      description: "A robust banking terminal simulator implemented in pure C. Features persistent file-based account storage, secure PIN hashing and authentication, account balance inquiry, cash deposits, withdrawals with overdraft prevention, and persistent audit transaction logs.",
-      link: "https://github.com/sis0n/First-Year",
-      architecture: "Modular C program employing structured file I/O buffers, state-driven transaction execution, and strict memory safety practices.",
+      shortDescription: "Full-stack hardware matching platform built during the AppCon 2026: AI Matsuri Hackathon, featuring a Laravel backend, Inertia.js data flow, and optimized MySQL queries.",
+      description: "Designed and updated the front-end user interface, improving screen layouts and navigation to create a clearer, more user-friendly experience. Built the main features and core application logic using Laravel, connecting key backend tasks to complete the project on time for the competition. Cleaned up MySQL queries and passed data efficiently through Inertia.js, making pages load faster and reducing server response times.",
+      bulletPoints: [
+        "Designed and updated the front-end user interface, improving screen layouts and navigation to create a clearer, more user-friendly experience.",
+        "Built the main features and core application logic using Laravel, connecting key backend tasks to complete the project on time for the competition.",
+        "Cleaned up MySQL queries and passed data efficiently through Inertia.js, making pages load faster and reducing server response times."
+      ],
+      liveLink: "https://appcon2026-codetitans-specmatch.wasmer.app/login",
+      architecture: "Full-stack monolithic architecture utilizing Laravel for backend business logic, Inertia.js for seamless single-page interface transitions, and MySQL for relational storage.",
       challenges: [
         {
-          problem: "Achieving reliable persistent data storage without an external database server in low-level C.",
-          solution: "Engineered a structured flat-file record management system with binary validation and atomic rewrite routines."
+          problem: "Engineering core application logic and intuitive user flows within tight competition timeframes.",
+          solution: "Leveraged Laravel's rapid application scaffolding alongside Inertia.js to connect backend services directly to front-end views without custom API layers."
+        },
+        {
+          problem: "Sluggish page performance and high database response latency during rapid data matching.",
+          solution: "Refactored and cleaned up MySQL queries, eliminated redundant data fetches, and passed lean state snapshots via Inertia.js to accelerate page loads."
+        }
+      ]
+    },
+    {
+      id: "bantai",
+      title: "Bantai (AppBuildersPH Hackathon Project)",
+      technologies: ["Kotlin", "Local AI", "Android"],
+      highlights: ["AppBuildersPH Hackathon", "Kotlin Native", "Local On-Device AI", "Real-Time Detection"],
+      metrics: [
+        { label: "Event", value: "AppBuildersPH Hackathon" },
+        { label: "Sprint Duration", value: "2-Day Hackathon" },
+        { label: "AI Engine", value: "On-Device Local AI" }
+      ],
+      shortDescription: "Android application engineered with Kotlin and Local AI during a two-day hackathon, enabling real-time detection of scam messages and instant alert notifications.",
+      description: "Engineered an Android application using Kotlin and Local AI during a two-day hackathon, enabling real-time detection of scam messages and instant alert notifications for users. Refactored core application logic and backend infrastructure, resolving critical bugs to ensure stable performance during live project demonstrations.",
+      bulletPoints: [
+        "Engineered an Android application using Kotlin and Local AI during a two-day hackathon, enabling real-time detection of scam messages and instant alert notifications for users.",
+        "Refactored core application logic and backend infrastructure, resolving critical bugs to ensure stable performance during live project demonstrations."
+      ],
+      architecture: "Native Android application built in Kotlin utilizing on-device Local AI inference for instantaneous classification of incoming SMS and messages without external cloud dependencies.",
+      challenges: [
+        {
+          problem: "Analyzing message contents for fraudulent indicators in real time without compromising user privacy or requiring external cloud calls.",
+          solution: "Integrated Local AI models within the Kotlin Android runtime to execute instant, on-device scam pattern analysis."
+        },
+        {
+          problem: "Ensuring zero crashes and rock-solid system stability under the pressure of a 2-day hackathon demo.",
+          solution: "Refactored core logic and application infrastructure, isolating edge cases and handling async threads cleanly to guarantee flawless live evaluation."
         }
       ]
     }
   ],
   experiences: [
     {
-      role: "INTERNAL AUDIT SPECIALIST (SPES)",
-      company: "CITY GOVERNMENT OF CALOOCAN — INTERNAL AUDIT SERVICE",
-      location: "Caloocan City, Metro Manila",
-      period: "May 2025 – June 2025",
+      role: "MIS Intern",
+      company: "Krazy Media Digital Solutions Corp.",
+      location: "Sta. Cruz, Manila",
+      period: "May 2026 – July 2026",
       responsibilities: [
-        "Data Integrity & Auditing: Processed and audited high-volume municipal financial records with 100% data fidelity, maintaining strict confidentiality standards for sensitive government documentation.",
-        "IT Support & Infrastructure: Served as departmental technical lead, troubleshooting local network connectivity, resolving hardware bottlenecks, and eliminating printer downtime.",
-        "Systematic Record Archival: Streamlined physical and digital filing workflows, decreasing document retrieval latency across auditing operations."
+        "Conducted quality assurance testing for the company's HRIS, evaluating system functionality and identifying bugs, inconsistencies, and usability issues, resulting in more reliable system performance and improved user experience.",
+        "Trained team members on Gemini CLI, demonstrating its commands, features, and application in AI-assisted software development, resulting in improved understanding and adoption of AI tools in development workflows.",
+        "Developed Flutter application components, writing and testing code based on project requirements and development standards, resulting in functional mobile application features that contributed to project development."
       ]
     },
     {
-      role: "STUDENT ASSISTANT — MANAGEMENT INFORMATION SYSTEMS (MIS)",
-      company: "UNIVERSITY OF CALOOCAN CITY SOUTH",
+      role: "Student Assistant – Management Information Systems (MIS)",
+      company: "University of Caloocan City South",
       location: "Caloocan City, Metro Manila",
       period: "January 2024 – September 2025",
       responsibilities: [
-        "Student Information Systems: Provided primary technical support for the university's AIMS Portal, resolving authentication failures, account anomalies, and student record discrepancies.",
-        "Faculty & Administrative Support: Delivered rapid technical resolution for faculty computational systems, preventing instructional disruptions and ensuring system uptime.",
-        "Network & Hardware Diagnostics: Collaborated directly with the MIS Head to troubleshoot workstation hardware, configure network switches, and optimize campus-wide Wi-Fi performance.",
-        "System Administration: Aided in daily IT operations, database maintenance, data hygiene procedures, and hardware asset audits."
+        "Resolved AIMS Portal account and navigation issues for students, providing front-line technical support and troubleshooting assistance, resulting in smoother access to academic records and online services.",
+        "Troubleshot technical concerns reported by faculty members, providing timely support for classroom and office technology, resulting in minimal disruption to academic and administrative operations.",
+        "Diagnosed and resolved hardware and network issues, including printer malfunctions and campus Wi-Fi connectivity problems, in coordination with the MIS Head, resulting in more reliable IT infrastructure and reduced operational downtime."
       ]
     },
     {
-      role: "TECHNICAL DATA ASSISTANT (CASH FOR WORK) — MIS",
-      company: "UNIVERSITY OF CALOOCAN CITY SOUTH",
+      role: "DSWD Cash for Work – Management Information Systems (MIS)",
+      company: "University of Caloocan City South",
       location: "Caloocan City, Metro Manila",
       period: "September 2024 – November 2024",
       responsibilities: [
-        "Database Record Management: Encoded and verified student and faculty credential records within the central database with zero data discrepancy.",
-        "Admissions Pipeline Support: Optimized digital enrollment pipelines and provided technical assistance to streamline applicant onboarding.",
-        "Infrastructure Maintenance: Performed diagnostics and software provisioning across institutional computing labs."
+        "Encoded student and faculty information into the AIMS Portal, maintaining accurate and up-to-date records for administrative processes, resulting in more reliable data for academic and administrative operations.",
+        "Supported the admissions team in processing student applications, providing technical assistance and resolving system-related concerns, resulting in more efficient application processing and fewer technical delays.",
+        "Troubleshot software and hardware issues reported by faculty and administrative offices, providing timely technical support to resolve operational concerns, resulting in smoother day-to-day office operations."
       ]
     }
   ],
   education: [
     {
-      degree: "Bachelor of Science in Computer Science (4th Year Senior)",
-      institution: "University of Caloocan City",
-      location: "Caloocan City, Metro Manila",
+      degree: "Bachelor of Science in Computer Science",
+      institution: "University of Caloocan City South",
+      location: "Metro Manila",
       period: "August 2023 – Present"
     },
     {
-      degree: "TVL — Information and Communication Technology (ICT)",
+      degree: "ICT (Information and Communication Technology)",
       institution: "Systems Plus Computer College",
-      location: "Caloocan City, Metro Manila",
+      location: "Caloocan City South, Metro Manila",
       period: "September 2021 – July 2023"
-    },
-    {
-      degree: "Junior High School",
-      institution: "Caloocan High School",
-      location: "Caloocan City, Metro Manila",
-      period: "June 2017 – June 2020"
     }
   ]
 };

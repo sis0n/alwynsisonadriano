@@ -80,12 +80,19 @@ const ProjectDetail: React.FC = () => {
             >
               <div className="w-16 h-16 rounded-2xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-950 dark:text-white shadow-sm mb-4">
                 {project.id === 'specmatch' || project.title.toLowerCase().includes('spec') ? <Cpu size={32} /> :
+                 project.id === 'iaims' || project.title.toLowerCase().includes('iaims') ? <Server size={32} /> :
+                 project.id === 'bantai' || project.title.toLowerCase().includes('bantai') ? <Terminal size={32} /> :
                  project.title.toLowerCase().includes('lib') ? <Database size={32} /> : 
                  project.title.toLowerCase().includes('bagyo') ? <Cpu size={32} /> : 
                  <Terminal size={32} />}
               </div>
               <span className="font-pixel text-[13px] text-zinc-500 dark:text-zinc-400 tracking-tight">
-                {project.id === 'specmatch' ? '[AI SPECIFICATION MATCHING PLATFORM]' : '[STATE MACHINE ARCHITECTURE]'}
+                {project.id === 'specmatch' ? '[AI SPECIFICATION MATCHING PLATFORM]' :
+                 project.id === 'iaims' ? '[ACADEMIC INFORMATION SYSTEM]' :
+                 project.id === 'bantai' ? '[SCAM DETECTION AI]' :
+                 project.id === 'borrowhub' ? '[RESOURCE BORROWING PLATFORM]' :
+                 project.id === 'bagyoalerto' ? '[WEATHER ALERT PWA]' :
+                 '[SYSTEM ARCHITECTURE]'}
               </span>
             </motion.div>
           )}
