@@ -809,13 +809,13 @@ const Home: React.FC = () => {
             {skillCategories.map((cat, idx) => (
               <div 
                 key={idx}
-                className="p-7 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 flex flex-col justify-between"
+                className="p-7 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 flex flex-col"
               >
-                <div>
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
+                <div className="mb-5 pb-3 border-b border-zinc-100 dark:border-zinc-800/80">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-1.5">
                     0{idx + 1} / STACK
                   </div>
-                  <h3 className="text-sm font-semibold text-zinc-950 dark:text-white mb-4 tracking-tight">
+                  <h3 className="text-sm font-semibold text-zinc-950 dark:text-white tracking-tight">
                     {cat.title}
                   </h3>
                 </div>
