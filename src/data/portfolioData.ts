@@ -5,6 +5,7 @@ import libsysImg from '../assets/libsys.png';
 import bagyoalertoImg from '../assets/bagyoalerto.png';
 import borrowhubImg from '../assets/borrowhub.png';
 import specmatchImg from '../assets/specmatch.jpeg';
+import bantaiImg from '../assets/bantai_landing.png';
 
 export const portfolioData: PortfolioData = {
   name: "Alwyn Sison Adriano",
@@ -200,6 +201,7 @@ export const portfolioData: PortfolioData = {
     {
       id: "bantai",
       title: "Bantai (AppBuildersPH Hackathon Project)",
+      image: bantaiImg,
       technologies: ["Kotlin", "Local AI", "Android"],
       highlights: ["AppBuildersPH Hackathon", "Kotlin Native", "Local On-Device AI", "Real-Time Detection"],
       metrics: [
