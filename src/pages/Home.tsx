@@ -20,6 +20,7 @@ import { portfolioData } from '../data/portfolioData';
 import { blogPosts } from '../data/blogPosts';
 import { useUI } from '../context/UIContext';
 import { useNavigate, Link } from 'react-router-dom';
+import TechIcon from '../components/TechIcon';
 
 import gradPhoto from '../assets/grad.png';
 
@@ -741,8 +742,9 @@ const Home: React.FC = () => {
                     {/* Tech Stack Pills */}
                     <div className="flex flex-wrap gap-1.5 mb-5">
                       {project.technologies.slice(0, 3).map((tech, tIdx) => (
-                        <span key={tIdx} className="text-[10px] font-mono px-2 py-0.5 bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 rounded-md border border-zinc-200/60 dark:border-zinc-800 uppercase">
-                          {tech}
+                        <span key={tIdx} className="inline-flex items-center gap-1.5 text-[10px] font-mono px-2 py-0.5 bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 rounded-md border border-zinc-200/60 dark:border-zinc-800 uppercase">
+                          <TechIcon name={tech} size={11} className="w-3 h-3 shrink-0" />
+                          <span>{tech}</span>
                         </span>
                       ))}
                     </div>
@@ -821,8 +823,10 @@ const Home: React.FC = () => {
                 <ul className="space-y-3 font-mono text-xs text-zinc-600 dark:text-zinc-400">
                   {cat.skills.map((skill, sIdx) => (
                     <li key={sIdx} className="flex items-center gap-2.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-700" />
-                      {skill}
+                      <span className="w-5 h-5 rounded-md bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200/60 dark:border-zinc-700/60 flex items-center justify-center shrink-0 p-0.5">
+                        <TechIcon name={skill} size={13} className="w-3.5 h-3.5 shrink-0" />
+                      </span>
+                      <span className="text-zinc-800 dark:text-zinc-200 font-medium">{skill}</span>
                     </li>
                   ))}
                 </ul>

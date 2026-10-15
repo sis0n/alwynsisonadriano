@@ -16,6 +16,7 @@ import {
   Server
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
+import TechIcon from '../components/TechIcon';
 
 const ProjectDetail: React.FC = () => {
   const { id } = useParams();
@@ -235,7 +236,7 @@ const ProjectDetail: React.FC = () => {
                   key={i} 
                   className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200/80 dark:border-zinc-800/80 text-xs font-mono font-medium text-zinc-900 dark:text-zinc-200"
                 >
-                  <div className="w-1.5 h-1.5 rounded-full bg-zinc-400 dark:bg-zinc-600" />
+                  <TechIcon name={tech} size={15} className="w-4 h-4 shrink-0" />
                   <span>{tech}</span>
                 </div>
               ))}
