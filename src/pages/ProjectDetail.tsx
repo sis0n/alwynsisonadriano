@@ -12,7 +12,8 @@ import {
   CheckCircle2,
   Terminal,
   Cpu,
-  Database
+  Database,
+  Server
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 
